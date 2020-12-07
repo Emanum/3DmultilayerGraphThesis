@@ -1,5 +1,8 @@
 #temporary build files:
 *.log
+example.fdb_latexmk
+example.fls
+example.synctex.gz
 
 #build PDF result:
 vutinfth.pdf
@@ -7,5 +10,4 @@ example.pdf
 
 #macos
 .DS_Store
-example.fdb_latexmk
-example.fls
+
