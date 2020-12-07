@@ -1,0 +1,11 @@
+#temporary build files:
+*.log
+
+#build PDF result:
+vutinfth.pdf
+example.pdf
+
+#macos
+.DS_Store
+example.fdb_latexmk
+example.fls
