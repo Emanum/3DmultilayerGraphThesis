@@ -13,6 +13,20 @@ example.lof
 example.lot
 example.out
 example.toc
+example.acr
+example.alg
+example.glg
+example.gls
+vutinfth.aux
+vutinfth.cls
+vutinfth.glo
+vutinfth.gls
+vutinfth.hd
+vutinfth.idx
+vutinfth.ilg
+vutinfth.ind
+vutinfth.out
+vutinfth.toc
 
 #build PDF result:
 vutinfth.pdf
