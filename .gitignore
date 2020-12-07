@@ -3,6 +3,16 @@
 example.fdb_latexmk
 example.fls
 example.synctex.gz
+example.lot
+example.aux
+example.blg
+example.ilg
+example.ist
+example.loa
+example.lof
+example.lot
+example.out
+example.toc
 
 #build PDF result:
 vutinfth.pdf
