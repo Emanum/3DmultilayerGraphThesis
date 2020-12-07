@@ -105,19 +105,19 @@
 \addstatementpage
 
 \begin{danksagung*}
-\todo{Ihr Text hier.}
+    \input{chapters/danksagung.tex} 
 \end{danksagung*}
 
 \begin{acknowledgements*}
-\todo{Enter your text here.}
+    \input{chapters/acknowledgements.tex} 
 \end{acknowledgements*}
 
 \begin{kurzfassung}
-\todo{Ihr Text hier.}
+    \input{chapters/kurzfassung.tex} 
 \end{kurzfassung}
 
 \begin{abstract}
-\todo{Enter your text here.}
+    \input{chapters/abstract.tex} 
 \end{abstract}
 
 % Select the language of the thesis, e.g., english or naustrian.
@@ -129,11 +129,21 @@
 % Switch to arabic numbering and start the enumeration of chapters in the table of content.
 \mainmatter
 
-\chapter{Introduction}
-\todo{Enter your text here.}
+\input{chapters/introduction.tex}
 
-\chapter{Additional Chapter}
-\todo{Enter your text here.}
+
+\input{chapters/relatedWork.tex}
+
+\input{chapters/background.tex}
+
+\input{chapters/proposedSolution.tex}
+
+\input{chapters/implementation.tex}
+
+\input{chapters/results.tex}
+
+\input{chapters/conclusion.tex}
+
 
 % Remove following line for the final thesis.
 \input{intro.tex} % A short introduction to LaTeX.
