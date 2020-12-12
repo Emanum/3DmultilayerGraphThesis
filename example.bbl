@@ -1,3 +1,11 @@
-\begin{thebibliography}{}
+\begin{thebibliography}{Shn96}
+
+\bibitem[Shn96]{shneiderman_eyes_1996}
+B.~Shneiderman.
+\newblock The eyes have it: a task by data type taxonomy for information
+  visualizations.
+\newblock In {\em Proceedings 1996 {IEEE} {Symposium} on {Visual} {Languages}},
+  pages 336--343, September 1996.
+\newblock ZSCC: 0006186 ISSN: 1049-2615.
 
 \end{thebibliography}
