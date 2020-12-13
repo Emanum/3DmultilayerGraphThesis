@@ -1,43 +1,84 @@
 \chapter{Related Work}
 
-Related work:
-\begin{itemize}
-    \item Hierarchical Graphs
-    \item VR Interaction and Edge Filtering
-    \item VR Navigation
-\end{itemize}
 
-Hint:\\
-1.line: One Author \\
-2.line: Title \\
-3.line: Desc\\
 
 \section{Graph Visualizations}
-Jonker\\
-Graph mapping: Multi-scale community visualization of massive graph data\\
-\\
-Software\\
-Gephi\\
-\\
-Bostock\\
-D3: Data-Driven Documents\\
-Examples, wahrscheinlich wenig relevant\\
 
-\section{(2D) Multilayer Visualizations}
+\subsection{Layout}
+\subsubsection{Approaches}
+Content:
+\begin{itemize}
+    \item 2D Layout
+    \item 3D Layout 
+    \item special VR Layouts 
+\end{itemize}
+Papers:\\
+\\
+2D Layout:\\
+TODO
+\\
+\\
+3D Layout:\\
+TODO
+\\
+\\
+VR Layout:\\
+Kwon\\
+A Study of Layout, Rendering, and Interaction Methods for Immersive Graph Visualization\\
 
+\subsubsection{Force based}
+Content:
+\begin{itemize}
+    \item Force Algorithmen and concepts 
+\end{itemize}
+Papers:\\
+\\
+Kobourov\\
+Spring Embedders and Force Directed Graph Drawing Algorithms\\
+In this survey we consider several classical algorithms \dots for large and dynamic graphs\\
+
+Jacom\\
+ForceAtlas2, a Continuous Graph Layout Algorithm for Handy Network Visualization Designed for the Gephi Software\\
+Forcetlas2 is a force-directed layout close to other algorithms used for network spatialization. Integrate different techniques.\\
+\\
+
+
+
+\subsection{Multilayer Visualization}
 Ghonie McGee\\
 The State of the Art in Multilayer Network Visualization\\
+\\
+De Domenico\\
+MuxViz: a tool for multilayer analysis and visualization of networks\\
+We demonstrate the ability of muxViz to analyse and interactively visualize multilayer data using empirical genetic, neuronal and transportation networks https://github.com/manlius/muxViz\\
+\\
+
+\subsection{Hierarchical Visualization}
+Nobre\\
+The State of the Art in Visualizing Multivariate Networks\\
 \\
 Shi\\
 Hierarchical Focus+Context Heterogeneous Network Visualization\\
 OnionGraph, aggregated based on node attributes or network topology,
 best of both worlds.\\
-
-\section{Force Graph}
-
-Jacom\\
-ForceAtlas2, a Continuous Graph Layout Algorithm for Handy Network Visualization Designed for the Gephi Software\\
-Forcetlas2 is a force-directed layout close to other algorithms used for network spatialization. Integrate different techniques.\\
+\\
+Jonker\\
+Graph mapping: Multi-scale community visualization of massive graph data\\
+\\
+Balzer\\
+Hierarchy Based 3D Visualization of Large Software Structures\\
+\\
+Holten\\
+Hierarchical Edge Bundles: Visualization of Adjacency Relations in Hierarchical Data\\
+\\
+Itoh\\
+Hierarchical data visualization using a fast rectangle-packing algorithm\\
+\\
+Munzner\\
+H3: laying out large directed graphs in 3D hyperbolic space\\
+\\
+Mansmann\\
+Exploring OLAP aggregates with hierarchical visualization techniques\\
 \\
 
 \section{VR Visualizations}
@@ -54,5 +95,51 @@ Strat: The viewer is placed at the center of the sphere, on which the graph is l
 Büschel\\
 Augmented Reality Graph Visualizations\\
 We present an exploration of the design space for edge styles and discuss the results of a user study comparing six different edge variants.\\
+\\
+Yang\\
+Embodied Navigation in Immersive Abstract Data Visualization:
+Is Overview+Detail or Zooming Better for 3D Scatterplot\\
 
-\subsection{Navigation in VR}
+\subsection{Advantages of Visualization in VR}
+Kraus\\
+The Impact of Immersion on Cluster Identification Tasks\\
+quantitative user study to investigate the impact of immersion on cluster identification tasks in scatterplot visualizations\\
+\\
+
+\subsection{Navigation}
+Content:
+\begin{itemize}
+    \item "Minimap" in VR
+    \item Scaling
+    \item Room scale vs Table vs Seating
+    \item Overview + Detail 
+\end{itemize}
+
+Papers: \\
+
+\subsection{Interaction}
+Content: 
+\begin{itemize}
+    \item Edge Filtering
+    \item Raycast/Laserpointer Selection
+\end{itemize}
+
+\section{Application and Libraries}
+References: https://neo4j.com/developer/tools-graph-visualization/
+
+\subsection{Applications}
+Software\\
+Gephi\\
+\\
+Software\\
+Neo4j Bloom\\
+\subsection{Libraries}
+Bostock\\
+D3: Data-Driven Documents\\
+Examples\\
+\\
+Software\\
+http://www.popotojs.com/ \\
+\\
+Software\\
+https://visjs.org/

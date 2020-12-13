@@ -32,6 +32,9 @@ vutinfth.toc
 vutinfth.pdf
 example.pdf
 
+#IDEs
+.idea/*
+
 #macos
 .DS_Store
 
