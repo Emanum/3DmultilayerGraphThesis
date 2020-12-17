@@ -25,7 +25,7 @@
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Manuel Eiweck} % The author name without titles.
-\newcommand{\thesistitle}{Title of the Thesis} % The title of the thesis. The English version should be used, if it exists.
+\newcommand{\thesistitle}{Immersive 3D Multilayer Graph} % The title of the thesis. The English version should be used, if it exists.
 
 % Set PDF document properties
 \hypersetup{
@@ -50,13 +50,13 @@
 % Set persons with 4 arguments:
 %  {title before name}{name}{title after name}{gender}
 %  where both titles are optional (i.e. can be given as empty brackets {}).
-\setauthor{Pretitle}{\authorname}{Posttitle}{female}
-\setadvisor{Pretitle}{Forename Surname}{Posttitle}{male}
+\setauthor{}{\authorname}{}{male}
+\setadvisor{ Dr. tech.}{Manuela Waldner}{MSc.}{female}
 
-% For bachelor and master theses:
-\setfirstassistant{Pretitle}{Forename Surname}{Posttitle}{male}
-\setsecondassistant{Pretitle}{Forename Surname}{Posttitle}{male}
-\setthirdassistant{Pretitle}{Forename Surname}{Posttitle}{male}
+% For bachelor and master theses:  
+\setfirstassistant{Dipl.-Ing. Dr.techn.}{Johannes Sorger}{}{male}
+\setsecondassistant{Pretitle}{Wolfgang Knecht}{Posttitle}{male}
+%\setthirdassistant{Pretitle}{Forename Surname}{Posttitle}{male}
 
 % For dissertations:
 \setfirstreviewer{Pretitle}{Forename Surname}{Posttitle}{male}
@@ -66,10 +66,10 @@
 \setsecondadvisor{Pretitle}{Forename Surname}{Posttitle}{male} % Comment to remove.
 
 % Required data.
-\setregnumber{0123456}
+\setregnumber{01633012}
 \setdate{01}{01}{2001} % Set date with 3 arguments: {day}{month}{year}.
-\settitle{\thesistitle}{Titel der Arbeit} % Sets English and German version of the title (both can be English or German). If your title contains commas, enclose it with additional curvy brackets (i.e., {{your title}}) or define it as a macro as done with \thesistitle.
-\setsubtitle{Optional Subtitle of the Thesis}{Optionaler Untertitel der Arbeit} % Sets English and German version of the subtitle (both can be English or German).
+\settitle{\thesistitle}{Immersive 3D Multilayer Graph} % Sets English and German version of the title (both can be English or German). If your title contains commas, enclose it with additional curvy brackets (i.e., {{your title}}) or define it as a macro as done with \thesistitle.
+\setsubtitle{Three-dimensional	multilayer visualization approach for hierarchical networks in VR}{Three-dimensional	multilayer visualization approach for hierarchical networks in VR} % Sets English and German version of the subtitle (both can be English or German).
 
 % Select the thesis type: bachelor / master / doctor / phd-school.
 % Bachelor:
@@ -108,9 +108,9 @@
     \input{chapters/danksagung.tex} 
 \end{danksagung*}
 
-\begin{acknowledgements*}
-    \input{chapters/acknowledgements.tex} 
-\end{acknowledgements*}
+%\begin{acknowledgements*}
+%    \input{chapters/acknowledgements.tex} 
+%\end{acknowledgements*}
 
 \begin{kurzfassung}
     \input{chapters/kurzfassung.tex} 
