@@ -4,8 +4,8 @@
 Revealing the structure of hierarchical organized data is a complex task where many approaches already exists (TODO cite). It is still an active research area as data scientists are facing ever greater challenges when analyzing large hierarchical datasets. One example is the Human Disease Network \cite{zhou_human_2014} which is a hierarchical network of disorders and disease genes with approximately 3000 nodes on two different hierarchy layers. Figure \ref{fig:Human_Disease_Network} shows us the representation of the data in a common two-dimensional layout, in this representation the classes of disorders are coded by color. 
 Our own dataset with a similar structure can be seen in Figure \ref{fig:original2DdiseaseNet}, here the clusters of different diseases are grouped by boxes. Depiction of hierarchical network structure in 2D faces us with many challenges for example: 
 \begin{itemize}
-    \item \textbf{Limitation of visual features.} Figure \ref{fig:Human_Disease_Network} already uses the color to encode the group membership thus we can not use this feature to visualize additional attributes like mortality rate.
-    \item \textbf{Lack of space.} A common problem in network visualization is the hairball effect, with only two dimensions the reduced space quickly leads to overlapping of nodes and links. In Figure \ref{fig:Human_Disease_Network} we can see this effect on the green nodes. The graph in Figure \ref{fig:original2DdiseaseNet} hides links between child nodes from different boxes to prevent overlapping which is also not optimal.
+    \item \textbf{Limitation of visual features.} Figure \ref{fig:Human_Disease_Network} already uses the color to encode the group membership thus we can not use a color scale to visualize additional attributes like mortality rate.
+    \item \textbf{Lack of space.} A common problem in network visualization is the hairball effect, with only two dimensions the reduced space quickly leads to overlapping of nodes and links. In Figure \ref{fig:Human_Disease_Network} we can see this effect on the green nodes. The graph in Figure \ref{fig:original2DdiseaseNet} solves this problem by hiding links between child nodes from different boxes which is also not optimal.
     \item \textbf{Restriction of spatial encoded data.} With only two available axes and therefore only two spatial encoded data attributes task like cluster detection and conformation are harder.
 \end{itemize} 
 
@@ -28,7 +28,7 @@ Our own dataset with a similar structure can be seen in Figure \ref{fig:original
   \end{figure}
 
 3D information visualization allows us to expand the user experience of traditional 2D graphs. As Brath describes in his paper \cite{brath_3d_2014} there are many advantages and opportunities when using three-dimensional visualizations.
-The additional axes allow us to display an additional attribute by its position, this can be seen in the “3D space time cube” \cite{brath_3d_2014} here the temporal information is encoded on the Z axis another common usage is a 3D scatter plot. By using these additional spatial information the mental model gets improved. Furthermore, this results in a better understanding of the data by the user.
+The additional axes allow us to encode an additional attribute by its position, this can be seen in the “3D space time cube” \cite{brath_3d_2014} here the temporal information is encoded on the Z axis another common usage is a 3D scatter plot. By using these additional spatial information the mental model gets improved. Furthermore, this results in a better understanding of the data by the user.
 In the context of visual features we get a lot more of opportunities, one of the biggest is probably the ability to use surfaces and effects like shading. 
 The perspective of the visualization can be reconsidered. Usually the user looks from the outside with a
 bird's eye view at the visualization. In 3D however the viewer can be placed right inside our graph, this enables us to utilize new navigation and interaction possibilities. 
@@ -43,7 +43,7 @@ Still, all these opportunities also involve new challenges: navigation inside th
 Our concept is to take existing already good examined visualizations and extend them by one dimension, furthermore solving the subsequent challenges of 3D info visualization by using VR based technology and applying refined techniques for navigation and interaction. 
 In addition, our visualization concept should not only work with two hierarchical datasets as used in our demo dataset from Figure \ref{fig:original2DdiseaseNet} but rather it should be able to display $n$ hierarchical layers.
 
-We got inspired by a circular form of a tree map plot for hierarchical structures see Figure \ref{fig:hierarchicalCirclePlot}. However, the nodes $\{A,B,C,\dots\}$ are only simple attributes but in our data structure each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not absolutely necessary.  
+We got inspired by a circular form of a tree map plot for hierarchical structures see Figure \ref{fig:hierarchicalCirclePlot}. However, the nodes $\{A,B,C,\dots\}$ are only simple attributes but in our data structure each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
 
 \begin{figure}[h]
     \centering
@@ -63,7 +63,7 @@ We got inspired by a circular form of a tree map plot for hierarchical structure
     \label{fig:referenceVisualizations} 
   \end{figure}
 
-We combined the concepts of both plots, also see Figure \ref{fig:conceptSketch}: 
+We combined the concepts of both plots, see Figure \ref{fig:conceptSketch}: 
 \begin{itemize}
     \item Instead of rendering each layer from the multilayer plot as a flat surface we use a three-dimensional structure instead, so we can make use of the whole volume for our network layout. More specifically we use a sphere for each node.
     \item For the hierarchical relationship we use the concept of nesting as seen in the circle packing plot. However, we use 3D spheres instead of 2D circles. 
@@ -73,13 +73,12 @@ We combined the concepts of both plots, also see Figure \ref{fig:conceptSketch}:
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{chapters/graphics/concept1.jpg}
-    \caption{Concept} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption{TODO screenshot from the visualization with the dataset from \ref{fig:original2DdiseaseNet}} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:conceptSketch} 
 \end{figure}
-TODO:
-\begin{itemize}
-    \item Navigation and Interaction
-\end{itemize}
+
+For navigation, we allow the user to dive right into our graph. Therefore, we provide two kinds of navigation methods: One for bridging larger distances like flying to a specific node selected by the user or flying to the hierarchical parent node. Additional, a free flying navigation that allows the user to fine tune their position. To prevent occlusion we render the nested nodes transparent and use a collision constraint to prevent collisions in the same hierarchical layer. Filtering and brushing methods are used to prevent overlapping of links these are triggered automated by the users position and also can be activated manually by interaction. Selection of nodes is possible with a “laser pointer” attached to the user's controller. Lastly we also allow the user to change the scale of the entire scene, this is useful as we can not know the users physically available space to move in the virtual environment and their spatial impression preferences. 
+
 
 \section{Aim of the Work}
 %From proposal: \\
