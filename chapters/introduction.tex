@@ -35,19 +35,51 @@ bird's eye view at the visualization. In 3D however the viewer can be placed rig
 
 Still, all these opportunities also involve new challenges: navigation inside the visualization, occlusion of elements in an 3D perspective view, selection for displaying details and the lack of a reference point in three-dimensional space. Brath \cite{brath_3d_2014} already stated that immersive interfaces could help to overcome this issues.
  We believe that with the recent developments in virtual reality hardware and frameworks these challenges can now be solved even better. 
- We can see active research for this topic in various publications. Bowman et al. \cite{bowman_virtual_2007} research the impact of VR techniques like stereoscopic images, interaction with the virtual world and head movement can have on users. 
- Recently Kraus et al. \cite{kraus_impact_2020} did a study where they examined the effect of immersion for detecting clusters in a scatter plot. Their results show that VR based visualization systems have real world advantages in terms of time needed to get an overview of the data compared to traditional 2D- and 3D information visualization. In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.
+ We can see the benefits of VR based visualizations in various publications. Bowman et al. \cite{bowman_virtual_2007} examined the impact of VR techniques like stereoscopic images, interaction with the virtual world and head movement can have on users. 
+ Recently Kraus et al. \cite{kraus_impact_2020} did a study on the effect of immersion for detecting clusters in a scatter plot. Their results show that VR based visualization systems have real world advantages in terms of time needed to get an overview of the data compared to traditional 2D- and 3D information visualization. In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.
  
  \section{Methodology}
- \textbf{Starting idea: 2D Multilayer see figure, why not make use of all 3 axes in VR, instead of flat layers use 3D objects like cubes/spheres to bundle one layer} (Email 14.08.2020 https://arxiv.org/pdf/1902.06815.pdf)
- \includegraphics[width=0.5\textwidth]{chapters/graphics/2dmultilayerVis.jpg}
- 
- Ideas:
- \begin{itemize}
-     \item Example applications with hierarchical network data
-     \item current 2D visualizations of hierarchical networks
-     \item power of VR visualizations and board availability
- \end{itemize}
+
+Our concept is to take existing already good examined visualizations and extend them by one dimension, furthermore solving the subsequent challenges of 3D info visualization by using VR based technology and applying refined techniques for navigation and interaction. 
+In addition, our visualization concept should not only work with two hierarchical datasets as used in our demo dataset from Figure \ref{fig:original2DdiseaseNet} but rather it should be able to display $n$ hierarchical layers.
+
+We got inspired by a circular form of a tree map plot for hierarchical structures see Figure \ref{fig:hierarchicalCirclePlot}. However, the nodes $\{A,B,C,\dots\}$ are only simple attributes but in our data structure each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not absolutely necessary.  
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.40\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth, trim={0 0 0 4.3cm},clip]{graphics/circle_packing.pdf}
+        \subcaption{Hierarchical circle packing plot \cite{ribecca_circle_nodate}}
+        \label{fig:hierarchicalCirclePlot}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.50\columnwidth}
+      \centering
+      \includegraphics[width=\textwidth]{graphics/2dmultilayerVis.jpg}
+      \subcaption{multilayer network visualization \cite{ghoniem_state_2019}}
+      \label{fig:2dmultilayerVis}
+    \end{subfigure}
+    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Reference visualizations that we used as a starting point. (a) shows a possible visualization for hierarchical structures, (b) shows a visualization for networks with multiple layers} % Remove the [...] argument if the original caption should be used in the figure list.
+    \label{fig:referenceVisualizations} 
+  \end{figure}
+
+We combined the concepts of both plots, also see Figure \ref{fig:conceptSketch}: 
+\begin{itemize}
+    \item Instead of rendering each layer from the multilayer plot as a flat surface we use a three-dimensional structure instead, so we can make use of the whole volume for our network layout. More specifically we use a sphere for each node.
+    \item For the hierarchical relationship we use the concept of nesting as seen in the circle packing plot. However, we use 3D spheres instead of 2D circles. 
+    \item Links between nodes are possible in one network but also to other networks of the same hierarchical layer.   
+\end{itemize}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{chapters/graphics/concept1.jpg}
+    \caption{Concept} % Remove the [...] argument if the original caption should be used in the figure list.
+    \label{fig:conceptSketch} 
+\end{figure}
+TODO:
+\begin{itemize}
+    \item Navigation and Interaction
+\end{itemize}
 
 \section{Aim of the Work}
 %From proposal: \\
@@ -72,18 +104,3 @@ Ideas:
 \end{quotation}
 Sadana\\
 Redefining a Contribution for Immersive Visualization Research\\
-
-\section{Approach}
-
-
-
-I want to give a short summary of chapter 4 proposed solution here. 
-
-Ideas:
-\begin{itemize}
-    \item short description of planned final solution (web based, htc vive compatible, rendering multi hierarchical dataset, screenshot of solution)  
-    \item short overview of used technologies and frameworks why? what it simplifies, ... 
-    \item Customized Forces
-    \item rendering, nodes inside parent, comparison to a default 2D Circle Packing plot https://observablehq.com/@d3/zoomable-circle-packing 
-    \item available interactions
-\end{itemize}
