@@ -24,6 +24,7 @@
 \usepackage[acronym,toc]{glossaries} % Enables the generation of glossaries and lists fo acronyms. This package has to be included last.
 
 \usepackage{graphicx}% enables cropping of images
+\usepackage{datetime2}
 
 % Define convenience functions to use the author name and the thesis title in the PDF document properties.
 \newcommand{\authorname}{Manuel Eiweck} % The author name without titles.
@@ -101,6 +102,8 @@
 \frontmatter % Switches to roman numbering.
 % The structure of the thesis has to conform to the guidelines at
 %  https://informatics.tuwien.ac.at/study-services
+
+\input{chapters/devPage.tex}%remove this line when releasing the document 
 
 \addtitlepage{naustrian} % German title page (not for dissertations at the PhD School).
 \addtitlepage{english} % English title page.
