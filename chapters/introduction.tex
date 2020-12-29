@@ -1,8 +1,8 @@
 \chapter{Introduction}
 
 \section{Motivation}
-Revealing the structure of hierarchical organized data is a complex task where many approaches already exists (TODO cite). It is still an active research area as data scientists are facing ever greater challenges when analyzing large hierarchical datasets. One example is the Human Disease Network \cite{zhou_human_2014} which is a hierarchical network of disorders and disease genes with approximately 3000 nodes on two different hierarchy layers. Figure \ref{fig:Human_Disease_Network} shows us the representation of the data in a common two-dimensional layout, in this representation the classes of disorders are coded by color. 
-Our own dataset with a similar structure can be seen in Figure \ref{fig:original2DdiseaseNet}, here the clusters of different diseases are grouped by boxes. Depiction of hierarchical network structure in 2D faces us with many challenges for example: 
+Revealing the structure of hierarchical organized data is a complex task where many approaches already exists (TODO cite). It is still an active research area as data scientists are facing ever greater challenges when analyzing large hierarchical datasets. One example is the Human Disease Network \cite{zhou_human_2014} which is a hierarchical network of disorders and disease genes with approximately 3000 nodes on two different hierarchy layers. Figure \ref{fig:Human_Disease_Network} shows us the representation of the data in a common two-dimensional layout. In this representation, the classes of disorders are coded by color. 
+Another dataset with a similar structure can be seen in Figure \ref{fig:original2DdiseaseNet}, here the clusters of different diseases are grouped by boxes. Depiction of hierarchical network structure in 2D faces us with many challenges for example: 
 \begin{itemize}
     \item \textbf{Limitation of visual features.} Figure \ref{fig:Human_Disease_Network} already uses the color to encode the group membership thus we can not use a color scale to visualize additional attributes like mortality rate.
     \item \textbf{Lack of space.} A common problem in network visualization is the hairball effect, with only two dimensions the reduced space quickly leads to overlapping of nodes and links. In Figure \ref{fig:Human_Disease_Network} we can see this effect on the green nodes. The graph in Figure \ref{fig:original2DdiseaseNet} solves this problem by hiding links between child nodes from different boxes which is also not optimal.
@@ -20,7 +20,7 @@ Our own dataset with a similar structure can be seen in Figure \ref{fig:original
     \begin{subfigure}[b]{0.5\columnwidth}
       \centering
       \includegraphics[width=\textwidth]{graphics/original2DdiseaseNet.jpg}
-      \subcaption{Our own disease network dataset}
+      \subcaption{a comorbidity network of diagnoses related to diabetes melitus}
       \label{fig:original2DdiseaseNet}
     \end{subfigure}
     \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Example visualizations of hierarchical network datasets in two dimensions. Both consists of two hierarchical layers.} % Remove the [...] argument if the original caption should be used in the figure list.
@@ -29,13 +29,12 @@ Our own dataset with a similar structure can be seen in Figure \ref{fig:original
 
 3D information visualization allows us to expand the user experience of traditional 2D graphs. As Brath describes in his paper \cite{brath_3d_2014} there are many advantages and opportunities when using three-dimensional visualizations.
 The additional axes allow us to encode an additional attribute by its position, this can be seen in the “3D space time cube” \cite{brath_3d_2014} here the temporal information is encoded on the Z axis another common usage is a 3D scatter plot. By using these additional spatial information the mental model gets improved. Furthermore, this results in a better understanding of the data by the user.
-In the context of visual features we get a lot more of opportunities, one of the biggest is probably the ability to use surfaces and effects like shading. 
-The perspective of the visualization can be reconsidered. Usually the user looks from the outside with a
-bird's eye view at the visualization. In 3D however the viewer can be placed right inside our graph, this enables us to utilize new navigation and interaction possibilities. 
+In the context of visual features, we get a lot more of opportunities, one of the biggest is probably the ability to use surfaces and effects like shading. 
+In VR, The perspective of the visualization can be reconsidered. Usually the user looks from the outside with a bird's eye view at the visualization. In 3D however the viewer can be placed right inside our graph, this enables us to utilize new navigation and interaction possibilities. 
 
 Still, all these opportunities also involve new challenges: navigation inside the visualization, occlusion of elements in an 3D perspective view, selection for displaying details and the lack of a reference point in three-dimensional space. Brath \cite{brath_3d_2014} already stated that immersive interfaces could help to overcome this issues.
- We believe that with the recent developments in virtual reality hardware and frameworks these challenges can now be solved even better. 
- We can see the benefits of VR based visualizations in various publications. Bowman et al. \cite{bowman_virtual_2007} examined the impact of VR techniques like stereoscopic images, interaction with the virtual world and head movement can have on users. 
+ We believe that with the recent developments in virtual reality hardware and frameworks these challenges can now be addressed even better. 
+ We can see the benefits of VR based visualizations in various publications. Bowman et al. \cite{bowman_virtual_2007} examined the impact of VR techniques, like stereoscopic images, interaction with the virtual world and head movement, can have on users. 
  Recently Kraus et al. \cite{kraus_impact_2020} did a study on the effect of immersion for detecting clusters in a scatter plot. Their results show that VR based visualization systems have real world advantages in terms of time needed to get an overview of the data compared to traditional 2D- and 3D information visualization. In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.
  
  \section{Methodology}
