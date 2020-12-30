@@ -37,35 +37,26 @@ Still, all these opportunities also involve new challenges: navigation inside th
  We can see the benefits of VR based visualizations in various publications. Bowman et al. \cite{bowman_virtual_2007} examined the impact of VR techniques, like stereoscopic images, interaction with the virtual world and head movement, can have on users. 
  Recently Kraus et al. \cite{kraus_impact_2020} did a study on the effect of immersion for detecting clusters in a scatter plot. Their results show that VR based visualization systems have real world advantages in terms of time needed to get an overview of the data compared to traditional 2D- and 3D information visualization. In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.
  
- \section{Methodology}
+\section{Aim of the Work}
 
-Our concept is to take existing already good examined visualizations and extend them by one dimension, furthermore solving the subsequent challenges of 3D info visualization by using VR based technology and applying refined techniques for navigation and interaction. 
+The goal of this bachelor thesis is to implement a visualization for hierarchical network data in the three-dimensional space. The exploration of the resulting graph is possible with virtual reality devices. To this end, we designed a customized graph layout (see Figure \ref{fig:conceptSketch}).
+This calculates the position and size of the node by the hierarchical structure: child nodes are nested within its parent node. In addition, it takes care of preventing visual clutter by overlapping of nodes and links. 
+Furthermore, we implemented VR optimized navigation, filtering and brushing methods to enhance the graph exploration user experience.
+
+To evaluate our results we gathered feedback from multiple people including ourselves on overview of the visualization, navigation, interaction and motion sickness. However, a full user study is out of scope of this thesis.   
+
+\section{Methodology}
+As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to this new platform of virtual reality devices. To this end, we take existing already well established 2D visualization techniques combine them and extend the result into the three-dimensional space. We adapted a tree map visualization (see Figure \ref{fig:hierarchicalCirclePlot}) for visualizing the hierarchical aspect and a flat multilayer network (see Figure \ref{fig:2dmultilayerVis}) for the network aspect.   
+
+\section{Methodology alt}
+
+furthermore solving the subsequent challenges of 3D info visualization by using VR based technology and applying refined techniques for navigation and interaction. 
 In addition, our visualization concept should not only work with two hierarchical datasets as used in our demo dataset from Figure \ref{fig:original2DdiseaseNet} but rather it should be able to display $n$ hierarchical layers.
-
-We got inspired by a circular form of a tree map plot for hierarchical structures see Figure \ref{fig:hierarchicalCirclePlot}. However, the nodes $\{A,B,C,\dots\}$ are only simple attributes but in our data structure each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
-
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[b]{0.40\columnwidth}
-        \centering
-        \includegraphics[width=\textwidth, trim={0 0 0 4.3cm},clip]{graphics/circle_packing.pdf}
-        \subcaption{Hierarchical circle packing plot \cite{ribecca_circle_nodate}}
-        \label{fig:hierarchicalCirclePlot}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.50\columnwidth}
-      \centering
-      \includegraphics[width=\textwidth]{graphics/2dmultilayerVis.jpg}
-      \subcaption{multilayer network visualization \cite{ghoniem_state_2019}}
-      \label{fig:2dmultilayerVis}
-    \end{subfigure}
-    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Reference visualizations that we used as a starting point. (a) shows a possible visualization for hierarchical structures, (b) shows a visualization for networks with multiple layers} % Remove the [...] argument if the original caption should be used in the figure list.
-    \label{fig:referenceVisualizations} 
-  \end{figure}
 
 We combined the concepts of both plots, see Figure \ref{fig:conceptSketch}: 
 \begin{itemize}
     \item Instead of rendering each layer from the multilayer plot as a flat surface we use a three-dimensional structure instead, so we can make use of the whole volume for our network layout. More specifically we use a sphere for each node.
-    \item For the hierarchical relationship we use the concept of nesting as seen in the circle packing plot. However, we use 3D spheres instead of 2D circles. 
+    \item For the hierarchical relationship, we use the concept of nesting as seen in the circle packing plot. However, we use 3D spheres instead of 2D circles. 
     \item Links between nodes are possible in one network but also to other networks of the same hierarchical layer.   
 \end{itemize}
 
@@ -79,6 +70,8 @@ We combined the concepts of both plots, see Figure \ref{fig:conceptSketch}:
 For navigation, we allow the user to dive right into our graph. Therefore, we provide two kinds of navigation methods: One for bridging larger distances like flying to a specific node selected by the user or flying to the hierarchical parent node. Additional, a free flying navigation that allows the user to fine tune their position. To prevent occlusion we render the nested nodes transparent and use a collision constraint to prevent collisions in the same hierarchical layer. Filtering and brushing methods are used to prevent overlapping of links these are triggered automated by the users position and also can be activated manually by interaction. Selection of nodes is possible with a “laser pointer” attached to the user's controller. Lastly we also allow the user to change the scale of the entire scene, this is useful as we can not know the users physically available space to move in the virtual environment and their spatial impression preferences. 
 
 
-\section{Aim of the Work}
+\section{Aim of the Work alt}
 
-The goal of this bachelor thesis is mainly to implement a prototype for a hierarchical network visualization in VR. Thus, the research field of visualizations in VR is rather new contribution is not only measured by novel visualizations. As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to this new platform of virtual reality devices. To this end, our concept picks up the earlier described visualizations and extends them. Furthermore, we also experimented with different methods for graph layout, navigation and interaction. To evaluate our results we gathered feedback from multiple people including ourselves on overview of the visualization, navigation, interaction and motion sickness. However, a full user study is out of scope of this thesis. Lastly, in the implementation section we also examine the practicality of such an application would be. What frameworks and libraries are useful especially for interacting with virtual reality devices and how we can achieve performance optimization. 
+
+
+Lastly, in the implementation section we also examine the practicality of such an application would be. What frameworks and libraries are useful especially for interacting with virtual reality devices and how we can achieve performance optimization. 
