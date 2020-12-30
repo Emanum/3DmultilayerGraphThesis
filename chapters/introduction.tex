@@ -39,39 +39,30 @@ Still, all these opportunities also involve new challenges: navigation inside th
  
 \section{Aim of the Work}
 
-The goal of this bachelor thesis is to implement a visualization for hierarchical network data in the three-dimensional space. The exploration of the resulting graph is possible with virtual reality devices. To this end, we designed a customized graph layout (see Figure \ref{fig:conceptSketch}).
-This calculates the position and size of the node by the hierarchical structure: child nodes are nested within its parent node. In addition, it takes care of preventing visual clutter by overlapping of nodes and links. 
-Furthermore, we implemented VR optimized navigation, filtering and brushing methods to enhance the graph exploration user experience.
-
-To evaluate our results we gathered feedback from multiple people including ourselves on overview of the visualization, navigation, interaction and motion sickness. However, a full user study is out of scope of this thesis.   
+Our goal is to implement a visualization for hierarchical network data that allows users take the benefits of 3D information visualization and opportunities of virtual reality technology to dive right into the data. We believe the combination of both concepts complete each other well because VR based technology can be used to solve the subsequent challenges from 3D information visualization and therefore enable data scientists to optimize their data analysis tasks. 
+To this end, we designed a customized graph layout (see Figure \ref{fig:conceptSketch}).
+This calculates the position and size of each node by the hierarchical structure: child nodes are nested within its parent node. In addition, it takes care of preventing visual clutter by overlapping of nodes and links. 
+Furthermore, the exploration of the resulting graph should be possible with room scaled virtual reality devices like the HTC Vive. So we implemented VR optimized navigation, filtering and brushing methods to enhance the graph exploration user experience. 
+To evaluate our results we gathered feedback from multiple people including ourselves on overview of the visualization, navigation, interaction and motion sickness. However, a full user study is out of scope of this thesis.
 
 \section{Methodology}
-As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to this new platform of virtual reality devices. To this end, we take existing already well established 2D visualization techniques combine them and extend the result into the three-dimensional space. We adapted a tree map visualization (see Figure \ref{fig:hierarchicalCirclePlot}) for visualizing the hierarchical aspect and a flat multilayer network (see Figure \ref{fig:2dmultilayerVis}) for the network aspect.   
+As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices. To this end, we take existing already well established 2D visualization techniques combine them and extend the result into the three-dimensional space. We adapted a tree map visualization (see Figure \ref{fig:hierarchicalCirclePlot}) for visualizing the hierarchical aspect and a flat multilayer network (see Figure \ref{fig:2dmultilayerVis}) for the network relationships.  
 
-\section{Methodology alt}
-
-furthermore solving the subsequent challenges of 3D info visualization by using VR based technology and applying refined techniques for navigation and interaction. 
-In addition, our visualization concept should not only work with two hierarchical datasets as used in our demo dataset from Figure \ref{fig:original2DdiseaseNet} but rather it should be able to display $n$ hierarchical layers.
-
-We combined the concepts of both plots, see Figure \ref{fig:conceptSketch}: 
+Our core concepts are the following: 
 \begin{itemize}
-    \item Instead of rendering each layer from the multilayer plot as a flat surface we use a three-dimensional structure instead, so we can make use of the whole volume for our network layout. More specifically we use a sphere for each node.
-    \item For the hierarchical relationship, we use the concept of nesting as seen in the circle packing plot. However, we use 3D spheres instead of 2D circles. 
-    \item Links between nodes are possible in one network but also to other networks of the same hierarchical layer.   
+    \item We render each hierarchy layer as a three-dimensional structure instead a flat surface as seen in most multilayer network visualizations. This enables us to use the whole volume to evenly distribute our nodes and links of the network. Thereby reducing the edge and node-edge crossings in comparison to a flat surface.   
+    \item For the hierarchical relationship, we use the concept of nesting child nodes into parent nodes as seen in tree map visualizations. However, we use 3D spheres instead of 2D boxes. 
+    \item Links between nodes are possible in one network but also to other networks of the same hierarchical layer. The visibility of the links is changed automatically and manually during the exploration process. 
+    \item For user input we fully utilize the tracking capabilities of the HTC Vive controllers. Selection of nodes and links is possible with a virtual “laser pointer” attached to the user's controller in the scene.
+    \item For navigation, we provide two kinds of navigation methods: One for bridging larger distances like flying to a specific node selected by the user or flying to the hierarchical parent node. Additional, a free flying navigation that allows the user to fine tune their position.
+    \item We dynamically adjust the size of the entire scene while exploring the graph. This is necessary as in a virtual reality scene the size of objects is always directly linked to real world sizes. (e.g. 1 virtual unit is 1 meter in the players VR setup)
 \end{itemize}
+The result can be seen in Figure \ref{fig:conceptSketch}.
+In addition, our visualization is not limited to two hierarchical layers as seen in the Figure, but rather is able to display $n$ hierarchical layers. To achieve this we simply repeat the process of nesting child nodes into parents for each layer.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{graphics/conceptScreenshot.jpg}
-    \caption{Screenshot of our prototype network visualization with the same dataset as \ref{fig:original2DdiseaseNet}. In the screenshot only edges from node 0.3 are displayed.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption{Screenshot of our prototype network visualization with the comorbidity network dataset from \ref{fig:original2DdiseaseNet}. In the screenshot only edges from node 0.3 are displayed.} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:conceptSketch} 
 \end{figure}
-
-For navigation, we allow the user to dive right into our graph. Therefore, we provide two kinds of navigation methods: One for bridging larger distances like flying to a specific node selected by the user or flying to the hierarchical parent node. Additional, a free flying navigation that allows the user to fine tune their position. To prevent occlusion we render the nested nodes transparent and use a collision constraint to prevent collisions in the same hierarchical layer. Filtering and brushing methods are used to prevent overlapping of links these are triggered automated by the users position and also can be activated manually by interaction. Selection of nodes is possible with a “laser pointer” attached to the user's controller. Lastly we also allow the user to change the scale of the entire scene, this is useful as we can not know the users physically available space to move in the virtual environment and their spatial impression preferences. 
-
-
-\section{Aim of the Work alt}
-
-
-
-Lastly, in the implementation section we also examine the practicality of such an application would be. What frameworks and libraries are useful especially for interacting with virtual reality devices and how we can achieve performance optimization. 
