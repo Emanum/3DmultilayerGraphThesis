@@ -2,17 +2,19 @@
 
 \section{Graph Theory}
 
-Before we begin discussing different visualization techniques, it is important to understand the data behind the visualization. As we are not limiting ourselves to a specific application domain, the key is to understand the structure of the data. Simply speaking we are dealing with graph data, but as there are multiple terms and terminologies used we want to give a short summary. 
+Before we begin discussing different visualization techniques, it is important to understand the data behind the visualization. As we are not limiting ourselves to a specific application domain, the key is to understand the structure of the data. Simply speaking we are dealing with graph or network data, but as there are multiple terms and terminologies used we want to give a short summary. 
 
-In general, a graph consists of vertices and edges \cite{diestel_graph_2017}. In the context of this thesis we also use the terms nodes for vertices, links for edges and network for graph interchangeably. Furthermore, edges in a graph can either be directed or undirected. Directed edges differentiate between source and target node where undirected edges do not. Additionally, we also distinguish between weighted and unweighted edges. Weighted edges have an any sort of numerical comparable attribute. This can be used for instance to describe how strong the relation between nodes is. Figure \ref{fig:simple_weighted_directed_network} shows a directed and weighted graph.\\
-A specialized version of a graph is called tree. It is defined as an acyclic graph where all subcomponents of the graph are connected \cite{diestel_graph_2017}. One node of the tree can be picked as a root node which is usually visualized on the top. Nodes with only one link are called leaf nodes and visualization on the bottom, see Figure \ref{fig:simple_tree}. 
+In general, a graph consists of vertices and edges \cite{diestel_graph_2017}. In the context of this thesis we also use the terms nodes for vertices, links for edges and network for graph interchangeably. Furthermore, edges in a graph can either be directed or undirected. Directed edges differentiate between source and target node where undirected edges do not. Additionally, we also distinguish between weighted and unweighted edges. Weighted edges have any sort of numerical comparable attribute. This can be used for instance to describe how strong the relation between nodes is. Figure \ref{fig:simple_weighted_directed_network} shows a directed and weighted graph.
+
+A specialized version of a graph is called tree. It is defined as an acyclic graph where all subcomponents of the graph are connected \cite{diestel_graph_2017}. One node of the tree can be picked as a root node which is usually drawn on the top. Nodes with only one link are called leaf nodes and drawn on the bottom, see Figure \ref{fig:simple_tree}.\\
 In addition, tree nodes also have a height and depth. The height is defined by the largest number of edges between the root node and a leaf node. The height of the root node is the height of the tree itself. The dept of the node is the number of edges along the path to the root node. Note that a tree is able to encode hierarchical relationships between nodes. In the thesis we use the term 'hierarchical level' for depth and terminologies like 'leaf1 is a direct child of node1' or 'node1 is the parent (node) of leaf1' based on Figure \ref{fig:simple_tree}.
+
 In addition to the basic graph structures, which are often not sufficient for specific datasets, there are extended forms of graph models \cite{bertault_algorithm_1999}. 
 %higraph, clustered graph, compound graph
-For the context of this thesis, clustered graphs are especially interesting. A clustered graph is defined by a recursive structure where each node can be new graph for itself \cite{eades_multilevel_1997}. 
+For the context of this thesis, clustered graphs are especially interesting. A clustered graph is defined by a recursive structure where each node can be new graph for itself \cite{eades_multilevel_1997}.\\ 
 %Another would be a compound graph. a set of different elements such as vertices or edges and therefore 
 %compound graph (master thesis), 
-Multivariate networks \cite{kerren_introduction_2014} combines the data type of network with multidimensional datasets. Each node and edge can have numerous additional attributes these can be numerical, ordinal or categorical.
+Furthermore, multivariate networks \cite{kerren_introduction_2014} combines the data type of network with multidimensional datasets. Each node and edge can have numerous additional attributes these can be numerical, ordinal or categorical.
 
 \begin{figure}[h]
     \centering
@@ -37,6 +39,13 @@ In conclusion, the most basic graph or network would be a simple unweighted and 
 
 \subsection{Graph Drawing}
 
+As graph drawing is a subarea of information visualization, common knowledge can be applied here as well. With Shneiderman's visual information seeking mantra “Overview first, zoom and filter, then details-on-demand” being of the most famous \cite{shneiderman_eyes_1996}. Additionally, the Gestalt Principles can also be used in graph drawing as Kobourov et al.
+\cite{kobourov_gestalt_2015} shows us. They can be used to produce more aesthetically pleasing visualizations by defining drawing conventions and even improve the impression of the data. Cluster affiliation of nodes can be expressed by similar colors, shapes or simply by proximity. While the form of links should be consistent without any sharp bends.
+
+For representation node-link and space-filling concepts are the most important for our kind of data. Space-filling visualizations usually use multiscale approaches to encode hierarchical information. Node-link graphs tend to utilize force-based or constraint-based layouts\cite{von_landesberger_visual_2011}.
+
+force based layouts ...
+
 \section{Visualization Techniques}
 Papers:\\
 
@@ -59,18 +68,6 @@ want to improve their system and 2) to evaluators who want to
 compare graph visualization systems.\\
 \\
 
-\section{Network Visualization}
-
-\subsection{Network Visualization Basics}
-
-Kerren\\
-\textbf{Introduction to Multivariate Network Visualization vorallem Chapter9: Heterogeneous Networks on Multiple Levels} \\
-gute Zusammenfassung von Multilayer Network Visualization\\
-
-West\\
-Introduction to graph theory\\
-\\
-
 \subsection{Force-directed graph drawing}
 alt:\\
 Fruchterman\\
@@ -89,6 +86,19 @@ Kobourov\\
 Spring Embedders and Force Directed Graph Drawing Algorithms\\
 Mehrere Algorithmen für Force Graph, Sehr detailliert\\
 \\
+
+\section{Network Visualization}
+
+\subsection{Network Visualization Basics}
+
+Kerren\\
+\textbf{Introduction to Multivariate Network Visualization vorallem Chapter9: Heterogeneous Networks on Multiple Levels} \\
+gute Zusammenfassung von Multilayer Network Visualization\\
+
+West\\
+Introduction to graph theory\\
+\\
+
 
 \section{VR Technology}
 
