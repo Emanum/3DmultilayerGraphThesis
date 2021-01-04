@@ -39,12 +39,16 @@ In conclusion, the most basic graph or network would be a simple unweighted and 
 
 \subsection{Graph Drawing}
 
-As graph drawing is a subarea of information visualization, common knowledge can be applied here as well. With Shneiderman's visual information seeking mantra “Overview first, zoom and filter, then details-on-demand” being of the most famous \cite{shneiderman_eyes_1996}. Additionally, the Gestalt Principles can also be used in graph drawing as Kobourov et al.
+As graph drawing is a subarea of information visualization, common knowledge from this research area can be applied here as well. With Shneiderman's visual information seeking mantra “Overview first, zoom and filter, then details-on-demand” being one of the most famous \cite{shneiderman_eyes_1996}. Additionally, the Gestalt Principles can also be used in graph drawing as Kobourov et al.
 \cite{kobourov_gestalt_2015} shows us. They can be used to produce more aesthetically pleasing visualizations by defining drawing conventions and even improve the impression of the data. Cluster affiliation of nodes can be expressed by similar colors, shapes or simply by proximity. While the form of links should be consistent without any sharp bends.
 
-For representation node-link and space-filling concepts are the most important for our kind of data. Space-filling visualizations usually use multiscale approaches to encode hierarchical information. Node-link graphs tend to utilize force-based or constraint-based layouts\cite{von_landesberger_visual_2011}.
+For representation node-link and space-filling concepts are the most important for the data structures used in this thesis. Space-filling visualizations usually use multiscale approaches to encode hierarchical information. Node-link graphs tend to utilize force-based or constraint-based layouts\cite{von_landesberger_visual_2011}.
 
-force based layouts ...
+Force based layout techniques work without any domain-specific knowledge, therefore provide a flexible way to determine layouts for node link graphs \cite{kobourov_spring_2012}. Only structural information about the graph relationships themselves are used. 
+There are a variety of different approaches but concept is always the same. 
+These systems work by providing numerous forces between nodes and links, whose job is to update the position of the nodes. Usually these forces are related to Hooke's law, a simple approach by Kamada et al. \cite{kamada_algorithm_1989} is to use repulsive forces between all nodes and attraction forces for linked nodes.
+The defined forces are then processed with a given set of nodes and links for either a limited number of iterations, a fixed time, some sort of dynamic condition like the momentum of the nodes fall below a certain threshold or just infinitely.
+Large graphs however are a common problem as physical force models tend to have many local minima and therefore not produce optimal results \cite{kobourov_spring_2012}.
 
 \section{Visualization Techniques}
 Papers:\\
