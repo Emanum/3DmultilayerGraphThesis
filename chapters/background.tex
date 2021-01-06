@@ -102,6 +102,16 @@ Instead of defining interactions between nodes and links, constraints try to mod
 
 \section{VR Technology}
 
+Virtual Reality is not a new idea, in 1965 Sutherland \cite{Sutherland65theultimate} proposed an article of possibilities of future displays, including the “ultimate display” to fully immersive a user in a virtual reality. Later, in 1992 we this concept as an early adoption by Cruz-Neira \cite{cruz-neira_cave_1992} in the form of “The Cave”. It was a system with a head-mounted display which even allowed viewpoint tracking. The name giving cave was a setup of multiple screens driven by projectors placed on the walls, ceiling and floor around the user.
+
+Today VR systems usually consists of a head mounted display also called VR headset and a pair of controllers one for each hand. 
+Degree of Freedom (DoF) is an attribute of headsets to track its rotation and position in the room. Headsets with three DoF like the Google Cardboard or Oculus Go only allow tracking of rotation movement e.g. looking around. 6-DOF Headsets like the HTC Vive and Oculus Quest also allow tracking translational movement and therefore enable the user to walk around. 
+While rotational tracking can be accomplishment by using gyroscopes inside the headset, translational tracking works either inside-out or outside-in tracking. On inside-out concepts the cameras and/or sensors are located on the headset itself as seen on the HTC Vive and Oculus Quest. Outside-in techniques instead places the cameras and/or sensors on stationary points in the room example are the original Oculus Rift and Playstation VR.
+Some headsets use infrared emitters and sensors to determine the position while others rely on multiple camera feeds.\\
+Giving all these different tracking capabilities of headset, from a software frameworks point of view VR systems are usually split into room-scale experiences where all tracking is available, seating or standing experiences with no translational tracking and lastly experiences with no translational tracking and interaction like watching a 3D video. 
+
+\subsubsection{Programming APIs}
+
 Content:
 \begin{itemize}
     \item Describe the technologie stack (OpenVR, WEBXR/WEBVR, A-Frame, ThreeJS)
