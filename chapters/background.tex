@@ -108,39 +108,19 @@ Today VR systems usually consists of a head mounted display also called VR heads
 Degree of Freedom (DoF) is an attribute of headsets to track its rotation and position in the room. Headsets with three DoF like the Google Cardboard or Oculus Go only allow tracking of rotation movement e.g. looking around. 6-DOF Headsets like the HTC Vive and Oculus Quest also allow tracking translational movement and therefore enable the user to walk around. 
 While rotational tracking can be accomplishment by using gyroscopes inside the headset, translational tracking works either inside-out or outside-in tracking. On inside-out concepts the cameras and/or sensors are located on the headset itself as seen on the HTC Vive and Oculus Quest. Outside-in techniques instead places the cameras and/or sensors on stationary points in the room example are the original Oculus Rift and Playstation VR.
 Some headsets use infrared emitters and sensors to determine the position while others rely on multiple camera feeds.\\
-Giving all these different tracking capabilities of headset, from a software frameworks point of view VR systems are usually split into room-scale experiences where all tracking is available, seating or standing experiences with no translational tracking and lastly experiences with no translational tracking and interaction like watching a 3D video. 
+Giving all these different tracking capabilities of headset, from a software frameworks point of view VR systems are usually split into room-scale experiences where all tracking features are available, seating or standing experiences with no translational tracking and lastly experiences with no user interaction and only rotational tracking for example a 360-degree video. 
 
 \subsubsection{Programming APIs}
 
-Content:
-\begin{itemize}
-    \item Describe the technologie stack (OpenVR, WEBXR/WEBVR, A-Frame, ThreeJS)
-    \item Devices, HTC-VIVE, Oculus-Rift, Vendors
-    \item Room scale vs Table vs Standing, possibilities of tracking
-    \item 6 DOF vs 3 DOF (degrees of freedom)
-    \item Vergleich HMD zu früheren Möglichkeiten mit "Cave" Virtual Reality
-\end{itemize}
+To implement applications we can work directly with the SDK provided from each headset manufacturer, the advantage is that we can interact at a low level with the devices.\\ 
+Another way is to use an SDK of a well-defined standard for example OpenVR from Valve or OpenXR from the khronos group, this allows us to write applications for a target group of devices like room-scale supported headsets without having to deal with different manufacturer SDKs (see Figure \ref{fig:openxr-overview}). On a side note: the X in OpenXR means that the specification is not only used for virtual reality applications but also for augmented reality and other “X reality” proposed in the future.\\
+Lastly we can work with different engines which will provide us even more features. While classical desktop engines rely on downloading complete bundled packages for distributing the application, WebXR and WebVR allows us to distribute and run our application via the browser similar to WebGL.
 
-official Specs / Docs: 
-\\
-Desktop API:\\
-https://www.khronos.org/openxr/ \\
-https://github.com/ValveSoftware/openvr \\
-\\
-Web API:\\
-   WebXR\\
-https://immersiveweb.dev/ \\
-https://github.com/immersive-web/webxr/blob/master/explainer.md \\
-https://immersive-web.github.io/webxr/ \\
-https://blog.mozvr.com/webxr-emulator-extension/ \\
-\\
-WebVR:(deprecated wird aber von unserer AFrame Version verwendet daher trotzdem relevant)\\
-https://webvr.info/ \\
-\\
-Papers:\\
-Cruz-Neira\\
-The CAVE: audio visual experience automatic virtual environment\\
-\\
-M Cordeil\\
-Immersive Collaborative Analysis of Network Connectivity: CAVE-style or Head-Mounted Display?\\
-\\
+At the time of writing this thesis the OpenXR and WebXR specification is still relatively new being in its first revision therefore it is not implemented by each headset manufacturer, browser and engine yet. However, these standards are meant to replace the old OpenVR and WebVR in the future.  
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{graphics/openXR-overview.jpg}
+    \caption{Overview of the OpenXR API Stack \cite{khronosGroupOpenXR}}
+    \label{fig:openxr-overview}
+\end{figure}
