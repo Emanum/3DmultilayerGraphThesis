@@ -2,19 +2,19 @@
 
 \section{Graph Theory}
 
-Before we begin discussing different visualization techniques, it is important to understand the data behind the visualization. As we are not limiting ourselves to a specific application domain, the key is to understand the structure of the data. Simply speaking we are dealing with graph or network data, but as there are multiple terms and terminologies used we want to give a short summary. 
+Before we begin discussing different visualization techniques, it is important to understand the data behind the visualization. As we are not limiting ourselves to a specific application domain, the key is to understand the structure of the data. Simply speaking, we are dealing with graph or network data, but as there are multiple terms and terminologies used we want to give a short summary. 
 
-In general, a graph consists of vertices and edges \cite{diestel_graph_2017}. In the context of this thesis we use the terms nodes for vertices, links for edges and network for graph interchangeably. Edges in a graph can either be directed or undirected. Directed edges differentiate between source and target node where undirected edges do not. Additionally, we also distinguish between weighted and unweighted edges. Weighted edges have any sort of numerical comparable attribute. This can be used for instance to describe how strong the relation between nodes is. Figure \ref{fig:simple_weighted_directed_network} shows a directed and weighted graph.
+In general, a graph consists of vertices and edges \cite{diestel_graph_2017}. In the context of this thesis, we use the terms nodes for vertices, links for edges and network for graph interchangeably. Edges in a graph can either be directed or undirected. Directed edges differentiate between source and target node where undirected edges do not. Additionally, we also distinguish between weighted and unweighted edges. Weighted edges have any sort of numerical comparable attribute. This can be used, for instance, to describe how strong the relation between nodes is. Figure \ref{fig:simple_weighted_directed_network} shows a directed and weighted graph.
 
 A specialized version of a graph is called tree. It is defined as an acyclic graph where all subcomponents of the graph are connected \cite{diestel_graph_2017}. One node of the tree can be picked as a root node which is usually drawn on the top. Nodes with only one link are called leaf nodes and drawn on the bottom, see Figure \ref{fig:simple_tree}.\\
-In addition, tree nodes also have a height and depth. The height is defined by the largest number of edges between the root node and a leaf node. The height of the root node is the height of the tree itself. The dept of the node is the number of edges along the path to the root node. Note that a tree is able to encode hierarchical relationships between nodes. In the thesis we use the term 'hierarchical level' for depth and terminologies like 'leaf1 is a direct child of node1' or 'node1 is the parent (node) of leaf1' based on Figure \ref{fig:simple_tree}.
+In addition, tree nodes also have a height and depth. The height is defined by the largest number of edges between the root node and a leaf node. The height of the root node is the height of the tree itself. The dept of the node is the number of edges along the path to the root node. Note that a tree is able to encode hierarchical relationships between nodes. In the thesis, we use the term 'hierarchical level' for depth and terminologies like 'leaf1 is a direct child of node1' or 'node1 is the parent (node) of leaf1' based on Figure \ref{fig:simple_tree}.
 
 In addition to the basic graph structures, which are often not sufficient for specific datasets, there are extended forms of graph models \cite{bertault_algorithm_1999}. 
 %higraph, clustered graph, compound graph
 For the context of this thesis, clustered graphs are especially interesting. A clustered graph is defined by a recursive structure where each node can be new graph for itself \cite{eades_multilevel_1997}.\\ 
 %Another would be a compound graph. a set of different elements such as vertices or edges and therefore 
 %compound graph (master thesis), 
-Furthermore, multivariate networks \cite{kerren_introduction_2014} combines the data type of network with multidimensional datasets. Each node and edge can have numerous additional attributes these can be numerical, ordinal or categorical.
+Furthermore, multivariate networks \cite{kerren_introduction_2014} combines the data types of networks with multidimensional datasets. Each node and edge can have numerous additional attributes these can be numerical, ordinal or categorical.
 
 \begin{figure}[h]
     \centering
@@ -31,23 +31,23 @@ Furthermore, multivariate networks \cite{kerren_introduction_2014} combines the 
         \label{fig:simple_tree}
     \end{subfigure}
     
-    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Simple visualizations of graph data structures} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Schematic depictions of graph data structures} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:intro} 
   \end{figure}
 
-In conclusion, the most basic graph or network would be a simple unweighted and undirected set of nodes and links without any hierarchical relationship. To be able to represent different types of relationships in our data their exists different extensions like trees. 
+In conclusion, the most basic graph or network would be a simple unweighted and undirected set of nodes and links without any hierarchical relationship. To be able to represent different types of relationships in our data there exist different extensions of the core concept, such as trees. 
 
 \subsection{Graph Drawing}
 
 As graph drawing is a subarea of information visualization, common knowledge from this research area can be applied here as well. With Shneiderman's visual information seeking mantra “Overview first, zoom and filter, then details-on-demand” being one of the most famous \cite{shneiderman_eyes_1996}. Additionally, the Gestalt Principles can also be used in graph drawing as Kobourov et al.
 \cite{kobourov_gestalt_2015} shows us. They can be used to produce more aesthetically pleasing visualizations by defining drawing conventions and even improve the impression of the data. Cluster affiliation of nodes can be expressed by similar colors, shapes or simply by proximity. While the form of links should be consistent without any sharp bends.
 
-For representation node-link and space-filling concepts are the most important for the data structures used in this thesis. Space-filling visualizations usually use multiscale approaches to encode hierarchical information. Node-link graphs tend to utilize force-based or constraint-based layouts\cite{von_landesberger_visual_2011}.\\
+For representation data structures node-link and space-filling concepts are the most important ones used in this thesis. Space-filling visualizations usually use multiscale approaches to encode hierarchical information. Node-link graphs tend to utilize force-based or constraint-based layouts\cite{von_landesberger_visual_2011}.\\
 Force based layout techniques work without any domain-specific knowledge, therefore provide a flexible way to determine layouts for node-link graphs \cite{kobourov_spring_2012}. Only structural information about the graph relationships themselves are used. 
-There are a variety of different approaches but concept is always the same. 
-These systems work by providing numerous forces between nodes and links, whose job is to update the position of the nodes. Usually these forces are related to Hooke's law, for example an approach by Fruchterman et al. \cite{fruchterman_graph_1991} use repulsive forces between all nodes and attraction forces for linked nodes.
-The defined forces are then processed with a given set of nodes and links for either a limited number of iterations, a fixed time, some sort of dynamic condition like the momentum of the nodes fall below a certain threshold or just infinitely.
-Large graphs however are a common problem as physical force models tend to have many local minima and therefore not produce optimal results \cite{kobourov_spring_2012}.\\
+There are a variety of different approaches but the concept is always the same. 
+These systems work by providing numerous repelling and attracting forces between nodes and links, that update the position of the nodes. Usually these forces are related to Hooke's law, for example an approach by Fruchterman et al. \cite{fruchterman_graph_1991} uses repulsive forces between all nodes and attraction forces for linked nodes.
+The defined forces are then processed with a given set of nodes and links for either a limited number of iterations, a fixed time, some sort of dynamic condition (for instance the momentum of the nodes fall below a certain threshold) or just infinitely.
+Large graphs however are a common problem as physical force models tend to have many local minima and therefore do not produce optimal results \cite{kobourov_spring_2012}.\\
 Instead of defining interactions between nodes and links, constraints try to model the resulting layout directly. For instance, placing nodes of certain groups in predefined locations of the screen.   
 
 % \section{Visualization Techniques}
@@ -103,23 +103,8 @@ Instead of defining interactions between nodes and links, constraints try to mod
 
 Virtual Reality is not a new idea, in 1965 Sutherland \cite{Sutherland65theultimate} proposed an article of possibilities of future displays, including the “ultimate display” which allows a user to fully immerse in a virtual reality. Later, in 1992 we saw this concept as an early adoption by Cruz-Neira et al. \cite{cruz-neira_cave_1992} in the form of “The Cave”. It was a system with a head-mounted display which even allowed viewpoint tracking. The name giving cave was a setup of multiple screens driven by projectors placed on the walls, ceiling and floor around the user.
 
-Today VR systems usually consists of a head mounted display also called VR headset and a pair of controllers one for each hand. 
-Degree of Freedom (DoF) is an attribute of headsets to track its rotation and position in the room. Headsets with DoF of three like the Google Cardboard or Oculus Go only allow tracking of rotational movement e.g. looking around. 6-DOF Headsets like the HTC Vive and Oculus Quest also allow tracking translational movement and therefore enable the user to walk around. 
-While rotational tracking can be accomplishment by using gyroscopes inside the headset, translational tracking works either inside-out or outside-in. On inside-out concepts the cameras and/or sensors are located on the headset itself as seen on the HTC Vive and Oculus Quest. Outside-in techniques instead place the cameras and/or sensors on stationary points in the room some examples are the original Oculus Rift and Playstation VR.
+Today, VR systems usually consists of a head mounted display also called VR headset and a pair of controllers, one for each hand. 
+Degree of Freedom (DoF) is an attribute of headsets to track its rotation and position in the room. Headsets with DoF of three like the Google Cardboard or Oculus Go only allow tracking of rotational movement, e.g. looking around. 6-DOF Headsets, like the HTC Vive and Oculus Quest, also allow tracking translational movement and therefore enable the user to walk around in a virtual scene. 
+While rotational tracking can be accomplishment by using gyroscopes inside the headset, translational tracking works either inside-out or outside-in. On inside-out concepts, the cameras and/or sensors are located on the headset itself as seen on the HTC Vive and Oculus Quest. Outside-in techniques instead place the cameras and/or sensors on stationary points in the room. Some examples are the original Oculus Rift and Playstation VR.
 Some headsets use infrared emitters and sensors to determine the position while others rely on multiple camera feeds.\\
-Giving all these different tracking capabilities of headset, from a software frameworks point of view VR systems are usually split into room-scale experiences where all tracking features are available, seating or standing experiences with no translational tracking and lastly experiences with no user interaction and only rotational tracking for example a 360-degree video. 
-
-\subsection{Programming APIs}
-
-To implement applications we can work directly with the SDK provided from each headset manufacturer, the advantage is that we can interact at a low level with the devices.\\ 
-Another way is to use an SDK of a well-defined standard for example OpenVR from Valve or OpenXR from the Khronos group, this allows us to write applications for a target group of devices like room-scale supporting headsets without having to deal with different manufacturer SDKs (see Figure \ref{fig:openxr-overview}). On a side note: the X in OpenXR means that the specification is not only used for virtual reality applications but also for augmented reality and other “X reality” possibly proposed in the future.\\
-Lastly we can work with different engines which will provide us additional features. While classical desktop engines rely on downloading complete bundled packages for distributing the application, WebXR and WebVR allows us to distribute and run our application via the browser similar to WebGL.
-
-At the time of writing this thesis the OpenXR and WebXR specification is still relatively new being in its first revision therefore it is not implemented by each headset manufacturer, browser and engine yet. However, these standards are meant to replace the old OpenVR and WebVR in the future.
-
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{graphics/openXR-overview.jpg}
-    \caption{Overview of the OpenXR API Stack \cite{khronosGroupOpenXR}}
-    \label{fig:openxr-overview}
-\end{figure}
+Giving all these different tracking capabilities of headsets, from a software frameworks point of view, VR systems are usually split into room-scale experiences where all tracking features are available, seating or standing experiences with no translational tracking and lastly experiences with no user interaction and only rotational tracking for example a 360-degree video.
