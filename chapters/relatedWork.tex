@@ -65,45 +65,44 @@ im endeffekt das gleiche wie wir nur in 2D\\
 
 \section{VR Visualizations}
 
-\subsubsection{VR Specialized Layouts}
-Kwon\\
-A Study of Layout, Rendering, and Interaction Methods for Immersive Graph Visualization\\
+\subsection{Layouts}
 
+\subsubsection{Force based layout approaches}
+In VR we see common 2D layout approaches like simple node-link diagrams adapted for the use in a 3D virtual scene. Often these layouts use a force based approach to calculate the node positions. 
+
+Drogemuller\\
+Examining virtual reality navigation techniques for 3D network visualisations\\
+Uses a normal 3D node-link layout as a baseline.\\
+\\
 Sorger\\
 Immersive Analytics of Large Dynamic Networks via Overview and Detail Navigation\\
-Orig Paper https://vis.csh.ac.at/vrnetexplorer/\\
-\\
-Kwon\\
-A Study of Layout, Rendering, and Interaction Methods for Immersive Graph Visualization\\
-considerations of layout, rendering, and interaction methods for visualizing graphs in an  immersive environment user study to evaluate our techniques\\
-Strat: The viewer is placed at the center of the sphere, on which the graph is laid out.\\
-\\
-Büschel\\
-Augmented Reality Graph Visualizations\\
-We present an exploration of the design space for edge styles and discuss the results of a user study comparing six different edge variants.\\
+3D force layout for node-link diagram\\
 \\
 Yang\\
 Embodied Navigation in Immersive Abstract Data Visualization:
 Is Overview+Detail or Zooming Better for 3D Scatterplot\\
+uses 3D Scatterplot similar to node-link
+\subsubsection{Constraint layout approaches}
+Other concepts use fixed constrains to place their nodes and links.
+
+Sorger\\
+Fisheye Layout\\
+Orig Paper https://vis.csh.ac.at/vrnetexplorer/\\
+\\
+Kwon\\
+A Study of Layout, Rendering, and Interaction Methods for Immersive Graph Visualization\\
+Spherical graph layouts, the viewer is placed at the center of the sphere, on which the graph is laid out.\\
 \\
 Halpin\\
 Exploring Semantic Social Networks Using Virtual Reality\\
+2D flat layout + use of extrusion
+%Büschel\\
+%Augmented Reality Graph Visualizations\\
+%We present an exploration of the design space for edge styles and discuss the results of a user study comparing six different edge variants.\\
+%\\
 \\
-
-In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.
-
-\subsection{Advantages of Visualization in VR}
-Kraus\\
-The Impact of Immersion on Cluster Identification Tasks\\
-quantitative user study to investigate the impact of immersion on cluster identification tasks in scatterplot visualizations\\
 \\
-Doug A. Bowman\\
-Virtual Reality: How Much Immersion Is Enough?\\
 \\
-M Cordeil\\
-Immersive Collaborative Analysis of Network Connectivity: CAVE-style or Head-Mounted Display?\\
-\\
-
 \subsection{Navigation}
 Content:
 \begin{itemize}
@@ -112,9 +111,12 @@ Content:
     \item Room scale vs Table vs Seating
     \item Overview + Detail 
 \end{itemize}
-
+%In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.\\
 Papers: \\
-
+Yang\\
+Embodied Navigation in Immersive Abstract Data Visualization:
+Is Overview+Detail or Zooming Better for 3D Scatterplot\\
+\\
 M Usoh\\
 Walking > walking-in-place > flying, in virtual environments\\
 \\
@@ -128,11 +130,9 @@ Wolfgang Stuerzlinger\\
 Simulated Reference Frame: A Cost-Effective Solution to Improve Spatial Orientation in VR\\
 aka. Nintendo Wii Board Navigation\\
 \\
-
-\textbf{Wolfgang Stuerzlinger\\
-Evaluating Automatic Parameter Control Methods for
-Locomotion in Multiscale Virtual Environments\\}
-
+Wolfgang Stuerzlinger\\
+Evaluating Automatic Parameter Control Methods for Locomotion in Multiscale Virtual Environments\\
+AUTOMATIC DISTANCE CONTROL teleporting\\
 
 \subsection{Interaction}
 Content: 
@@ -141,34 +141,26 @@ Content:
     \item Raycast/Laserpointer Selection
 \end{itemize}
 
-Yi-Jheng Huang\\
-A gesture system for graph visualization in virtual reality environments\\
-\\
 Drogemuller\\
 VRige: Exploring Social Network Interactions in Immersive Virtual Environments\\
 Raycast+Filter Cube\\
 \\
 Wolfgang Stürzlinger\\
 Analyzing the Trade-off between Selection and Navigation in VR\\
-
-
-
-\section{Application and Libraries}
-References: https://neo4j.com/developer/tools-graph-visualization/
-
-\subsection{Applications}
-Software\\
-Gephi\\
 \\
-Software\\
-Neo4j Bloom\\
-\subsection{Libraries}
-Bostock\\
-D3: Data-Driven Documents\\
-Examples\\
+Yi-Jheng Huang\\
+A gesture system for graph visualization in virtual reality environments\\
+different hand gesture interactions\\
 \\
-Software\\
-http://www.popotojs.com/ \\
-\\
-Software\\
-https://visjs.org/
+
+%\subsection{Advantages of Visualization in VR}
+%Kraus\\
+%The Impact of Immersion on Cluster Identification Tasks\\
+%quantitative user study to investigate the impact of immersion on cluster identification tasks in scatterplot visualizations\\
+%\\
+%Doug A. Bowman\\
+%Virtual Reality: How Much Immersion Is Enough?\\
+%\\
+%M Cordeil\\
+%Immersive Collaborative Analysis of Network Connectivity: CAVE-style or Head-Mounted Display?\\
+%\\
