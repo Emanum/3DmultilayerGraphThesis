@@ -5,43 +5,57 @@ Seitenanzahl anderer Arbeiten: Wilangyman: 3, BibTeX Consistency Tool: 3, Visual
 
 Although the focus of this thesis is on visualizing hierarchical networks in virtual reality, many concepts are the same or similar to its 2D or 3D counterparts. So first we want to give a brief overview of related 2D and 3D approaches in the field of hierarchical visualization.
 
-\subsection{Hierarchical Tree Visualizations}
+\subsection{Hierarchical Visualizations}
 
-\subsubsection{Space filling approaches}
-Shneiderman \\
-Tree visualization with tree-maps: 2-d space-filling approach\\
-\\
-Wang\\
-Visualization of large hierarchical data by circle packing\\
-In this paper a novel approach is described for tree visualization using nested circles. (2D+3D)\\
-\\
-Görtler\\
-Bubble Treemaps for Uncertainty Visualization\\
-\\
-Itoh\\
-Hierarchical data visualization using a fast rectangle-packing algorithm\\
-\\
-Schulz\\
-Treevis.net: A Tree Visualization Reference
-\subsubsection{Hierarchical approaches}
+The first subarea of visualizations we want to discuss deal with hierarchical data. As we read in \ref{exp:tree} before, a preferred data structure to encode hierarchical information are trees.
+Schulz \cite{schulz_treevisnet_2011} presented a good overview of different tree visualization techniques. A rough separation can be made by the representation of edges with is either explicit or implicit. 
+
+\subsubsection{Explicit approaches}
+On explicit visualizations links are directly drawn as we have already seen in \ref{fig:simple_tree}. This technique is used in numerous application domains and has been brought present over multiple science fields. Therefore, the basic concept can not be assigned any specific publication, however there are many extensions. 
+LensTree (cite) exchanges the axes and allows collapsing certain parts of the tree to display information structures like computer file directories. 
+Armando(Radial Tree in Bunches) uses a radial axes with the root one in the center and extending the tree along the radius. 
+Munzer (H3) uses the hyperbolic space to display a large tree, in comparison to the other visualizations this one also uses a three-dimensional space to represent trees.
+Robertson also make use of the 3D space in his publications of the cone-tree and cam-tree, these display the child nodes as a circle below / beside their parents.  
+
+\subsubsection{Implicit approaches - space filling}
+In some cases not only the hierarchical is important but also the node size. A common technique for implicit approaches are space filling concepts like we have seen before \ref{fig:hierarchicalCirclePlot}.
+Shneiderman (cite) presented this approach 1992 in the form of a tree map where he visualized the size distribution of a file system. In addition to a common circle packing algorithm \ref{fig:hierarchicalCirclePlot}, Görtler(cite) developed a bubble tree map technique which optimized the used space and allows encoding of additional properties via various shapes, draw strokes and colors. Sunburst charts are another common space filling technique to display node sizes in tree structures. 
+As for 3D representations, Wang (cite) shows us a circular tree map extending to the z axis using cylinders. Instead of cylinders Balzer (cite) uses nested hemispheres to visualize software structures. 
+However, research is not limited to the layout of the visualization, as Itoh (cite) shows us with their performance optimized technique for generating a rectangle packing tree map.
+
+Jonker\\
+Graph mapping: Multi-scale community visualization of massive graph data\\
+=> Sicher das man das streichen soll? Wurde von Manuela vorgeschlagen als Vergleich zum Firework plot soweit ich mich erinnern kann
+
+%Shneiderman \\
+%Tree visualization with tree-maps: 2-d space-filling approach\\
+%\\
+%Wang\\
+%Visualization of large hierarchical data by circle packing\\
+%In this paper a novel approach is described for tree visualization using nested circles. (2D+3D)\\
+%\\
+%Görtler\\
+%Bubble Treemaps for Uncertainty Visualization\\
+%\\
+%Itoh\\
+%Hierarchical data visualization using a fast rectangle-packing algorithm\\
+%\\
+%Schulz\\
+%Treevis.net: A Tree Visualization Reference
+%\subsubsection{Explicit approaches}
 %Shi\\
 %Hierarchical Focus+Context Heterogeneous Network Visualization\\
 %OnionGraph, aggregated based on node attributes or network topology,
 %best of both worlds.\\
 %\\
-Jonker\\
-Graph mapping: Multi-scale community visualization of massive graph data\\
-=> Sicher das man das streichen soll? Wurde von Manuela vorgeschlagen als Vergleich zum Firework plot soweit ich mich erinnern kann\\
-\\
-Balzer\\
-Hierarchy Based 3D Visualization of Large Software Structures\\
-\\
-Munzner\\
-H3: laying out large directed graphs in 3D hyperbolic space\\
-\\
-Mansmann\\
-Exploring OLAP aggregates with hierarchical visualization techniques
-
+%Balzer\\
+%Hierarchy Based 3D Visualization of Large Software Structures\\
+%\\
+%Munzner\\
+%H3: laying out large directed graphs in 3D hyperbolic space\\
+%\\
+%Mansmann\\
+%Exploring OLAP aggregates with hierarchical visualization techniques
 \subsection{Network Visualization}
 Würde eventuell zum Aufbau des Chapters passen. \\
 Hierarchical visualizations => network visualizations (node-link, force layout) => multilayer visualizations (als Kombination von beiden)\\
