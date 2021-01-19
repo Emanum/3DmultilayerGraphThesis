@@ -68,6 +68,15 @@ Graph mapping: Multi-scale community visualization of massive graph data\\
 %Spring Embedders and Force Directed Graph Drawing Algorithms\\
 %In this survey we consider several classical algorithms \dots for large and dynamic graphs
 \subsection{Multilayer Visualization}
+
+Although the concept of layers in multilayer networks (see Figure \ref{fig:2dmultilayerVis}) seem similar to the depth layers we saw at tree structure, they are fundamentally different. The layers here can be seen as an aspect of the dataset, one entity of a node can be part in multiple aspects respectively multiple networks. For example a single person can be in a network of family-friends (layer/network 1) and at the same time in a network of social-media friends (layer/network 2). Keep in mind that each node is not necessary part of every aspect, e.g. people can be not represented in the social-media network.\\
+Source and target layer of the links however are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not. \cite{ghoniem_state_2019}. Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
+
+The interesting part is that multilayer visualizations allow us to model relationships between multiple separated networks. Which is not possible with common node-link and tree visualization techniques, therefore we want to summarize some interesting concepts.
+
+%Multilayer data structures \ref{fig:2dmultilayerVis} introduce the concept of layers and layer affiliation for nodes. Essentially a layer can be seen as a cluster of multiple nodes where one node can only be assigned to a single layer. Normally a layer represents an aspect of the data, e.g. layer1 represents a network of family-friends and layer2 a network of social media friends. Links can either be considered as intra-layer in the case source and target has the same layer affiliation or inter-layer when the nodes have different affiliations \cite{ghoniem_state_2019}. Where the depth “layer” of trees can be compared to the layers in multilayer networks, the hierarchical relation between layers can not. There are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
+
+
 Ghonie McGee\\
 The State of the Art in Multilayer Network Visualization\\
 \\
@@ -75,7 +84,6 @@ De Domenico\\
 MuxViz: a tool for multilayer analysis and visualization of networks\\
 We demonstrate the ability of muxViz to analyse and interactively visualize multilayer data using empirical genetic, neuronal and transportation networks https://github.com/manlius/muxViz\\
 \\
-
 
 \subsection{Clustered Graph Visualizations}
 Visualizations for data structures simlar to ours are rare. The most matching approach can considered as clustered graph visualisations.
