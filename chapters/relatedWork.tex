@@ -14,22 +14,17 @@ Schulz \cite{schulz_treevisnet_2011} presented a good overview of different tree
 \subsubsection{Explicit approaches}
 On explicit visualizations links are directly drawn as we have already seen in \ref{fig:simple_tree}. This core technique is used in numerous application domains and has been brought present over multiple scientific fields. Based on that concept researchers have developed many extensions.
 LensTree \cite{song_lenstree_2006} for example, exchanges the axes and allows collapsing certain parts of the tree to display information structures like computer file directories. 
-Armando \cite{arce-orozco_radial_2017} uses a radial instead of parallel axes to show the hierarchical relation, the root node is placed in the center and child nodes extends radial to all directions along the radius.
-Munzer \cite{munzner_h3_1997} uses the hyperbolic space to display a large tree, in comparison to the other visualizations this one also uses a three-dimensional space to represent trees.
-Robertson \cite{robertson_cone_1991} also make use of the 3D space in his publications of the cone-tree and cam-tree, these display the child nodes as a circle below respectively beside their parents.  
+Armando et al. \cite{arce-orozco_radial_2017} uses radial instead of parallel axes to show the hierarchical relation, the root node is placed in the center and child nodes extend to all directions along the radius.
+Munzer et al. \cite{munzner_h3_1997} extend the radial axis by a third dimension and displays the tree in the 3D hyperbolic space.
+Robertson et al. \cite{robertson_cone_1991} also make use of the 3D space in his publications of the cone-tree and cam-tree, these display the child nodes as a circle below respectively beside their parents.  
 
 \subsubsection{Implicit approaches - space filling}
-In some use cases not only hierarchical information is important but rather encoding an additional attribute like the size of a node. A common technique for implicit approaches are space filling concepts like we have seen before \ref{fig:hierarchicalCirclePlot}.
+The concept of nesting, which we also use in our layout, is heavenly used by space filling approaches. In addition, these usually encode the node-size into the used area as we have already seen in Figure \ref{fig:hierarchicalCirclePlot}.
 Shneiderman \cite{shneiderman_tree_1992} presented this approach 1992 in the form of a tree map where he visualized the required disk space distribution of a file system. In addition to a common circle packing algorithm \ref{fig:hierarchicalCirclePlot}, Görtler \cite{gortler_bubble_2018} developed a bubble tree map technique which optimized the used space and allows encoding of additional properties via various shapes, draw strokes and colors. Sunburst charts are another common space filling technique to display node sizes in tree structures. 
-As for 3D representations, Wang \cite{wang_visualization_2006} shows us a circular tree map extending to the z axis using cylinders. Instead of cylinders Balzer \cite{balzer_hierarchy_2004} uses nested hemispheres to visualize software structures. 
+As for 3D representations, Wang \cite{wang_visualization_2006} shows us a circular tree map extending to the z axis using cylinders. Instead of cylinders Balzer \cite{balzer_hierarchy_2004} uses nested hemispheres to visualize software structures.
 However, research is not limited to the layout of the visualization, as Itoh \cite{itoh_hierarchical_2004} shows us with their performance optimized technique for generating a rectangle packing tree map.
 
-Even when we just scratched the surface we can already conclude that there are many approaches with various explicit and implicit layouts tree structure visualizations. Their focus lies on mapping hierarchical relationships. Each node stand on its own, maybe it has additional multivariate attributes for example node size, but there is no relationship between nodes of different parents as this would create a cycle and furthermore breaking the definition of a tree.
-
-Jonker\\
-Graph mapping: Multi-scale community visualization of massive graph data\\
-=> Sicher das man das streichen soll? Wurde von Manuela vorgeschlagen als Vergleich zum Firework plot soweit ich mich erinnern kann
-
+We can conclude that there are many approaches with various explicit and implicit layouts for tree visualizations, which focus on mapping hierarchical relationships for one network at a time. There are no links between multiple networks as this would mean there is a cycle in the original data and therefore breaking the definition of a tree structure in the first place. 
 %Shneiderman \\
 %Tree visualization with tree-maps: 2-d space-filling approach\\
 %\\
@@ -68,11 +63,16 @@ Graph mapping: Multi-scale community visualization of massive graph data\\
 %Spring Embedders and Force Directed Graph Drawing Algorithms\\
 %In this survey we consider several classical algorithms \dots for large and dynamic graphs
 \subsection{Multilayer Visualization}
-
-Although the concept of layers in multilayer networks (see Figure \ref{fig:2dmultilayerVis}) seem similar to the depth layers we saw at tree structure, they are fundamentally different. The layers here can be seen as an aspect of the dataset, one entity of a node can be part in multiple aspects respectively multiple networks. For example a single person can be in a network of family-friends (layer/network 1) and at the same time in a network of social-media friends (layer/network 2). Keep in mind that each node is not necessary part of every aspect, e.g. people can be not represented in the social-media network.\\
-Source and target layer of the links however are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not. \cite{ghoniem_state_2019}. Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
+The goal of multilayer visualizations is to combine multiple node-link graphs, the so-called layers, into one visualization and also display the relations between them. Although the concept of layers in multilayer networks (see Figure \ref{fig:2dmultilayerVis}) seem similar to the depth layers we saw at tree structure, however they are fundamentally different. A group of visualizations defines the layers as an aspect of the dataset, one entity of a node can be part in multiple aspects respectively multiple networks. For example a single person can be in a network of family-friends (layer/network 1) and at the same time in a network of social-media friends (layer/network 2). Keep in mind that each node is not necessary part of every aspect, e.g. people can be not represented in the social-media network.\\
+Source and target layer of the links however are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not. \cite{ghoniem_state_2019}. Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.\\
+While the concept of a well-defined source and target layer for each link is shared for the most visualizations, the idea having multiple aspects for a single node entity is not. Some visualizations treat the different layers just as different networks which are combined into one. 
 
 The interesting part is that multilayer visualizations allow us to model relationships between multiple separated networks. Which is not possible with common node-link and tree visualization techniques, therefore we want to summarize some interesting concepts.
+
+
+Jonker\\
+Graph mapping: Multi-scale community visualization of massive graph data\\
+=> Sicher das man das streichen soll? Wurde von Manuela vorgeschlagen als Vergleich zum Firework plot soweit ich mich erinnern kann
 
 %Multilayer data structures \ref{fig:2dmultilayerVis} introduce the concept of layers and layer affiliation for nodes. Essentially a layer can be seen as a cluster of multiple nodes where one node can only be assigned to a single layer. Normally a layer represents an aspect of the data, e.g. layer1 represents a network of family-friends and layer2 a network of social media friends. Links can either be considered as intra-layer in the case source and target has the same layer affiliation or inter-layer when the nodes have different affiliations \cite{ghoniem_state_2019}. Where the depth “layer” of trees can be compared to the layers in multilayer networks, the hierarchical relation between layers can not. There are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
 
