@@ -61,12 +61,30 @@ In other visualizations the position of the nodes comes directly from the data, 
 In addition to adapted layouts we also see some new ones specifically designed for the use in VR. Kwon et al. \cite{kwon_study_2016} presented a layout which displays all nodes on the surface of a sphere, the user stands inside the sphere and is therefore able to freely look around the visualization. Another approach comes from Halpin et al. \cite{halpin_exploring_2008} here the authors display the network on a flat 2D plane in front of the viewer, through interaction nodes can be extruded from the flat layout and highlighted on a separated layer.     
 
 \subsection{Navigation}
+
+The possibilities for navigation techniques in VR scenes heavenly depend on the target platform and experience the application is build for. As already describe in section \ref{exp:vr-experience}, there are seated-, standing- and room-scaled experiences depending on the available tracking technologies used.
+At seated experiences the user is usually in front of a normal office desk setup while wearing the head mounted display. Therefore, real world movement is basically no option. 
+Standing VR setups normally do not restrict movement but the users space is extremely limited. Rotating, leaning and hand movement should be no problem, but the application can not expect the user to walk around.
+At room-scale VR setups the available space variate greatly, for example HTC Vive requires the user to have a minimum play space of $2m * 1.5m$ while a maximum (with 4 base stations) of $10m * 10m$ is possible. As a general rule of thumb we can say that for visualizations more available space is always better because the user can navigation through the scene just by walking.
+On a side note there are also some VR Treadmill available which in theory provide infinite available space however we are not covering these are as they are pretty rare and expensive.\\
+  
+
+
+
+ As ... describes the advantage is that it allows the users to quickly get in and out of VR, thus the VR application is more easily to integrate into a normal office workflow and the acceptance for working with VR based applications is higher. Their concept for navigation in the scene consists either of a virtual accelerator pedal tracked by a smartphone in the users pocket or leaning the head back and front. These interactions are then used to fly freely in the scene.
+
+We can see many approaches use a free flying technique, however the problem is that many users especially these new to VR experience motion sickness in the context of VR also called cybersickness.
+To reduce the effect, a reduction of the field of view while flying with a smooth in and out transition is used by various papers and also often already implemented in common VR frameworks.
+
+
+
 Content:
 \begin{itemize}
     \item "Minimap"/Worlds-in-Miniature (WIM) in VR
     \item Scaling
     \item Room scale vs Table vs Seating
     \item Overview + Detail 
+    \item cybersickness
 \end{itemize}
 %In terms of navigation and interaction Yang et al. \cite{yang_embodied_2020} explored the possibility of zooming and rotation of an entire graph and Drogemuller \cite{drogemuller_examining_2020} compared different navigation concepts.\\
 Papers: \\
