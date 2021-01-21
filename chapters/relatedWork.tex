@@ -1,5 +1,4 @@
 \chapter{Related Work}
-Seitenanzahl anderer Arbeiten: Wilangyman: 3, BibTeX Consistency Tool: 3, Visual Comparison of Spatial Deviations via Geospatial Slicing 6 (viel Bilder), 
 
 \section{2D and 3D Visualizations}
 
@@ -22,81 +21,35 @@ Robertson et al. \cite{robertson_cone_1991} also make use of the 3D space in his
 The concept of nesting, which we also use in our layout, is heavenly used by space filling approaches. In addition, these usually encode the node-size into the used area as we have already seen in Figure \ref{fig:hierarchicalCirclePlot}.
 Shneiderman \cite{shneiderman_tree_1992} presented this approach 1992 in the form of a tree map where he visualized the required disk space distribution of a file system. In addition to a common circle packing algorithm \ref{fig:hierarchicalCirclePlot}, Görtler \cite{gortler_bubble_2018} developed a bubble tree map technique which optimized the used space and allows encoding of additional properties via various shapes, draw strokes and colors. Sunburst charts are another common space filling technique to display node sizes in tree structures. 
 As for 3D representations, Wang \cite{wang_visualization_2006} shows us a circular tree map extending to the z axis using cylinders. Instead of cylinders Balzer \cite{balzer_hierarchy_2004} uses nested hemispheres to visualize software structures.
-However, research is not limited to the layout of the visualization, as Itoh \cite{itoh_hierarchical_2004} shows us with their performance optimized technique for generating a rectangle packing tree map.
+Lastly, research is not limited to the layout of the visualization, as Itoh \cite{itoh_hierarchical_2004} shows us with their performance optimized technique for generating a rectangle packing tree map.
 
-We can conclude that there are many approaches with various explicit and implicit layouts for tree visualizations, which focus on mapping hierarchical relationships for one network at a time. There are no links between multiple networks as this would mean there is a cycle in the original data and therefore breaking the definition of a tree structure in the first place. 
-%Shneiderman \\
-%Tree visualization with tree-maps: 2-d space-filling approach\\
-%\\
-%Wang\\
-%Visualization of large hierarchical data by circle packing\\
-%In this paper a novel approach is described for tree visualization using nested circles. (2D+3D)\\
-%\\
-%Görtler\\
-%Bubble Treemaps for Uncertainty Visualization\\
-%\\
-%Itoh\\
-%Hierarchical data visualization using a fast rectangle-packing algorithm\\
-%\\
-%Schulz\\
-%Treevis.net: A Tree Visualization Reference
-%\subsubsection{Explicit approaches}
-%Shi\\
-%Hierarchical Focus+Context Heterogeneous Network Visualization\\
-%OnionGraph, aggregated based on node attributes or network topology,
-%best of both worlds.\\
-%\\
-%Balzer\\
-%Hierarchy Based 3D Visualization of Large Software Structures\\
-%\\
-%Munzner\\
-%H3: laying out large directed graphs in 3D hyperbolic space\\
-%\\
-%Mansmann\\
-%Exploring OLAP aggregates with hierarchical visualization techniques
-%\subsection{Dynamic Node-Link Network Visualization}
-%Würde eventuell zum Aufbau des Chapters passen. \\
-%Hierarchical visualizations => network visualizations (node-link, force layout) => multilayer visualizations (als Kombination von beiden)\\
-%Oder Network Visualization + Force based komplett streichen?
+We can conclude that there are many approaches with various explicit and implicit layouts for tree visualizations, which focus on mapping hierarchical relationships for one network at a time. However, there are no links between multiple networks as this would mean there is a cycle in the original data and therefore breaking the definition of a tree structure in the first place. 
 
-%%Kobourov\\
-%Spring Embedders and Force Directed Graph Drawing Algorithms\\
-%In this survey we consider several classical algorithms \dots for large and dynamic graphs
 \subsection{Multilayer Visualization}
-The goal of multilayer visualizations is to combine multiple node-link graphs, the so-called layers, into one visualization and also display the relations between them. Although the concept of layers in multilayer networks (see Figure \ref{fig:2dmultilayerVis}) seem similar to the depth layers we saw at tree structure, however they are fundamentally different. A group of visualizations defines the layers as an aspect of the dataset, one entity of a node can be part in multiple aspects respectively multiple networks. For example a single person can be in a network of family-friends (layer/network 1) and at the same time in a network of social-media friends (layer/network 2). Keep in mind that each node is not necessary part of every aspect, e.g. people can be not represented in the social-media network.\\
-Source and target layer of the links however are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not. \cite{ghoniem_state_2019}. Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.\\
-While the concept of a well-defined source and target layer for each link is shared for the most visualizations, the idea having multiple aspects for a single node entity is not. Some visualizations treat the different layers just as different networks which are combined into one. 
+As we already figured out in section \ref{exp:multilayer}, the interesting part of multilayer visualizations is that it enables us to model relationships between multiple separated networks. Which was not possible with common node-link and tree visualization techniques we discussed before.\\
+Domenico et al. \cite{de_domenico_muxviz_2015} presented their MuxVis Toolkit, an open-source software which is able to present multilayer datasets. In direct comparison to other approaches we have seen this one stands out as it provides a complete and user-friendly software package with various layouts (see Figure \ref{fig:muxVisExample}) like a classical stacked one-line layer, a multi-line layer where multiple stacked layer planes are displayed beside each other, a force directed method and lastly a matrix layout. Besides these called 2.5D approaches we also see some classical 2D node-links networks, for example Ducruet \cite{ducruet_multilayer_nodate} display multiple networks of different marine traffic in a single graph just coded by color. 
+A combination of multilevel graphs and hierarchical information can be seen in the approach by Eades \cite{eades_multilevel_1997} et al. here the authors group the nodes into nested clusters these are then displayed with a classical multilayer approach as flat layers below each other. The difference to general multilayer graphs is that each node has exact one connection to its (parent) node in the higher layer. 
+Later on, Balzer et al. \cite{balzer_level--detail_2007} (see Figure \ref{fig:clusteredGraph}) created a similar visualization but instead of flat layers they used compact 3D surfaces to cluster and group their nodes. Their approach is really similar as it also allows of nesting multiple level of nodes and clusters, however they do not have a strict hierarchical aspect. 
+Jonker et al. \cite{jonker_graph_2017} uses a level of detail approach where they group parts of the graph into clustered and only display the single nodes on zooming in into a specific tile. With their 2D layout therefore they achieve to visualize huge networks with a couple hundred thousand nodes and links. 
 
-The interesting part is that multilayer visualizations allow us to model relationships between multiple separated networks. Which is not possible with common node-link and tree visualization techniques, therefore we want to summarize some interesting concepts.
-
-
-Jonker\\
-Graph mapping: Multi-scale community visualization of massive graph data\\
-=> Sicher das man das streichen soll? Wurde von Manuela vorgeschlagen als Vergleich zum Firework plot soweit ich mich erinnern kann
-
-%Multilayer data structures \ref{fig:2dmultilayerVis} introduce the concept of layers and layer affiliation for nodes. Essentially a layer can be seen as a cluster of multiple nodes where one node can only be assigned to a single layer. Normally a layer represents an aspect of the data, e.g. layer1 represents a network of family-friends and layer2 a network of social media friends. Links can either be considered as intra-layer in the case source and target has the same layer affiliation or inter-layer when the nodes have different affiliations \cite{ghoniem_state_2019}. Where the depth “layer” of trees can be compared to the layers in multilayer networks, the hierarchical relation between layers can not. There are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
-
-
-Ghonie McGee\\
-The State of the Art in Multilayer Network Visualization\\
-\\
-De Domenico\\
-MuxViz: a tool for multilayer analysis and visualization of networks\\
-We demonstrate the ability of muxViz to analyse and interactively visualize multilayer data using empirical genetic, neuronal and transportation networks https://github.com/manlius/muxViz\\
-\\
-
-\subsection{Clustered Graph Visualizations}
-Visualizations for data structures simlar to ours are rare. The most matching approach can considered as clustered graph visualisations.
-
-Peter Eades and Qing-Wen Feng\\
-Multilevel Visualization of Clustered Graphs*\\
-im endeffekt das gleiche wie wir nur in 2D\\
-\\
-Balzer\\
-Level-of-Detail Visualization of Clustered Graph Layouts\\
-3D cluster ansatz\\
-\\
-
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.75\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/muxVisExample.jpg}
+        \subcaption{Different supported layout techniques by MuxVis \cite{de_domenico_muxviz_2015}. }
+        \label{fig:muxVisExample}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/clusteredGraphVis.jpg}
+        \subcaption{Visualization of a node-link dataset with multiple clusters from \cite{balzer_level--detail_2007}.}
+        \label{fig:clusteredGraph}
+    \end{subfigure}
+    
+    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Examples of multilayer visualizations.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \label{fig:relatedWorkExamples} 
+  \end{figure}
 
 \section{VR Visualizations}
 
