@@ -3,7 +3,7 @@
 \section{2D and 3D Visualizations}
 
 Although the focus of this thesis is on visualizing hierarchical networks in virtual reality, many concepts are the same or similar to its 2D or 3D counterparts. So first we want to give a brief overview of related 2D and 3D approaches in the field of network visualization.\\
-Dynamic network visualization describes a research field where none or only few assumptions about the data are made, the technique usually works by force-based layouts using node-link diagrams as we already summarized in the background section \ref{exp:force_based_background}. Furthermore, we want to discuss approaches dealing with hierarchical and multilayer structured datasets.
+Dynamic network visualization describes a research field where none or only few assumptions about the data are made, these techniques usually work by force-based layouts using node-link diagrams as we already summarized in the background section \ref{exp:force_based_background}. Furthermore, we want to discuss approaches dealing with hierarchical and multilayer structured datasets.
 
 \subsection{Hierarchical Visualizations}
 
@@ -27,9 +27,9 @@ We can conclude that there are many approaches with various explicit and implici
 
 \subsection{Multilayer Visualization}
 As we already figured out in section \ref{exp:multilayer}, the interesting part of multilayer visualizations is that it enables us to model relationships between multiple separated networks. Which was not possible with common node-link and tree visualization techniques we discussed before.\\
-Domenico et al. \cite{de_domenico_muxviz_2015} presented their MuxVis Toolkit, an open-source software which is able to present multilayer datasets. In direct comparison to other approaches we have seen this one stands out as it provides a complete and user-friendly software package with various layouts (see Figure \ref{fig:muxVisExample}) like a classical stacked one-line layer, a multi-line layer where multiple stacked layer planes are displayed beside each other, a force directed method and lastly a matrix layout. Besides these called 2.5D approaches we also see some classical 2D node-links networks, for example Ducruet \cite{ducruet_multilayer_nodate} display multiple networks of different marine traffic in a single graph just coded by color. 
+Domenico et al. \cite{de_domenico_muxviz_2015} presented their MuxVis Toolkit, an open-source software which is able to present multilayer datasets. In direct comparison to other approaches we have seen, this one stands out as it provides a complete and user-friendly software package with various layouts (see Figure \ref{fig:muxVisExample}) like a classical stacked one-line layer, a multi-line layer where multiple stacked layer planes are displayed beside each other, a force directed method and lastly a matrix layout. Besides these called 2.5D approaches we also see some classical 2D node-links networks, for example Ducruet \cite{ducruet_multilayer_nodate} display multiple networks of different marine traffic in a single graph just coded by color. 
 A combination of multilevel graphs and hierarchical information can be seen in the approach by Eades \cite{eades_multilevel_1997} et al., here the authors group the nodes into nested clusters these are then displayed with a classical multilayer approach as flat layers below each other. The difference to general multilayer graphs is that each node has exact one connection to its (parent) node in the higher layer. 
-Later on, Balzer et al. \cite{balzer_level--detail_2007} (see Figure \ref{fig:clusteredGraph}) created a similar visualization but instead of flat layers they used compact 3D surfaces to cluster and group their nodes. Their approach is really similar as it also allows of nesting multiple level of nodes and clusters, however they do not have a strict hierarchical aspect. 
+Later on, Balzer et al. \cite{balzer_level--detail_2007} (see Figure \ref{fig:clusteredGraph}) created a similar visualization but instead of flat layers they used compact 3D surfaces to cluster and group their nodes. Their approach is really similar to ours as it also allows of nesting multiple levels of nodes and clusters, however they do not have a strict hierarchical aspect. 
 Jonker et al. \cite{jonker_graph_2017} uses a level of detail approach where they group parts of the graph into clusters and only display single nodes when zooming into a specific tile. With their 2D layout therefore they achieve to visualize huge networks with a couple of hundred thousand nodes and links. 
 
 \begin{figure}[h]
@@ -55,42 +55,11 @@ Jonker et al. \cite{jonker_graph_2017} uses a level of detail approach where the
 
 \subsection{Layouts}
 
-\subsubsection{Force based layout approaches}
-In VR we see common 2D layout approaches like simple node-link diagrams adapted for the use in a 3D virtual scene. Often these layouts use a force based approach to calculate the node positions. 
+In VR, we see common 2D and 3D layout approaches like simple node-link diagrams adapted for the use in a 3D virtual scene. 
+Some VR visualizations use a classical spring force layout to calculate their node positions \cite{drogemuller_examining_2020} \cite{sorger_immersive_2019}.
+In other visualizations the position of the nodes comes directly from the data, for example Yang et al. \cite{yang_embodied_2020} use the t-SNE method \cite{maaten_visualizing_2008} to map the data attributes directly to x, y and z coordinates and display them as a point cloud scatter plot.
+In addition to adapted layouts we also see some new ones specifically designed for the use in VR. Kwon et al. \cite{kwon_study_2016} presented a layout which displays all nodes on the surface of a sphere, the user stands inside the sphere and is therefore able to freely look around the visualization. Another approach comes from Halpin et al. \cite{halpin_exploring_2008} here the authors display the network on a flat 2D plane in front of the viewer, through interaction nodes can be extruded from the flat layout and highlighted on a separated layer.     
 
-Drogemuller\\
-Examining virtual reality navigation techniques for 3D network visualisations\\
-Uses a normal 3D node-link layout as a baseline.\\
-\\
-Sorger\\
-Immersive Analytics of Large Dynamic Networks via Overview and Detail Navigation\\
-3D force layout for node-link diagram\\
-\\
-Yang\\
-Embodied Navigation in Immersive Abstract Data Visualization:
-Is Overview+Detail or Zooming Better for 3D Scatterplot\\
-uses 3D Scatterplot similar to node-link
-\subsubsection{Constraint layout approaches}
-Other concepts use fixed constrains to place their nodes and links.
-
-Sorger\\
-Fisheye Layout\\
-Orig Paper https://vis.csh.ac.at/vrnetexplorer/\\
-\\
-Kwon\\
-A Study of Layout, Rendering, and Interaction Methods for Immersive Graph Visualization\\
-Spherical graph layouts, the viewer is placed at the center of the sphere, on which the graph is laid out.\\
-\\
-Halpin\\
-Exploring Semantic Social Networks Using Virtual Reality\\
-2D flat layout + use of extrusion
-%Büschel\\
-%Augmented Reality Graph Visualizations\\
-%We present an exploration of the design space for edge styles and discuss the results of a user study comparing six different edge variants.\\
-%\\
-\\
-\\
-\\
 \subsection{Navigation}
 Content:
 \begin{itemize}
