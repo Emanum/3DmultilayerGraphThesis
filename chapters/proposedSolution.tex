@@ -1,22 +1,23 @@
 \chapter{Proposed Solution}
 
-
-As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices.
-We got inspired by a circular form of a tree map plot for hierarchical structures (see Figure \ref{fig:hierarchicalCirclePlot}). Each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
-
+%As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices.
+%We got inspired by a circular form of a tree map plot for hierarchical structures (see Figure \ref{fig:hierarchicalCirclePlot}). Each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
 \section{Initial Problem}
 
-UrsprungsVis\\
-Data Analyst soll Verknüpfungen herausfinden\\
-Problem nicht alle Links angezeigt\\
-Struktur der originalen Daten beschreiben\\
-Nur für 2 Hierarchy Stufen\\
-
-Goal formulieren\\
+The idea to build our own visualization began as we wanted to improve the original visualization of the comorbidity network we saw in Figure \ref{fig:original2DdiseaseNet}. Data analysts use this and similar datasets to discover possible coherences, correlations, distributions, clusters and more in the data. 
+However, the visualization was not optimal because it hides links and first and foremost is limited to only one hierarchical layer. This is not a problem for this dataset in particular, but we wanted a solution to visualize n hierarchical networks.\\
+Therefore, our goal is to develop a new visualization tool which supports data analysts in their daily work analyzing hierarchical networks, with the comorbidity network as a first real world data example. To test the usability of the visualization for n hierarchical networks we created some randomized networks as test data. 
 
 \section{Main concept}
 
 \subsection{Layout}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{chapters/graphics/concept1.jpg}
+    \caption{(TODO redraw sketch)A sketch of our preferred layout. } 
+    \label{fig:layoutSketch} 
+\end{figure}
 
 Verbindung zwischen Datenstruktur und Layout\\
 Ziel des Layouts und Begründung (flexbilität, Kombination standard force based und hierarical/constraint based)\\
