@@ -1,4 +1,67 @@
 \chapter{Proposed Solution}
+
+
+As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices.
+We got inspired by a circular form of a tree map plot for hierarchical structures (see Figure \ref{fig:hierarchicalCirclePlot}). Each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
+
+\section{Initial Problem}
+
+UrsprungsVis\\
+Data Analyst soll Verknüpfungen herausfinden\\
+Problem nicht alle Links angezeigt\\
+Struktur der originalen Daten beschreiben\\
+Nur für 2 Hierarchy Stufen\\
+
+Goal formulieren\\
+
+\section{Main concept}
+
+\subsection{Layout}
+
+Verbindung zwischen Datenstruktur und Layout\\
+Ziel des Layouts und Begründung (flexbilität, Kombination standard force based und hierarical/constraint based)\\
+Liste an Forces\\
+Prozess Optimierung der Forces (nacheinander wirken, Sicherheitspuffer)\\
+Wichtigkeit Zusammenhang der Forces mit dem Renderprozess, Stichwort Node Größe
+
+\subsection{Render Visuals}
+
+Transparente Nodes\\
+Node Label + weighted Link\\
+different Colors for links\\
+Ausblenden des Nodes wenn innerhalb, innersten Node mit Wireframe anzeigen => verbessert Übersichtlichkeit\\
+
+\subsubsection{Exploration Flow}
+
+Grundsätzliche Idee wie die Daten analyisert werden\\
+Overview am Beginn => außenansicht \\
+Wechsel zur Detailansicht\\
+Möglichkeit von Room scale voll ausschöpfen, walk around the vis\\
+Verschiedene Filteroptionen für Edges (nur grundidee)\\
+Verschiedene Navigationsmethoden (nur grundidee)\\
+
+\section{Navigation + Interaction}
+
+Laserpointer Interaktion zum selektieren von Nodes / links\\
+Navigations Methoden\\
+Anzeige des currentLayers am Controller\\
+Grafik mit Controller button belegung\\
+
+\section{Challenges}
+
+Visual Clutter: Filtermethoden von links (2 separated methods)\\
+
+Problem Größenbezug real world + virtual scene\\
+1. Dynamischen fly speed\\
+2. Dynamisches skalieren\\
+manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
+
+
+\section{(eventuell) Alternative Concepts}
+
+verworfene Konzepte, 2 Layer Concept\\
+
+\chapter{old - Proposed Solution}
 Ideas:
 \begin{itemize}
     \item Progress
@@ -6,9 +69,6 @@ Ideas:
             \item begin flat multilayer rendering
         \end{itemize}
 \end{itemize}
-
-As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices.
-We got inspired by a circular form of a tree map plot for hierarchical structures (see Figure \ref{fig:hierarchicalCirclePlot}). Each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
 
 \section{Concepts}
 \subsection{Original 2D Visualization}
