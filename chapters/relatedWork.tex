@@ -62,11 +62,11 @@ In addition to adapted layouts we also see some new ones specifically designed f
 
 \subsection{Navigation}
 
-The possibilities for navigation techniques in VR scenes, also called locomotion, heavenly depend on the target platform and experience the application is build for. As already describe in section \ref{exp:vr-experience}, there are seated-, standing- and room-scaled experiences depending on the available tracking technologies used.
+The possibilities for navigation techniques in VR scenes, also called locomotion, heavenly depend on the target platform and experience the application is build for. As already describe in section \ref{exp:vr-experience}, there are seated-, standing- and room-scaled experiences depending on the used tracking technologies and available free play space.
 At seated experiences the user is usually in front of a normal office desk setup while wearing the head mounted display. Therefore, real world movement is basically no option. 
-Standing VR setups normally do not restrict movement but the users space is extremely limited. Rotating, leaning and hand movement should be no problem, but the application can not expect the user to walk around.
+Standing VR setups normally do not restrict movement, but the users available space to move is extremely limited. Rotating, leaning and hand movement should be no problem, but the application can not expect the user to walk around.
 At room-scale VR setups the available space variate greatly, for example HTC Vive requires the user to have a minimum play space of $2m * 1.5m$ while a maximum (with 4 base stations) of $10m * 10m$ is possible. As a general rule of thumb we can say that for visualizations more available space is always better because the user can navigation through the scene just by walking. 
-There are also some VR Treadmills available which in theory provide infinite available space to walk, however we are not covering these are as they are pretty rare and expensive and therefore not suited for our purposes. The conclusion of a study by Usoh et al. \cite{usoh_walking_1999} emphasize the importance of walking inside a virtual scene, they found out that real walking provides a better immersive experience than virtual walking like a treadmill would provide and especially better than flying through the scene. 
+There are also some VR treadmills available which in theory provide infinite available space to walk, however we are not covering these are as they are pretty rare and expensive and therefore not suited for our purposes. The conclusion of a study by Usoh et al. \cite{usoh_walking_1999} emphasize the importance of walking inside a virtual scene, they found out that real walking provides a better immersive experience than virtual walking like a treadmill would provide and especially better than flying through the scene. 
 
 In most scenarios however our virtual scene is bigger as the available space in the real world, therefore we need some techniques to navigate through the scene. For seated experiences Zielasko et al. \cite{zielasko_remain_2017} developed a method by using a virtual accelerator pedal tracked by a smartphone in the users pocket and another by leaning the head back and forth. These interactions are then are used to fly in the scene. Similar to the leaning approach Nguyen-Vo et al. \cite{nguyen-vo_simulated_2018} presented a technique which enables leaning with the chair while seated, to achieve that they simply used a swopper chair placed onto a Nintendo Wii Balance board which is able to track the direction of leaning by the distribution of weight.  
 Drogemuller et al. \cite{drogemuller_examining_2020} summarized common navigation technique used by various VR applications. One of them is free flying using either gaze direction or the direction where the controller is pointed towards. Often free flying/walking is performed with the left controller while the right can be used for rotating the view without physical rotation, this is especially useful as users often interfere with the cable of the headset while rotating. Another use of the second controller is to describe a direction vector with both controllers for free flying, this is called two handed flying.\\
@@ -74,35 +74,25 @@ We can see many approaches use a free flying technique, however the problem is t
 To reduce the effect, a reduction of the field of view while flying with a smooth in and out transition is used by various papers and also often already implemented in common VR frameworks.\\
 Beside flying teleportation is among the most used navigation techniques, usually the user can point at a location then press a button to teleport to that position.
 This brings the advantage of reduced motion sickness because of the reduced animated movement. The challenge of teleportation is to select a point in three-dimensional space without any object nearby. While some approaches solve this with an adjustable teleport range, Lee et al. \cite{lee_evaluating_2020} presents a method to calculate the traveling distance based on the density of the area. In a parse environment with fewer objects nearby the distance is higher than in a dense environment with many objects.\\
-Worlds-in-Miniature (WIM) \cite{drogemuller_examining_2020} takes the concept of a “minimap” from 2D visualizations into VR by displaying the entire graph in a small scale onto an object near the user, for example the top of the left or right controller. The user can then move and rotate the miniature then select a point in this miniature with the other controller which then can be used for various interaction possibilities like teleporting. Yang et al. \cite{yang_embodied_2020} shows us that locomotion can also be done via zooming and rotating. They use both controller to scale, rotate and translate the entire graph at the same time, similar to the zooming and panning used in touch screen applications. This allows the user to freely position the graph and therefore implicitly move around.
+Worlds-in-Miniature (WIM) \cite{drogemuller_examining_2020} takes the concept of a “minimap” from 2D visualizations into VR by displaying the entire graph in a small scale onto an object near the user, for example the top of the left or right controller. The user can move and rotate the miniature then select a point with the other controller which can be mapped to the position of the real graph and furthermore be used for various interaction possibilities like teleporting. Yang et al. \cite{yang_embodied_2020} shows us that locomotion can also be done via zooming and rotating. They use both controller to scale, rotate and translate the entire graph at the same time, similar to the zooming and panning used in touch screen applications. This allows the user to freely position the graph and therefore implicitly move around.
 
 \subsection{Interaction}
-Content: 
-\begin{itemize}
-    \item Edge Filtering
-    \item Raycast/Laserpointer Selection
-\end{itemize}
 
-Drogemuller\\
-VRige: Exploring Social Network Interactions in Immersive Virtual Environments\\
-Raycast+Filter Cube\\
-\\
-Wolfgang Stürzlinger\\
-Analyzing the Trade-off between Selection and Navigation in VR\\
-\\
-Yi-Jheng Huang\\
-A gesture system for graph visualization in virtual reality environments\\
-different hand gesture interactions\\
-\\
+Depending on the application context there are different goals for the interaction capabilities. For visualizations selection of details, filtering and brushing is important as we already summarized in the information seeking mantra \ref{seeking mantra} before. Therefore, researches have come up with different interaction techniques. The most basic approach would be an infinite ray cast selection based on the controller direction combined with a simple head up display or popup display the detail of the node or other selected entity. 
+For filtering Drogemuller et al. \cite{drogemuller_vrige_2017} presented an interesting concept of a filter cube (see Figure \ref{fig:vrFilterCube}). The cube is mapped to an additional Vive tracker, the buttons and slider on it are used as a virtual input device activated via a virtual click on the button by a controller. 
+The concept of a virtual toolbox or gadgets to interact with the environment however is not new, we already saw that in different VR games and creative applications for example Google Blocks VR or Tilt Brush by Google. Switching between multiple tools can be achieved by simply grabbing them with a controller or putting them back in their slot or bag.\\
+In addition to the classical controller tracked interaction possibilities recent achievements in hand tracking technology make hand tracking without any additional equipment a reality as new VR headsets for example the Oculus Quest come with built in hand tracking. Besides built in technologies, there are also additional sensors that can be attached to the VR headsets like the Leap Motion Controller available. Yi-Jheng Huang et al. \cite{yi-jheng_huang_gesture_2017} used these sensors to build a complex hand gesture system especially designed for the manipulation of a node-link graph in VR, their gestures can be seen in Figure \ref{fig:vrHandGestures}. 
 
-%\subsection{Advantages of Visualization in VR}
-%Kraus\\
-%The Impact of Immersion on Cluster Identification Tasks\\
-%quantitative user study to investigate the impact of immersion on cluster identification tasks in scatterplot visualizations\\
-%\\
-%Doug A. Bowman\\
-%Virtual Reality: How Much Immersion Is Enough?\\
-%\\
-%M Cordeil\\
-%Immersive Collaborative Analysis of Network Connectivity: CAVE-style or Head-Mounted Display?\\
-%\\
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.4\textwidth]{graphics/filterCube.jpg}
+    \caption{Filter cube of Drogemuller et al. \cite{drogemuller_vrige_2017}} 
+    \label{fig:vrFilterCube} 
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/handGestures.jpg}
+    \caption{Different possibilities of hand gestures by Yi-Jheng Huang et al. \cite{yi-jheng_huang_gesture_2017}} 
+    \label{fig:vrHandGestures} 
+\end{figure}
