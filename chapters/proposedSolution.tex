@@ -1,16 +1,12 @@
 \chapter{Proposed Solution}
 
-%As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices.
-%We got inspired by a circular form of a tree map plot for hierarchical structures (see Figure \ref{fig:hierarchicalCirclePlot}). Each node can either be a simple leaf node or a network itself. So we need a way to visualize connections between different networks, a way to do this is a multilayer network visualization see Figure \ref{fig:2dmultilayerVis}. Here each flat layer represents a different network but a hierarchical relationship is not always given for these visualizations.  
 \section{Initial Problem}
 
 The idea to build our own visualization began as we wanted to improve the original visualization of the comorbidity network we saw in Figure \ref{fig:original2DdiseaseNet}. Data analysts use this and similar datasets to discover possible coherences, correlations, distributions, clusters and more in the data. 
 However, the visualization was not optimal because it hides links and first and foremost is limited to only one hierarchical layer. This is not a problem for this dataset in particular, but we wanted a solution to visualize n hierarchical networks.\\
 Therefore, our goal is to develop a new visualization tool which supports data analysts in their daily work analyzing hierarchical networks, with the comorbidity network as a first real world data example. To test the usability of the visualization for n hierarchical networks we created some randomized networks as test data. 
 
-\section{Main concept}
-
-\subsection{Layout}
+\section{Layout}
 
 \begin{figure}[h]
     \centering
@@ -20,39 +16,39 @@ Therefore, our goal is to develop a new visualization tool which supports data a
 \end{figure}
 
 Figure \ref{fig:layoutSketch} shows a sketch of our layout. The main goal here is to prevent overlapping of nodes while still visualize the different clusters of hierarchical nodes by proximity. The whole data can be seen as a tree structure where each entity in the tree is a graph itself nested in its parent node, therefore the number of nodes grows exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
-\subsubsection{Layout Forces and Constraints}
+
+\subsection{Layout Forces and Constraints}
 We developed a system of multiple forces and constrains to automatically calculate the positions of all nodes. We want to achieve an evenly distributed graph while still fulfilling the rules we set ourselves for hierarchical nesting. Firstly we define a set of force and constraint templates:
 \begin{itemize}
     \item ManyBody-Force: This force is a repulsion force and causes nearby nodes to push each other off. The strength decreases with the distance of the nodes. This allows the distribution of nodes evenly among the available space.
-    \item Link-Force: It is the counterpart of the ManyBody-Force and pulls nodes connected via a link closer together. Together with the manyBody-Force it enables a distributed graph while clustering connected nodes and minimizing the chance for a link to cross a not involved node.
-    \item Collision-Force: This force is basically a reinforced version of the manyBody-Force it prevents nodes from overlapping in the case the manyBody- and Link-Force push nodes into each other.
-    \item Spherical-Constraint: The spherical-constraint is the core concept of our layout we use for nesting nodes. It allows us to “squish” multiple nodes in a sphere for any given point and radius. The center of the sphere can variate for each simulation step. The constraint works by constantly adding a slightly randomized velocity for each node towards the center of the sphere, if the node is outside the sphere the velocity is increased drastically.
-    \item Center-Force: This force helps us to position the entire visualization in the center of our viewpoint, however there is no strict distance or radius like the spherical-constraint applies.
+    \item Link-Force: It is the counterpart of the ManyBody-Force and pulls nodes connected via a link closer together. Together with the ManyBody-Force it enables us to model a distributed graph while still clustering connected nodes and minimizing the chance for a link to cross a not involved node.
+    \item Collision-Force: This force is basically a reinforced version of the ManyBody-Force it prevents nodes from overlapping in the case the ManyBody- and Link-Force push nodes into each other.
+    \item Spherical-Constraint: The spherical-constraint is the core concept of our layout we use for nesting nodes. It allows us to “squish” multiple nodes in a sphere for any given point and radius. The center of the sphere can variate for each simulation step. The constraint works by constantly adding a slightly randomized velocity for each node towards the center of the sphere. If the node is outside the sphere, then the velocity is increased drastically.
+    \item Center-Force: This force helps us to position the entire visualization in the center of our viewpoint, however there is no strict distance or radius like the Spherical-Constraint applies.
 \end{itemize}
 
 It is important to understand that these templates are not applied equally to all nodes. Instead, we apply multiple instances of these forces with different parameters to subsets of our graph, this separation allows us to prevent of interference between different group of nodes for different parents.\\ 
 Firstly we distinguish between the top hierarchical layer, from now on called layer $0$, and all other subsequent layers 1,2,3 and so on. Each node and link instance is assigned their respectively layer attribute. Layer $0$ is treated separately because these nodes have no direct assigned parent node. 
-For Layer $0$ the center-force with the coordinates $(x:0,y:0,z:0)$, manyBody-force, collision-force and lastly link-force are applied to all nodes and links with a layer $0$ attribute. 
-As for layer $1$ to layer $n$ we do not apply forces by layer but instead by parent node. So for each parent we add a collision-force, manyBody-force and link-force for all child nodes and links. In addition, the spherical-constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for that specific constraint entity.\\
+For Layer $0$ the center-force with the coordinates $(x:0,y:0,z:0)$, ManyBody-Force, Collision-Force and lastly Link-Force are applied to all nodes and links with a layer $0$ attribute. 
+As for layer $1$ to layer $n$ we do not apply forces by layer but instead by parent node. So for each parent we add a Collision-force, ManyBody-force and Link-force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for that specific constraint entity.\\
 In conclusion, the total number of forces and constraints in our force system is: 
 \begin{equation}
     |forces| + |constraints| \: = 4 \, + 4 * |parent\_nodes|
 \end{equation}
 
-\subsubsection{Stability of the force system}
-(evetuell die gesamte section in einen neuen absatz challenges und raus vom main concept moven)
+\subsection{Stability of the force system}
 
 A big challenge in our force system was to equally balance out all added forces so that each one performs their specific task and does not influence the effect of other forces. To achieve that we parameterized each force with a strength parameter.
-In addition, we also use the concept of an alphaTarget from D3.js (cite notwendig?!?). To put it briefly, it is an additional value which decreases throughout the simulation this allows the simulation to “cool down” and stop it as soon as it reaches that set alphaTarget value, we use that to control the number of simulation interations. 
+In addition, we also use the concept of an alphaTarget from D3.js \cite{bostock_d3js_nodate}. To put it briefly, it is an additional value which decreases throughout the simulation this allows the simulation to “cool down” and stop it as soon as it reaches that set alphaTarget value, we use that to control the number of simulation interations. 
 Besides balancing out the different templates of forces we also have to decrease the strength recursively for each layer as the nodes and their radius get smaller each layer iteration.\\
-To further improve the stability of the layout we add a small amount of randomness to the applied velocities and strengths, this improves that the nodes are better distributed and prevents strange behavior where multiple nodes are at the exact same location and ruin our force system.\\
-During our optimization we stumbled upon the problem that nodes tend to jump rapidly to a far position. This is only natural as we squish the nodes into the sphere of the parent so in some boundary scenarios it is the only way to go for this node. However, it beats up the concept of successively fine-tuning the positions throughout the simulation steps, for example nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem we do not perform the positioning of all nodes throughout the entire simulation, instead we split up the amount of simulation steps and perform them for each layer successively. Luckily we also gain a performance benefit through that strategy as the sum of position update operations reduces essential.
+To further improve the stability of the layout we add a small amount of randomness to the applied velocities and strengths, this improves that the nodes are better distributed and prevents strange behavior where multiple nodes are at the exact same location and would ruin our force system.\\
+During our optimization we stumbled upon the problem that nodes tend to jump rapidly to a far position. This is only natural as we squish the nodes into the sphere of the parent while still applying the ManyBody- and Collision-Forces. Therefore, in some boundary scenarios the only “free” position for this node is further away which results in the jumping behavior. However, it beats up the concept of successively fine-tuning the positions throughout the simulation steps, for example nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem we do not perform the positioning of all nodes throughout the entire simulation, instead we split up the amount of simulation steps and perform them for each layer successively. Beginning with positioning the layer 0 nodes afterwards layer 1 nodes and so on. Luckily we also gain a performance benefit through that strategy. The reason for this is that the number of nodes grows exponentially for each layer, now that we only perform a subset of the simulation interactions to that increasing number of nodes the sum of position update operations reduces essential.
 %Verbindung zwischen Datenstruktur und Layout\\
 %Ziel des Layouts und Begründung (flexbilität, Kombination standard force based und hierarical/constraint based)\\
 %Liste an Forces\\
 %Prozess Optimierung der Forces (nacheinander wirken, Sicherheitspuffer)\\
 %Wichtigkeit Zusammenhang der Forces mit dem Renderprozess, Stichwort Node Größe
-\subsection{Render Visuals (Render Pipeline?)}
+\section{Render Visuals}
 
 To represent the graph data we choose a simple sphere for the nodes and a combination of a stretched cylinder with a cone in the middle for the directed links. The nodes are rendered transparent, thus the user can see the nested nodes from the outside. However, the links inside the node are not visible externally as this would create too much visual clutter. 
 Another method we apply is to disable the solid model of the node when the user is inside a node as this would create distraction. Instead, we render a wireframe with the help of the improved spatial impression given by the virtual reality room scale experience this allows the user to better see the border of node. 
@@ -73,35 +69,51 @@ We also take the number of child nodes into account when calculating the node si
 %Node Label + weighted Link\\
 %different Colors for links\\
 %Ausblenden des Nodes wenn innerhalb, innersten Node mit Wireframe anzeigen => verbessert Übersichtlichkeit\\
-\subsubsection{Exploration Flow}
 
-Grundsätzliche Idee wie die Daten analyisert werden\\
-Overview am Beginn => außenansicht \\
-Wechsel zur Detailansicht\\
-Möglichkeit von Room scale voll ausschöpfen, walk around the vis\\
-Verschiedene Filteroptionen für Edges (nur grundidee)\\
-Verschiedene Navigationsmethoden (nur grundidee)\\
+\section{Interaction}
+\label{chap:solution-interaction}
 
-\section{Navigation + Interaction}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{chapters/graphics/controllerMapping.jpg}
+    \caption{(TODO redo sketch)Controller mapping.} 
+    \label{fig:controllerMapping} 
+\end{figure}
+
+We optimized our application for the HTC Vive therefore all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
+As other 6-DOF headsets usually provide the same or similar interaction possibilities, the interaction concept of our visualization can be applied to other headsets as well.\\
+Figure \ref{fig:controllerMapping} provides an overview of all available interaction methods in our application. 
 
 Laserpointer Interaktion zum selektieren von Nodes / links\\
 Navigations Methoden\\
 Anzeige des currentLayers am Controller\\
-Grafik mit Controller button belegung\\
 
-\section{Challenges}
-
+\subsection{Filtering Link Visibility}
 Visual Clutter: Filtermethoden von links (2 separated methods)\\
-Transparency ?!?!? eher implementierung?\\
+
+\section{Navigation }
+\label{chap:solution-navigation}
+
+\subsection{}
 Problem Größenbezug real world + virtual scene\\
 1. Dynamischen fly speed\\
 2. Dynamisches skalieren\\
 manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
+\section{Challenges}
+
+%Transparency ?!?!? eher implementierung?\\
 
 
-\section{(eventuell) Alternative Concepts}
 
-verworfene Konzepte, 2 Layer Concept\\
+\section{Exploration Flow}
+To provide an optimal exploration experience of the hierarchical network we use the visual information seeking mantra \ref{seeking mantra}. 
+At the beginning the user is in the overview perspective. He/she is placed on a further position away from the center where a good look on the entire graph is possible, in addition rotation to the graph can be applied.
+When the user decides to dive deeper in the network, a node can be selected via the ray cast controller interaction. This triggers the transition into the detail perspective. 
+Here all navigation and interaction methods described in Section \ref{chap:solution-interaction} and \ref{chap:solution-navigation}
+are available. 
+A core concept for the exploration in the detail perspective is the use of the VR room-scale navigation experience. As the user is able to tweak the scale of the scene to their liking, walking around the graph is possible for different room sizes. The goal is to improve spatial impression of the graph which results in a better clarity and understanding of the data.
+
+TODO abschluss vom chapter
 
 \chapter{old - Proposed Solution}
 Ideas:
