@@ -1,9 +1,9 @@
 \chapter{Related Work}
 
 \section{2D and 3D Visualizations}
-
+\label{chap:rw-2d3dLayout}
 Although the focus of this thesis is on visualizing hierarchical networks in virtual reality, many concepts are the same or similar to its 2D or 3D counterparts. First we want to give a brief overview of related 2D and 3D approaches in the field of network visualization.\\
-Dynamic network visualization describes a research field where none or only few assumptions about the data are made, these techniques often employ force-based layouts using node-link diagrams as we already summarized in the background section \ref{exp:force_based_background}. Furthermore, we want to discuss approaches dealing with hierarchical and multilayer structured datasets.
+Dynamic network visualization describes a research field where none or only few assumptions about the data are made, these techniques often employ force-based layouts using node-link diagrams as we already summarized in the background Section \ref{exp:force_based_background}. Furthermore, we want to discuss approaches dealing with hierarchical and multilayer structured datasets.
 
 \subsection{Hierarchical Visualizations}
 
@@ -54,19 +54,20 @@ Jonker et al. \cite{jonker_graph_2017} uses a level of detail approach where the
 \section{VR Visualizations}
 
 \subsection{Layouts}
-
+\label{chap:rw-vrlayouts}
 In VR, we see common 2D and 3D layout approaches like simple node-link diagrams adapted for the use in a 3D virtual scene. 
 Some VR visualizations use a classical spring force layout to calculate their node positions \cite{drogemuller_examining_2020} \cite{sorger_immersive_2019}.
 In other visualizations, the position of the nodes comes directly from the data, for example Yang et al. \cite{yang_embodied_2020} use the t-SNE method \cite{maaten_visualizing_2008} to map the data attributes directly to x, y and z coordinates and display them as a point cloud scatter plot.
 In addition to adapted layouts, we also see some new ones specifically designed for the use in VR. Kwon et al. \cite{kwon_study_2016} presented a layout, which displays all nodes on the surface of a sphere. The user stands inside the sphere and is therefore able to freely look around the visualization. Another approach was presented by Halpin et al. \cite{halpin_exploring_2008}. Here the authors display the network on a flat 2D plane in front of the viewer. Through interaction nodes can be extruded from the flat layout and highlighted on a separated layer.     
 
 \subsection{Navigation}
+\label{chap:rw-vrnavigation}
 
-The possibilities for navigation techniques in VR scenes, also called locomotion, depend on the target platform and intended experience the application is build for. As already described in section \ref{exp:vr-experience}, there are seated-, standing- and room-scale experiences differentiated by the used tracking technologies and the required space.
+The possibilities for navigation techniques in VR scenes, also called locomotion, depend on the target platform and intended experience the application is build for. As already described in Section \ref{exp:vr-experience}, there are seated-, standing- and room-scale experiences differentiated by the used tracking technologies and the required space.
 In seated experiences the user is usually in front of a normal office desk setup while wearing the head mounted display. Therefore, real world movement is basically no option. 
 Standing VR setups normally do not restrict movement, but the users available space to move is extremely limited. Rotating, leaning and hand movement should be supported, but the application can not require the user to walk around.
 In room-scale VR setups, the available space can differ greatly. For example HTC Vive requires the user to have a minimum space of $2m * 1.5m$ while a maximum (with 4 base stations) of $10m * 10m$ is possible. As a general rule of thumb, more available space provides more possibilities because the user can navigation through the scene just by walking. 
-VR treadmills available in theory provide infinite available space to walk, however they are rare and expensive and therefore not suited for our purposes. The conclusion of a study by Usoh et al. \cite{usoh_walking_1999} emphasize the importance of walking inside a virtual scene. They found that real walking provides a better immersive experience than virtual walking such as provided by a treadmill would provide and especially better than flying through the scene. 
+VR treadmills in theory provide infinite available space to walk, however they are rare and expensive, therefore not suited for our purposes. The conclusion of a study by Usoh et al. \cite{usoh_walking_1999} emphasize the importance of walking inside a virtual scene. They found that real walking provides a better immersive experience than virtual walking such as provided by a treadmill would provide and especially better than flying through the scene. 
 
 In most scenarios, however, our virtual scene is bigger than the available space in the real world, therefore we need techniques to navigate through and scale the scene. For seated experiences, Zielasko et al. \cite{zielasko_remain_2017} developed a method that uses a virtual accelerator pedal tracked by a smartphone in the users pocket and another by leaning the head back and forth. These interactions are then are used to fly through the scene. Similar to the leaning approach, Nguyen-Vo et al. \cite{nguyen-vo_simulated_2018} presented a technique which enables leaning with the chair while seated. To achieve that, they simply used a swopper chair placed onto a Nintendo Wii Balance board, which is able to track the direction of leaning by the distribution of weight.  
 Drogemuller et al. \cite{drogemuller_examining_2020} summarized common navigation technique used by various VR applications. One of them is free flying using either gaze direction or the direction where the controller is pointed towards. Often free flying/walking is performed with the left controller while the right can be used for rotating the view without physical rotation, this is especially useful as users often interfere with the cable of the headset while rotating. Another use of the second controller is to describe a direction vector with both controllers for free flying, this is called two handed flying.\\
@@ -77,6 +78,7 @@ This has the advantage of reduced motion sickness because of the reduced animate
 Worlds-in-Miniature (WIM) \cite{drogemuller_examining_2020} takes the concept of a “minimap” from 2D visualizations into VR by displaying the entire graph in a small scale onto an object near the user, for example the top of the left or right controller. The user can move and rotate the miniature, then select a point with the other controller, which can be mapped to the position of the real graph and furthermore be used for various interaction possibilities like teleporting. Yang et al. \cite{yang_embodied_2020} show us that locomotion can also be achieved via zooming and rotating. They use both controllers to scale, rotate and translate the entire graph at the same time, similar to the zooming and panning used in touch screen applications. This allows the user to freely position the graph and therefore implicitly move around.
 
 \subsection{Interaction}
+\label{chap:rw-vrinteraction}
 
 Depending on the application context, there are different goals for the interaction capabilities to interact with the virtual scene. For visualizations, selection of details, filtering and brushing is important as we already summarized in the information seeking mantra \ref{seeking mantra} before. To achieve a precise selection in the scene, researchers have come up with different interaction techniques. The most basic approach to select nodes in the graph would be an infinite ray cast based on the controller direction. To display the detail of the node or other selected entity a head up display or popup can be used. 
 For filtering, Drogemuller et al. \cite{drogemuller_vrige_2017} presented an interesting concept of a filter cube (see Figure \ref{fig:vrFilterCube}). The cube is mapped to an additional Vive tracker, the buttons and slider on it are used as a virtual input device activated via a virtual click on the button by a controller. 
@@ -96,3 +98,8 @@ In addition to the classical controller tracked interaction possibilities recent
     \caption{Different possibilities of hand gestures by Yi-Jheng Huang et al. \cite{yi-jheng_huang_gesture_2017}} 
     \label{fig:vrHandGestures} 
 \end{figure}
+
+\section{Conclusion}
+
+To design a new visualization developing a layout concept is one of the first important steps. We summarized some techniques for 2D and 3D visualizations in Section \ref{chap:rw-vrlayouts} and other specially adapted concepts for VR visualizations in Section \ref{chap:rw-2d3dLayout}. In our solution we combined the explicit and implicit visualization techniques from the 2D and 3D domain, thus creating a unique layout optimized for the use in VR.\\
+For navigation, we use the advantage of walking inside the graph we described in Section \ref{chap:rw-vrnavigation} and adapted free-flying and teleportation techniques for further navigation in the scene. Lastly we apply the ray cast selection described in Section \ref{chap:rw-vrinteraction} to allow selection and interaction.  
