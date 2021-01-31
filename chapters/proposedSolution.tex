@@ -91,7 +91,19 @@ So in summary we can only use 3 buttons on each controller: the trigger (nr. 7),
 
 \subsection{Filtering Link Visibility}
 A common technique in the visualization domain is that of details or filtering on demand. We apply this concept to reduce the visual clutter produced by overlapping of multiple links.\\
-Visual Clutter: Filtermethoden von links (2 separated methods)\\
+The filtering is always applied and can not be turned off. It refers to a specific selected node which then is used in the filter function.\\
+To select that node there are two modes. Firstly an automatic mode which uses the current position of the users in particular the position of the headset e.g. the “camera” in the scene. 
+The innermost node is selected by default for filtering, in addition the user can lock the selected node with the button “switchLockLinkVisibility” on the controller (see Figure \ref{fig:controllerMapping}). This prevents the selected node to change as the user moves around the scene, this lock can be disabled by a press on the same button.
+Secondly there is a manual mode to select a specific node by using the laser pointer and pressing the “lockLinkVisibilityForNode“ button on the controller. When selecting a specific node via this method, the lock from the automatic mode is automatically set to prevent the change when moving around.\\
+The filter function now uses that selected node to calculate which links are visible and which not. The rules for the function are the following:
+\begin{itemize}
+    \item If none node is selected and the user is not inside any node only the links from the top layer 0 are displayed.
+    \item All links with source or target of that selected node are displayed. 
+    \item All links with source or target of direct child nodes from the selected nodes are displayed. Direct child here means the hierarchical child one layer below the selected node. 
+\end{itemize}
+
+In an earlier version we not only displayed the links of direct child nodes but instead the links of all recursively child nodes. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
+
 
 \section{Navigation }
 \label{chap:solution-navigation}
