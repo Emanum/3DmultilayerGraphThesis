@@ -82,17 +82,21 @@ We also take the number of child nodes into account when calculating the node si
 
 We optimized our application for the HTC Vive therefore all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
 As other 6-DOF headsets usually provide the same or similar interaction possibilities, the interaction concept of our visualization can be applied to other headsets as well.\\
-Figure \ref{fig:controllerMapping} provides an overview of all available interaction methods in our application. 
+Figure \ref{fig:controllerMapping} provides an overview of all available interaction methods in our application. Multiple interactions require the selection of a node beforehand, to this end we implemented the common concept of ray cast selection. 
+Along the length of the right controller a ray cast is performed throughout the scene. To better visualize the effect we render a straight red line to imitate a virtual laser pointer.
+The first intersected node is used as the selected node for other interaction methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset. In addition, the selected node is visually highlighted through graying out the other nodes to increase the contrast. This allows the users to quickly see which node they currently have selected.
 
-Laserpointer Interaktion zum selektieren von Nodes / links\\
-Navigations Methoden\\
-Anzeige des currentLayers am Controller\\
+An interesting aspect of the Vive controllers (see Figure \ref{fig:controllerMapping}) is that the grip buttons (nr. 8) on both sides of the controller are actually only one button instead of two. The reason for that is that the controller is designed to fit both hands. 
+So in summary we can only use 3 buttons on each controller: the trigger (nr. 7), menu button (nr. 1) and a click on the trackpad (nr. 2). The system button (nr. 3) can not be used by an application as it opens the Steam overlay settings. To stretch the number of available buttons we used the clicking position of the trackpad. This allows us to have 5 virtual buttons on the trackpad: top, bottom, left, right and center. An advantage of this method is also that these virtual buttons can be used fluently while also interacting with the touch sensitive trackpad at the same time by one finger. 
 
 \subsection{Filtering Link Visibility}
+A common technique in the visualization domain is that of details or filtering on demand. We apply this concept to reduce the visual clutter produced by overlapping of multiple links.\\
 Visual Clutter: Filtermethoden von links (2 separated methods)\\
 
 \section{Navigation }
 \label{chap:solution-navigation}
+Navigations Methoden\\
+Anzeige des currentLayers am Controller\\
 
 \subsection{}
 Problem Größenbezug real world + virtual scene\\
