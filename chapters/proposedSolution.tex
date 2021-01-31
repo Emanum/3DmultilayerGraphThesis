@@ -94,32 +94,38 @@ A common technique in the visualization domain is that of details or filtering o
 The filtering is always applied and can not be turned off. It refers to a specific selected node which then is used in the filter function.\\
 To select that node there are two modes. Firstly an automatic mode which uses the current position of the users in particular the position of the headset e.g. the “camera” in the scene. 
 The innermost node is selected by default for filtering, in addition the user can lock the selected node with the button “switchLockLinkVisibility” on the controller (see Figure \ref{fig:controllerMapping}). This prevents the selected node to change as the user moves around the scene, this lock can be disabled by a press on the same button.
-Secondly there is a manual mode to select a specific node by using the laser pointer and pressing the “lockLinkVisibilityForNode“ button on the controller. When selecting a specific node via this method, the lock from the automatic mode is automatically set to prevent the change when moving around.\\
+Secondly there is a manual mode to select a specific node by using the laser pointer and pressing the “lockLinkVisibilityForNode“ button on the controller. When selecting a specific node via this method, the lock from the automatic mode is automatically set to prevent change when moving around.\\
 The filter function now uses that selected node to calculate which links are visible and which not. The rules for the function are the following:
 \begin{itemize}
     \item If none node is selected and the user is not inside any node only the links from the top layer 0 are displayed.
     \item All links with source or target of that selected node are displayed. 
     \item All links with source or target of direct child nodes from the selected nodes are displayed. Direct child here means the hierarchical child one layer below the selected node. 
+    \item All other links are not visible.
 \end{itemize}
 
-In an earlier version we not only displayed the links of direct child nodes but instead the links of all recursively child nodes. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
+In an earlier version we not only displayed the links of direct child nodes but instead links of all recursively child nodes. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
 
-
-\section{Navigation }
+\section{Navigation}
 \label{chap:solution-navigation}
-Navigations Methoden\\
-Anzeige des currentLayers am Controller\\
 
-\subsection{}
+There are two modes for navigation implemented in the application: a free-fly and a teleport technique.\\
+To perform small adjustments in position, especially when the users free space is limited, the user can freely fly in the virtual scene. To control the direction the left touch sensitive trackpad can be used. 
+The forward direction is linked to the users gaze direction, so the final fly direction is the combination of gaze direction and trackpad touch position. 
+In addition, the fly speed is adjustable with a click on top or bottom of the trackpad.    
+Similar to other VR applications we also implemented a camera rotation. This allows the users to better position themselves in the real world, particular with cable bound headsets this is useful because multiple rotations in the real world require to step over the cable. In other VR applications the movement is usually done with the left controller and rotation with the right, analogue to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
+
+For covering long distances and navigate through the hierarchical layers we implemented an animated teleportation method. The user can select a node by the laser pointer and then press the right trigger (nr. 7) to initiate the teleportation. The target position is the closest edge barely inside the node, this allows the user to get an overview of the entire nodes and links in that selected node.   
+As with a simple teleportation the hierarchical aspect of the graph would lead to confusion, we perform a short animation to the target position. The speed of the animation is done with an ease-in and ease-out transition.
+Remember that as soon as the users enters another node, no matter if this happens during teleportation or free flying, the visibility of links changes, provided there is no active lock.\\
+Instead of teleporting deeper into the hierarchical networks the user can also teleport to the parent hierarchical layer. In particular to the edge barely outside the node the user is currently located in, this teleportation can be triggered by pressing the middle of the left trackpad.\\
+All teleportation methods can be freely combined even during the animation, therefore allowing the user to fluently move around the graph. 
+To further improve the overview we display the current hierarchical layer e.g. “layer: 2/5“ as a text element floating over the right controller. 
+
+\subsection{Spatial reference in VR}
 Problem Größenbezug real world + virtual scene\\
 1. Dynamischen fly speed\\
 2. Dynamisches skalieren\\
 manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
-\section{Challenges}
-
-%Transparency ?!?!? eher implementierung?\\
-
-
 
 \section{Exploration Flow}
 To provide an optimal exploration experience of the hierarchical network we use the visual information seeking mantra \ref{seeking mantra}. 
@@ -131,7 +137,7 @@ A core concept for the exploration in the detail perspective is the use of the V
 
 TODO abschluss vom chapter
 
-\chapter{old - Proposed Solution}
+\chapter{old - Proposed Solution (wird komplett gelöscht)}
 Ideas:
 \begin{itemize}
     \item Progress
