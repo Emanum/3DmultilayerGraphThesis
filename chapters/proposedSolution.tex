@@ -121,12 +121,30 @@ Instead of teleporting deeper into the hierarchical networks the user can also t
 All teleportation methods can be freely combined even during the animation, therefore allowing the user to fluently move around the graph. 
 To further improve the overview we display the current hierarchical layer e.g. “layer: 2/5“ as a text element floating over the right controller. 
 
-\subsection{Spatial reference in VR}
-Problem Größenbezug real world + virtual scene\\
-1. Dynamischen fly speed\\
-2. Dynamisches skalieren\\
-manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
+\subsection{Challenge of spatial reference in VR}
 
+A challenge of our hierarchical layout is that nodes and links are exponentially getting smaller each hierarchy step. 
+2D visualization usually deal with that by adjusting the viewport of the visualization e.g. zoom in and out. 
+However, in the context of a 3D VR visualization a simple zooming approach is not possible. 
+In a 3D non VR visualization that problem can be mitigated by adjusting the movement speed. Therefore, distances seem similar in size for the inner nodes and navigation is also possible without overshooting the target position.\\ 
+VR visualization are trickier due to the spatial impression by rendering two perspectives. On a 2D projected image like a normal computer screen distances in the scene can only be estimated through movement. From a static image the human eye is not able to recognize the distance or size of an object without any additional size reference. 
+In the real world however we constantly see objects from two different perspectives as we have two eyes, this enables the human mind to estimate distances without the need of any movement. VR works the same way by rendering the scene from two different perspectives each for one eye.  
+This means that a simple trick of adjusting the movement speed is not working for our VR visualization. 
+That problem makes itself noticeable for example as layer 4 nodes in VR are the size of a finger where layer 0 nodes are these of the entire room.
+In addition to the perspective problem changing the movement speed also do not work because movement in a 6-DOF VR headset is also always done by movement in the real world and obviously the physical movement speed can not be adjusted.
+
+The only real solution to that problem in our opinion is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
+\begin{itemize}
+    \item Dynamically adjust the fly speed while navigating in the graph. On entering a node the speed slows down when leaving speeds up again. 
+    \item Dynamically scaling the entire scene. When teleporting to a node in a deeper hierarchy layer, an upscaling transition is started. On teleporting to the parent layer a downscaling transition is started. 
+\end{itemize} 
+
+In addition, the scale can also be manually changed by the user at any time by pressing the upper or lower corner of the right trackpad. 
+This is important as we can not know the available room space of the users VR setup. Therefore, the scale can not be optimized beforehand for a walking experience. The manual scaling gives the users the ability to adjust the scale to their liking.
+%Problem Größenbezug real world + virtual scene\\
+%1. Dynamischen fly speed\\
+%2. Dynamisches skalieren\\
+%manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
 \section{Exploration Flow}
 To provide an optimal exploration experience of the hierarchical network we use the visual information seeking mantra \ref{seeking mantra}. 
 At the beginning the user is in the overview perspective. He/she is placed on a further position away from the center where a good look on the entire graph is possible, in addition rotation to the graph can be applied.
@@ -136,72 +154,3 @@ are available.
 A core concept for the exploration in the detail perspective is the use of the VR room-scale navigation experience. As the user is able to tweak the scale of the scene to their liking, walking around the graph is possible for different room sizes. The goal is to improve spatial impression of the graph which results in a better clarity and understanding of the data.
 
 TODO abschluss vom chapter
-
-\chapter{old - Proposed Solution (wird komplett gelöscht)}
-Ideas:
-\begin{itemize}
-    \item Progress
-        \begin{itemize}
-            \item begin flat multilayer rendering
-        \end{itemize}
-\end{itemize}
-
-\section{Concepts}
-\subsection{Original 2D Visualization}
-\includegraphics[width=0.5\textwidth]{chapters/graphics/2dVisOfDemoData.jpg}
-
-Problem only two layers supported
-
-\subsection{2-Layer Concept}
-\includegraphics[width=0.5\textwidth]{chapters/graphics/concept2.jpg}
-
-Cube/ (half) sphere position of sub-graphs \\
-Starting idea, why it was discarded
-
-\subsection{n-Layer Concept}
-\includegraphics[width=0.5\textwidth]{chapters/graphics/concept1.jpg}
-
-Improved concept \\
-no fixed cube/(half) sphere position instead each layer calculate its own position \\
-circle over boxes \\
-Begin: flyspeed only, later on problem on VR \\
-
-\section{Position of Nodes}
-
-Independent per layer / sub-graph inside parent node \\
-use of existing implemented and already good tested(prevents overlapping, good distribution, ...) forces (collision, link, manyBody, ...) \\
-use of own forces to place sub-graphs inside parent graphs \\
-adjustable force strengths \\
-Node size grow with number of child nodes \\
-\\
-two possible solutions: web-worker vs live \\
-
-\section{Usage of different Visual Features}
-
-Position \\
-linkWidth \\
-linkColor \\
-linkDirection \\ 
-currentLayer on Controller Overlay \\ 
-
-\section{Graph Exploration}
-
-\subsection{Overview Layout}
-Orbital Camera
-
-\subsection{Detail Layout}
-Free Fly Camera \\
-change FlySpeed based on current node the camera is located. As deeper the layer as slower the flyspeed \\
-Problem experiments showed this does not work well in VR --> manual / automated scaling. \\
-
-flyToNode \\
-flyToParentLayer \\
-
-\subsection{Visibility of the Visualization}
-\subsubsection{Nodes / Layers}
-wireframe
-\subsubsection{Links}
-lockLinks
-
-\section{Interaction}
-\includegraphics[width=0.5\textwidth]{chapters/graphics/controllerMapping.jpg}
