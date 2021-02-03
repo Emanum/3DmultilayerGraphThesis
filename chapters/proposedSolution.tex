@@ -8,21 +8,34 @@ To improve process of hierarchical network exploration, we wanted to use the cap
 
 \section{Requirements}
 
-We defined multiple requirements based on the problems we already described in the previous Section. 
+We defined multiple requirements based on the problems we already described in the previous Section:\\
+\textbf{The visualization is able to visualize $n$ hierarchical network datasets. Each node represents a network for itself. Links are possible within nodes of the same network but also to nodes of different networks with the same hierarchical depth.}\\
+To achieve that goal, we created our own layout see Section \ref{chap:ps-layout}. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations we use three-dimensional spheres. To dynamically build this layout for any given data as input we developed a custom force based system. It consists of various attracting forces for nodes of the same hierarchical layer and parent, as well as repelling forces between nodes of different parents in the same hierarchical layer. Details to the force system are summarized in Section \ref{chap:ps-forces}.
 
-\begin{itemize}
-    \item The visualization is able to visualize $n$ hierarchical network datasets. Each node represents a network for itself. Links are possible within nodes of the same network but also to nodes of different networks with the same hierarchical depth.
-    \item The visualization can display larger networks than classical 2D approaches, before reaching a critical point of visual clutter where a meaningful exploration is not possible anymore.
-    \item The visualization provides a room scale experience for small and large room sizes.
-    \item The visualization fully utilized the tracking capabilities of the VR Headset to optimize interaction experience for the user.
-    \item The visualization allows a flexible navigation through the graph during the exploration process.
-    \item The visualization ensures the clarity of the entire visualization by applying appropriated techniques according to Shneiderman's visualization seeking mantra.
-    \item The visualization ensures that deep hierarchical networks are equally represented and can be explored intuitively. 
-\end{itemize}
+\textbf{The visualization can display larger networks than classical 2D approaches, before reaching a critical point of visual clutter where a meaningful exploration is not possible anymore.}\\
+By using the third dimension in combination with our force system we can achieve a better distribution of nodes and links. In addition, we apply different filter techniques for links which can be read on in Section \ref{chap:ps-filterLinks}. Test results with large datasets can be found in Section (TODO, Results).
+
+\textbf{The visualization provides a room scale experience for small and large room sizes.}\\
+The application supports a walkable experience by using the 6 DOF tracking of the Headset. 
+With user adjustable movement speed and scene scaling the virtual scene can be adapted to different room sizes while still providing an optimal exploration experience. 
+
+\textbf{The visualization fully utilized the tracking capabilities of the VR Headset to optimize interaction experience for the user.}\\
+We use the 6 DOF tracking of the headset and controllers from the HTC Vive. Therefore, we can implement intuitively interaction techniques like a virtual laser pointer (see Section \ref{chap:solution-interaction}).
+
+\textbf{The visualization allows a flexible navigation through the graph during the exploration process.}\\
+With flexible navigation methods (see Section \ref{chap:solution-navigation}) like teleportation and free flying the users have multiple options to explore the graph in their preferred navigation style.
+
+\textbf{The visualization ensures the clarity of the entire visualization by applying appropriated techniques according to Shneiderman's visualization seeking mantra.}\\
+The visualization supports an overview and detail view (see Section \ref{chap:ps-explorationFlow}). While zooming is accomplishment through interactive navigation and scaling (see Section \ref{chap:ps-spatialReference}), filtering is possible for links (see Section \ref{chap:ps-filterLinks}).
+
+\textbf{The visualization ensures that deep hierarchical networks are equally represented and can be explored intuitively.}\\
+Our concept of nested hierarchical layers implies that nodes and links of inner layers get smaller for each iteration of nesting. This introduces a new problem as after a few iterations the nodes and links in the virtual scene are too small to recognize.
+To solve this problem we added automatic adaption of the navigation movement speed and scaling of the entire scene. This ensures that each layer can be explored at an equal size compared to real life objects (see Section \ref{chap:ps-spatialReference}).
 
 %To test the usability of the visualization for n hierarchical networks we created some randomized networks as test data. TODO in implementation?!?!?
 
 \section{Layout}
+\label{chap:ps-layout}
 
 \begin{figure}[h]
     \centering
@@ -34,6 +47,7 @@ We defined multiple requirements based on the problems we already described in t
 The main goal is to prevent overlapping of nodes while still visualize the different clusters of hierarchical nodes by proximity. Figure \ref{fig:layoutSketch} shows a sketch of our envisioned layout. The whole data can be seen as a tree structure where each entity in the tree is a graph itself nested in its parent node. Therefore, the number of nodes can grow exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
 
 \subsection{Layout Forces and Constraints}
+\label{chap:ps-forces}
 We developed a system of multiple forces and constrains to automatically calculate the positions of all nodes. We want to achieve an evenly distributed graph while still fulfilling the rules we set ourselves for hierarchical nesting. Firstly we define a set of force and constraint templates:
 \begin{itemize}
     \item ManyBody-Force: This force is a repulsion force and causes nearby nodes to push each other off. The strength decreases with the distance of the nodes. This allows the distribution of nodes evenly among the available space.
@@ -143,7 +157,7 @@ All teleportation methods can be freely combined even during the animation, ther
 To further improve the overview we display the current hierarchical layer e.g. “layer: 2/5“ as a text element floating over the right controller. 
 
 \subsection{Challenge of spatial reference in VR}
-
+\label{chap:ps-spatialReference}
 A challenge of our hierarchical layout is that nodes and links are exponentially getting smaller each hierarchy step. 
 2D visualization usually deal with that by adjusting the viewport of the visualization e.g. zoom in and out. 
 However, in the context of a 3D VR visualization a simple zooming approach is not possible. 
@@ -167,6 +181,7 @@ This is important as we can not know the available room space of the users VR se
 %2. Dynamisches skalieren\\
 %manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
 \section{Exploration Flow}
+\label{chap:ps-explorationFlow}
 To provide an optimal exploration experience of the hierarchical network we use the visual information seeking mantra \ref{seeking mantra}. 
 At the beginning the user is in the overview perspective. He/she is placed on a further position away from the center where a good look on the entire graph is possible, in addition rotation to the graph can be applied.
 When the user decides to dive deeper in the network, a node can be selected via the ray cast controller interaction. This triggers the transition into the detail perspective. 
