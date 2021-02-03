@@ -15,7 +15,7 @@ Therefore, our goal is to develop a new visualization tool which supports data a
     \label{fig:layoutSketch} 
 \end{figure}
 
-Figure \ref{fig:layoutSketch} shows a sketch of our layout. The main goal here is to prevent overlapping of nodes while still visualize the different clusters of hierarchical nodes by proximity. The whole data can be seen as a tree structure where each entity in the tree is a graph itself nested in its parent node, therefore the number of nodes grows exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
+The main goal is to prevent overlapping of nodes while still visualize the different clusters of hierarchical nodes by proximity. Figure \ref{fig:layoutSketch} shows a sketch of our envisioned layout. The whole data can be seen as a tree structure where each entity in the tree is a graph itself nested in its parent node. Therefore, the number of nodes can grow exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
 
 \subsection{Layout Forces and Constraints}
 We developed a system of multiple forces and constrains to automatically calculate the positions of all nodes. We want to achieve an evenly distributed graph while still fulfilling the rules we set ourselves for hierarchical nesting. Firstly we define a set of force and constraint templates:
@@ -27,10 +27,11 @@ We developed a system of multiple forces and constrains to automatically calcula
     \item Center-Force: This force helps us to position the entire visualization in the center of our viewpoint, however there is no strict distance or radius like the Spherical-Constraint applies.
 \end{itemize}
 
-It is important to understand that these templates are not applied equally to all nodes. Instead, we apply multiple instances of these forces with different parameters to subsets of our graph, this separation allows us to prevent of interference between different group of nodes for different parents.\\ 
+It is important to understand that these templates are not applied equally to all nodes. Instead, we apply multiple instances of these forces with different parameters to subsets of our graph. 
+This separation allows us to prevent of interference between different group of nodes for different parents.\\ 
 Firstly we distinguish between the top hierarchical layer, from now on called layer $0$, and all other subsequent layers 1,2,3 and so on. Each node and link instance is assigned their respectively layer attribute. Layer $0$ is treated separately because these nodes have no direct assigned parent node. 
-For Layer $0$ the center-force with the coordinates $(x:0,y:0,z:0)$, ManyBody-Force, Collision-Force and lastly Link-Force are applied to all nodes and links with a layer $0$ attribute. 
-As for layer $1$ to layer $n$ we do not apply forces by layer but instead by parent node. So for each parent we add a Collision-force, ManyBody-force and Link-force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for that specific constraint entity.\\
+For Layer $0$, the center-force with the coordinates $(x:0,y:0,z:0)$, ManyBody-Force, Collision-Force and lastly Link-Force are applied to all nodes and links with a layer $0$ attribute. 
+As for layer $1$ to layer $n$, we do not apply forces by layer but instead by parent node. For each parent we add a Collision-force, ManyBody-force and Link-force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for that specific constraint entity.\\
 In conclusion, the total number of forces and constraints in our force system is: 
 \begin{equation}
     |forces| + |constraints| \: = 4 \, + 4 * |parent\_nodes|
@@ -38,21 +39,24 @@ In conclusion, the total number of forces and constraints in our force system is
 
 \subsection{Stability of the force system}
 
-A big challenge in our force system was to equally balance out all added forces so that each one performs their specific task and does not influence the effect of other forces. To achieve that we parameterized each force with a strength parameter.
-In addition, we also use the concept of an alphaTarget from D3.js \cite{bostock_d3js_nodate}. To put it briefly, it is an additional value which decreases throughout the simulation this allows the simulation to “cool down” and stop it as soon as it reaches that set alphaTarget value, we use that to control the number of simulation interations. 
+A big challenge in our force system was to equally balance out all added forces so that each one performs their specific task and does not influence the effect of other forces. To achieve that, we parameterized each force with a strength parameter.
+In addition, we also use the concept of an alpha Target from D3.js \cite{bostock_d3js_nodate}. To put it briefly, it is an additional value which decreases throughout the simulation this allows the simulation to “cool down” and stop it as soon as it reaches that set alpha Target value. We use the alpha Target to control the number of simulation interations. 
 Besides balancing out the different templates of forces we also have to decrease the strength recursively for each layer as the nodes and their radius get smaller each layer iteration.\\
-To further improve the stability of the layout we add a small amount of randomness to the applied velocities and strengths, this improves that the nodes are better distributed and prevents strange behavior where multiple nodes are at the exact same location and would ruin our force system.\\
-During our optimization we stumbled upon the problem that nodes tend to jump rapidly to a far position. This is only natural as we squish the nodes into the sphere of the parent while still applying the ManyBody- and Collision-Forces. Therefore, in some boundary scenarios the only “free” position for this node is further away which results in the jumping behavior. However, it beats up the concept of successively fine-tuning the positions throughout the simulation steps, for example nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem we do not perform the positioning of all nodes throughout the entire simulation, instead we split up the amount of simulation steps and perform them for each layer successively. Beginning with positioning the layer 0 nodes afterwards layer 1 nodes and so on. Luckily we also gain a performance benefit through that strategy. The reason for this is that the number of nodes grows exponentially for each layer, now that we only perform a subset of the simulation interactions to that increasing number of nodes the sum of position update operations reduces essential.
-%Verbindung zwischen Datenstruktur und Layout\\
-%Ziel des Layouts und Begründung (flexbilität, Kombination standard force based und hierarical/constraint based)\\
-%Liste an Forces\\
-%Prozess Optimierung der Forces (nacheinander wirken, Sicherheitspuffer)\\
-%Wichtigkeit Zusammenhang der Forces mit dem Renderprozess, Stichwort Node Größe
-\section{Render Visuals}
-
-To represent the graph data we choose a simple sphere for the nodes and a combination of a stretched cylinder with a cone in the middle for the directed links. The nodes are rendered transparent, thus the user can see the nested nodes from the outside. However, the links inside the node are not visible externally as this would create too much visual clutter. 
-Another method we apply is to disable the solid model of the node when the user is inside a node as this would create distraction. Instead, we render a wireframe with the help of the improved spatial impression given by the virtual reality room scale experience this allows the user to better see the border of node. 
-In addition, each node instance has a billboard text label which is placed on the border of the node and always points to the camera. To allow an easier differentiation between layers, all nodes and links of the same layer have a predefined color.
+To further improve the stability of the layout, we add a small amount of randomness to the applied velocities and strengths. This improves the nodes distribution and prevent scenarios where multiple nodes receive the same forces and therefore overlap each other.\\
+During our optimization we stumbled upon the problem that nodes tend to jump rapidly to a far position. This is only natural as we squish the nodes into the sphere of the parent while still applying the ManyBody- and Collision-Forces. Therefore, in some boundary scenarios the only “free” position for this node is further away which results in the jumping behavior. However, it defeats the concept of successively fine-tuning the positions throughout the simulation steps. For example nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem, we do not perform the positioning of all nodes throughout the entire simulation, instead we split up the amount of simulation steps and perform them for each layer successively (see Figure \ref{fig:SimulationSteps}). Beginning with positioning the layer 0 nodes afterwards layer 1 nodes and so on. Luckily, we also gain a performance benefit through that strategy. The reason for this is that the number of nodes grows exponentially for each layer, now that we only perform a subset of the simulation interactions to that increasing number of nodes the sum of position update operations reduces significantly.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth, trim={5cm 5cm 0 25cm},clip]{graphics/simulationStepsSplit.jpg}
+    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Distribution of all simulation steps for a dataset with 4 hierarchical layers. Each layer receives the same amount of simulation steps, in this case 25 from 100.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \label{fig:SimulationSteps} 
+  \end{figure}
+\section{Graph Representation}
+The goal of the graph representation was to choose appropriate rendering methods which allow us to reduce visual clutter and improve clarity while still displaying as much data as possible.\\
+To represent the graph data, we choose spheres for nodes, tubes as links and cones as arrow heads indicating the link direction.
+With solid textures the overview ability of the visualization would be poor since our layout approach use nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparent, then the user is able to see the nested nodes inside its parent node(TODO Figure). 
+However, links inside other nodes are not visible because displaying a huge number of links would rather increase visual clutter and reduce overview. To deal with the big amount of links we apply filter conditions which are described in Section \ref{chap:ps-filterLinks}.
+During the entire visualization process that the user should be able to detect the borders of the nodes and their hierarchical nesting.\\ Now that our nodes are transparent, it would be hard to detect if a another node is nested in the current parent node the camera is placed into or not. Therefore, we render a wireframe (TODO Figure) with the help of the improved spatial impression given by the virtual reality room scale experience this allows the user to better see the border of node. To further improve the assignability of nodes to their layers each node and link of the same layer shares a predefined color.\\
+Of course an important part of the visualization process is to display names and details for nodes. To this end, each node instance has a billboard text label which is placed on the border of the node and always points to the camera.
 
 To ensure an equal down scaling of all rendered entities as well as correcting the needed node radius for the layout forces we use a visualization wide scaling factor:
 \begin{equation}
@@ -90,6 +94,7 @@ An interesting aspect of the Vive controllers (see Figure \ref{fig:controllerMap
 So in summary we can only use 3 buttons on each controller: the trigger (nr. 7), menu button (nr. 1) and a click on the trackpad (nr. 2). The system button (nr. 3) can not be used by an application as it opens the Steam overlay settings. To stretch the number of available buttons we used the clicking position of the trackpad. This allows us to have 5 virtual buttons on the trackpad: top, bottom, left, right and center. An advantage of this method is also that these virtual buttons can be used fluently while also interacting with the touch sensitive trackpad at the same time by one finger. 
 
 \subsection{Filtering Link Visibility}
+\label{chap:ps-filterLinks}
 A common technique in the visualization domain is that of details or filtering on demand. We apply this concept to reduce the visual clutter produced by overlapping of multiple links.\\
 The filtering is always applied and can not be turned off. It refers to a specific selected node which then is used in the filter function.\\
 To select that node there are two modes. Firstly an automatic mode which uses the current position of the users in particular the position of the headset e.g. the “camera” in the scene. 
