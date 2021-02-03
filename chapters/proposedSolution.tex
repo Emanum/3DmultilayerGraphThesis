@@ -2,9 +2,25 @@
 
 \section{Initial Problem}
 
-The idea to build our own visualization began as we wanted to improve the original visualization of the comorbidity network we saw in Figure \ref{fig:original2DdiseaseNet}. Data analysts use this and similar datasets to discover possible coherences, correlations, distributions, clusters and more in the data. 
-However, the visualization was not optimal because it hides links and first and foremost is limited to only one hierarchical layer. This is not a problem for this dataset in particular, but we wanted a solution to visualize n hierarchical networks.\\
-Therefore, our goal is to develop a new visualization tool which supports data analysts in their daily work analyzing hierarchical networks, with the comorbidity network as a first real world data example. To test the usability of the visualization for n hierarchical networks we created some randomized networks as test data. 
+Our initial motivation for this thesis was to enable visualization of hierarchical multilayer datasets in the already existing VR network visualization from Sorger et al. \cite{sorger_immersive_2019}. This is necessary because data scientists often deal with hierarchical multilayer datasets, thus of the missing support they had to use classical 2D visualization software. 
+However, current 2D approaches quickly reach their limits and run into the problem of visual clutter, especially when visualizing large networks and deep hierarchies. For example the comorbidity network we saw in Figure \ref{fig:original2DdiseaseNet} hides links and first and foremost is limited to only one hierarchical layer. This is not a problem for this dataset in particular, but we wanted a solution to visualize n hierarchical networks.
+To improve process of hierarchical network exploration, we wanted to use the capabilities of VR and 3D information visualization. 
+
+\section{Requirements}
+
+We defined multiple requirements based on the problems we already described in the previous Section. 
+
+\begin{itemize}
+    \item The visualization is able to visualize $n$ hierarchical network datasets. Each node represents a network for itself. Links are possible within nodes of the same network but also to nodes of different networks with the same hierarchical depth.
+    \item The visualization can display larger networks than classical 2D approaches, before reaching a critical point of visual clutter where a meaningful exploration is not possible anymore.
+    \item The visualization provides a room scale experience for small and large room sizes.
+    \item The visualization fully utilized the tracking capabilities of the VR Headset to optimize interaction experience for the user.
+    \item The visualization allows a flexible navigation through the graph during the exploration process.
+    \item The visualization ensures the clarity of the entire visualization by applying appropriated techniques according to Shneiderman's visualization seeking mantra.
+    \item The visualization ensures that deep hierarchical networks are equally represented and can be explored intuitively. 
+\end{itemize}
+
+%To test the usability of the visualization for n hierarchical networks we created some randomized networks as test data. TODO in implementation?!?!?
 
 \section{Layout}
 
@@ -68,14 +84,12 @@ We also take the number of child nodes into account when calculating the node si
 \begin{equation}
     nodeSize = baseSize + (numChildNodes * constant)
 \end{equation}
-%Wichtigkeit Zusammenhang der Forces mit dem Renderprozess, Stichwort Node Größe\\
-%Transparente Nodes\\
-%Node Label + weighted Link\\
-%different Colors for links\\
-%Ausblenden des Nodes wenn innerhalb, innersten Node mit Wireframe anzeigen => verbessert Übersichtlichkeit\\
 
 \section{Interaction}
 \label{chap:solution-interaction}
+
+Every interactive visualization needs methods to interact with the data. 
+For our visualization the requirements are that the user is able fr 
 
 \begin{figure}[h]
     \centering
@@ -84,8 +98,10 @@ We also take the number of child nodes into account when calculating the node si
     \label{fig:controllerMapping} 
 \end{figure}
 
+%End of Section or Implementation
 We optimized our application for the HTC Vive therefore all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
 As other 6-DOF headsets usually provide the same or similar interaction possibilities, the interaction concept of our visualization can be applied to other headsets as well.\\
+
 Figure \ref{fig:controllerMapping} provides an overview of all available interaction methods in our application. Multiple interactions require the selection of a node beforehand, to this end we implemented the common concept of ray cast selection. 
 Along the length of the right controller a ray cast is performed throughout the scene. To better visualize the effect we render a straight red line to imitate a virtual laser pointer.
 The first intersected node is used as the selected node for other interaction methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset. In addition, the selected node is visually highlighted through graying out the other nodes to increase the contrast. This allows the users to quickly see which node they currently have selected.
