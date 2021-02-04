@@ -131,20 +131,60 @@ As other 6-DOF headsets usually provide the same or similar interaction possibil
 
 \subsection{Filtering Link Visibility}
 \label{chap:ps-filterLinks}
-A common technique in the visualization domain is that of details or filtering on demand. We apply this concept to reduce the visual clutter produced by overlapping of multiple links.\\
-The filtering is always applied and can not be turned off. It refers to a specific selected node which then is used in the filter function.\\
-To select that node there are two modes. Firstly an automatic mode which uses the current position of the users in particular the position of the headset e.g. the “camera” in the scene. 
-The innermost node is selected by default for filtering, in addition the user can lock the selected node with the button “switchLockLinkVisibility” on the controller (see Figure \ref{fig:controllerMapping}). This prevents the selected node to change as the user moves around the scene, this lock can be disabled by a press on the same button.
-Secondly there is a manual mode to select a specific node by using the laser pointer and pressing the “lockLinkVisibilityForNode“ button on the controller. When selecting a specific node via this method, the lock from the automatic mode is automatically set to prevent change when moving around.\\
-The filter function now uses that selected node to calculate which links are visible and which not. The rules for the function are the following:
+
+\begin{figure}[h]
+    \centering
+    \begin{subfigure}[b]{0.6\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/filterLinks/allLinks.jpg}
+        \subcaption{All links represented in the data.}
+        \label{fig:linkFilter-all}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.6\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/filterLinks/outside.jpg}
+        \subcaption{Visible links when the user is outside every node.}
+        \label{fig:linkFilter-outside}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.6\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/filterLinks/layer0.jpg}
+        \subcaption{Visible links when the user inside node 0.0 or selected it by the laser pointer interaction.}
+        \label{fig:linkFilter-layer1}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.6\columnwidth}
+        \centering
+        \includegraphics[width=\textwidth]{graphics/filterLinks/layer1.jpg}
+        \subcaption{Visible links when the user inside node 1.1 or selected it by the laser pointer interaction.}
+        \label{fig:linkFilter-layer2}
+    \end{subfigure}
+    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Our filtering technique visualized on a small example graph.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \label{fig:intro} 
+  \end{figure}
+
+To ensure the clarity of the visualization we apply a filtering approach for links according to the requirements. 
+The goal is to reduce visual clutter while providing as much information as possible. 
+As a quick recap: Links in our visualization can exist between the same hierarchical parent node but also to nodes with a different parent node as long as the hierarchical depth is the same, Figure \ref{fig:linkFilter-all} shows a small example of all possible link combinations for three hierarchical layers.
+Displaying all link at the same time would quickly lead to visual clutter where a meaningful exploration is not possible anymore. 
+Therefore, we came up with our own filtering logic which decides which links are displayed and which are not.\\ 
+The filter uses a specific node this can either a directed selected node from the user by the laser pointer interaction or indirectly selected through the position of the user. A directly selected node always overrules the indirectly selected.
+
 \begin{itemize}
-    \item If none node is selected and the user is not inside any node only the links from the top layer 0 are displayed.
+    \item If no node is selected and the user is not inside any node only the links from the top layer 0 are displayed (see Figure \ref{fig:linkFilter-outside}).
     \item All links with source or target of that selected node are displayed. 
     \item All links with source or target of direct child nodes from the selected nodes are displayed. Direct child here means the hierarchical child one layer below the selected node. 
     \item All other links are not visible.
 \end{itemize}
 
-In an earlier version we not only displayed the links of direct child nodes but instead links of all recursively child nodes. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
+As an example, Figure \ref{fig:linkFilter-layer1} shows a situation where node 0.0 is selected. Therefore, all links connecting direct nodes of 0.0 and links from 0.0 itself are displayed. However, links of deeper nested nodes links 2.1 are not displayed. 
+Another situation can be seen in Figure \ref{fig:linkFilter-layer2}, here only links from node 1.1 and 2.4 are visible but the links from node 1.2 and 0.0 are not visible anymore.\\
+In an earlier version we not only displayed the links of direct child nodes but instead links of all recursively child nodes, e.g. in Figure \ref{fig:linkFilter-layer1} the green links would also be visible. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
+
+In order to support an intuitively and flexible exploration workflow the user also has the ability to lock a currently applied filter.
+With the left menu button (see Figure \ref{fig:controllerMapping}; nr 1) the state of the locked can be toggled. 
+If the lock is active, the indirect selecting of nodes by the position of the user is disabled. The lock is also automatically set if a node is directly selected by the laser pointer. 
+This allows the user to freely navigate around the visualization without constantly having to deal with changing link visibility. 
+On freeing the lock the indirect select automatically kicks in again and select the current node the user is position in.
 
 \section{Navigation}
 \label{chap:solution-navigation}
