@@ -32,6 +32,8 @@ The visualization supports an overview and detail view (see Section \ref{chap:ps
 Our concept of nested hierarchical layers implies that nodes and links of inner layers get smaller for each iteration of nesting. This introduces a new problem as after a few iterations the nodes and links in the virtual scene are too small to recognize.
 To solve this problem we added automatic adaption of the navigation movement speed and scaling of the entire scene. This ensures that each layer can be explored at an equal size compared to real life objects (see Section \ref{chap:ps-spatialReference}).
 
+\textbf{The visualization uses the HTC Vive as a target platform, but the concepts should be transferable to other 6-DOF Headsets.}
+
 %To test the usability of the visualization for n hierarchical networks we created some randomized networks as test data. TODO in implementation?!?!?
 
 \section{Layout}
@@ -103,9 +105,6 @@ We also take the number of child nodes into account when calculating the node si
 \section{Interaction}
 \label{chap:solution-interaction}
 
-Every interactive visualization needs methods to interact with the data. 
-For our visualization the requirements are that the user is able fr 
-
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{chapters/graphics/controllerMapping.jpg}
@@ -113,16 +112,22 @@ For our visualization the requirements are that the user is able fr
     \label{fig:controllerMapping} 
 \end{figure}
 
-%End of Section or Implementation
+From the requirements Section we know that the visualization system has to provide interaction methods to allow teleportation navigation throughout the virtual scene (see Section \ref{chap:solution-navigation}). As well as enable the user to switch the visibility filter between multiple groups of links (see Section \ref{chap:ps-filterLinks}).
+What both interactions have in common is that the user has to select a specific node before these actions can be triggered. 
+This concludes that our visualization needs a general way to support the selection of nodes which then can be used by various other methods we apply during the exploration process. 
+In addition, we also stated in our requirements that we strive to use the tracking capabilities of VR to create intuitively interaction methods.
+Therefore, all user interactions can only be provided by the native VR supported hardware, in particular from 6-DOF tracked controllers. 
+To this end we implemented the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller a ray is cast through the scene. To better visualize the effect, we render a straight red line to imitate a virtual laser pointer (TODO figure). The first intersected node is then used as the selected node for other methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset (TODO figure). In addition, the selected node is visually highlighted through graying out the other nodes to increase the contrast (TODO figure). This allows the users to quickly see which node they currently have selected.
+
+Now that the users can select specific nodes in the scene we also have to give them the opportunity to trigger certain actions. These actions include the teleportation navigation (see Section \ref{chap:solution-navigation}), link visibility filter (see Section \ref{chap:ps-filterLinks}). 
+Other actions do not require the selection of a node like manual rotation, free flying with an adjustable flying speed and teleportation to the upper layer (see Section \ref{chap:solution-navigation}) as well as manual scaling (see Section \ref{chap:ps-spatialReference}).\\
+However, we have to assign each of these actions to a button on the controller (see Figure \ref{fig:controllerMapping}). In order to optimize the intuitive workflow we extend the normal trackpad (nr. 2) click by the position of clicking. 
+This allows us to have 5 virtual buttons on the trackpad: top, bottom, left, right and center. The advantage of this method is that these virtual buttons can be used fluently while also interacting with the touch sensitive trackpad at the same time by one finger. 
+Therefore, the users can control the free flying direction and speed with their left thumb, as well as triggering the teleportation to the upper hierarchical layer. The right controller acts as a virtual laser pointer, the two actions which need a node selection beforehand can be started by the menu button (nr. 1) and trigger (nr. 7). 
+On the right trackpad the scaling and rotation can be controlled.
+
 We optimized our application for the HTC Vive therefore all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
 As other 6-DOF headsets usually provide the same or similar interaction possibilities, the interaction concept of our visualization can be applied to other headsets as well.\\
-
-Figure \ref{fig:controllerMapping} provides an overview of all available interaction methods in our application. Multiple interactions require the selection of a node beforehand, to this end we implemented the common concept of ray cast selection. 
-Along the length of the right controller a ray cast is performed throughout the scene. To better visualize the effect we render a straight red line to imitate a virtual laser pointer.
-The first intersected node is used as the selected node for other interaction methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset. In addition, the selected node is visually highlighted through graying out the other nodes to increase the contrast. This allows the users to quickly see which node they currently have selected.
-
-An interesting aspect of the Vive controllers (see Figure \ref{fig:controllerMapping}) is that the grip buttons (nr. 8) on both sides of the controller are actually only one button instead of two. The reason for that is that the controller is designed to fit both hands. 
-So in summary we can only use 3 buttons on each controller: the trigger (nr. 7), menu button (nr. 1) and a click on the trackpad (nr. 2). The system button (nr. 3) can not be used by an application as it opens the Steam overlay settings. To stretch the number of available buttons we used the clicking position of the trackpad. This allows us to have 5 virtual buttons on the trackpad: top, bottom, left, right and center. An advantage of this method is also that these virtual buttons can be used fluently while also interacting with the touch sensitive trackpad at the same time by one finger. 
 
 \subsection{Filtering Link Visibility}
 \label{chap:ps-filterLinks}
