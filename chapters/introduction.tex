@@ -41,46 +41,16 @@ In addition, visual clutter by overlapping of nodes and links should be prevente
 Furthermore, the exploration of the resulting graph should be possible with room scale virtual reality devices like the HTC Vive, requiring optimized navigation, filtering and brushing methods to enhance the graph exploration user experience.
 
 \section{Methodology}
-In order to achieve the proclaimed goal we defined our own 3D layout. The result can be seen in Figure \ref{fig:conceptSketch}. Our core concepts are the following: 
-\begin{itemize}
-    \item We render each hierarchy layer as a three-dimensional structure instead a flat surface as seen in many multilayer network visualizations for example Figure \ref{fig:2dmultilayerVis}. This enables us to use the entire volume to evenly distribute our nodes and links of the network and also enabling the representation of cluster formations within a hierarchy layer. Furthermore, it helps us to reduce cluttering of nodes and links.
-    \item For the hierarchical relationship, we use the concept of nesting child nodes into parent nodes as seen in tree map visualizations for example Figure \ref{fig:hierarchicalCirclePlot}. However, we use 3D spheres instead of 2D circles. 
-    \item In addition, our visualization is not limited to two hierarchical layers as seen in the Figure, but rather is able to display $n$ hierarchical layers. To achieve this we simply repeat the process of nesting child nodes into parents for each layer.
-    \item To dynamically build this layout for any given data as input we developed a custom force based system. It consists of various attracting forces for nodes of the same hierarchical layer and parent, as well as repelling forces between nodes of different parents in the same hierarchical layer.
-\end{itemize}
-%repelling and attracting
-As the context of 3D layout introduces new challenges for navigation and interaction we had to come up with some ideas to solve this: 
-\begin{itemize}
-    \item The main target of our visualization system is a room scaled virtual reality experience.
-    \item For user input we fully utilize the tracking capabilities of the HTC Vive controllers. Selection of nodes and links is possible with a virtual “laser pointer” attached to the user's controller in the scene.
-    \item For navigation, we provide two kinds of navigation methods: One for bridging larger distances like flying to a specific node selected by the user or flying to the hierarchical parent node. Additional, a free flying navigation that allows the user to fine tune their position.
-    \item Links between nodes are possible in one network but also to other networks of the same hierarchical layer. The visibility of the links is changed automatically by the position of the user and manually by selecting a node with the virtual laser pointer during the exploration process. 
-\end{itemize}
-Our concept of nested hierarchical layers implies that nodes and links of inner layers get smaller for each iteration of nesting. This introduces a new problem as after a few iterations the nodes and links in the virtual scene are too small to recognize. In a 2D layout this is usually solved with zooming. However, as this is not possible within a 3D layout we came up with two additional concepts: 
-\begin{itemize}
-    \item The free flying navigation speed is adaptive. On entering an inner hierarchical layer the speed is reduced and on leaving increased.
-    \item In VR, navigation also always happens through movement in the real world, e.g. walking around. We can dynamically adjust the flying speed, but obviously we can not adjust the physical movement speed of the user in the real world. Furthermore, the size of objects in a virtual scene is always directly linked to real world sizes. (e.g. 1 virtual unit is 1 meter in the real world). To solve this problem we also dynamically adjust the size of the entire scene while exploring the graph. Increasing the scale on entering an inner layer and reducing on leaving. 
-\end{itemize}
-
-%As stated by Sadana et al. \cite{sadana_redefining_2016}, it is also important to explore how existing techniques can be applied to new platforms like virtual reality devices. To this end, we take existing already well established 2D visualization techniques combine them and extend the result into the three-dimensional space. We adapted a tree map visualization (see Figure \ref{fig:hierarchicalCirclePlot}) for visualizing the hierarchical aspect and a flat multilayer network (see Figure \ref{fig:2dmultilayerVis}) for the network relationships.  
-
-\begin{figure}[h]
-    \centering
-    \begin{subfigure}[b]{0.40\columnwidth}
-        \centering
-        \includegraphics[width=\textwidth, trim={0 0 0 4.3cm},clip]{graphics/circle_packing.pdf}
-        \subcaption{Hierarchical circle packing plot \cite{ribecca_circle_nodate}}
-        \label{fig:hierarchicalCirclePlot}
-    \end{subfigure}
-    \begin{subfigure}[b]{0.50\columnwidth}
-      \centering
-      \includegraphics[width=\textwidth]{graphics/2dmultilayerVis.jpg}
-      \subcaption{multilayer network visualization \cite{ghoniem_state_2019}}
-      \label{fig:2dmultilayerVis}
-    \end{subfigure}
-    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{(a) shows a possible visualization for hierarchical structures, (b) shows a visualization for networks with multiple layers} % Remove the [...] argument if the original caption should be used in the figure list.
-    \label{fig:referenceVisualizations} 
-  \end{figure}
+In order to achieve the proclaimed goal we firstly did research on already working solutions. We summarized important techniques many approaches share and categorized them into different visualization types in Section \ref{chap:rw-2d3dLayout}. 
+Before improving a visualization we had to get a clear understanding of our data structure, therefore we looked into the theory behind it. Section \ref{chap:bg-graphTheory} explains the concepts of different graphs data structures, their extensions like trees but also fundamentally drawing techniques like node-link diagrams.
+As we were planning a VR visualization, we also looked into VR technology from a feature perspective in Section \ref{chap:bg-vrtech}. Furthermore, we examined other related works in the field of VR visualization including navigation and interaction methods as well as VR specialized graph layouts in Section \ref{chap:rw-VRVIS}.\\
+With our goal in mind we defined some requirements the visualization has to meet in order to be a success. These requirements including a summary how we planned to fulfilled them can be found in Section \ref{chap:ps-requirements}. 
+To design our own visualization system we need a concept for our VR specialized layout which can be found in Section \ref{chap:ps-layout}. 
+Its task is to find the node positions in order to achieve a distributed hierarchical nested graph with no node overlapping, which is primarily done by a customized force system.
+Furthermore, a fitting render representation had been designed (see Section \ref{chap:ps-graphRepresentation}) as well as VR optimized interaction (see Section \ref{chap:solution-interaction}) and navigation methods (see Section \ref{chap:solution-navigation}). 
+A detail description on the implementation process can be found in Chapter \ref{chap:Impl}. The resulting visualization can be seen in Figure \ref{fig:conceptSketch}.\\
+For evaluation, we measured performance and technical limits of our solution in Section (TODO). In addition, we did multiple informational feedback interviews and documented the results as well as if the solution met all the requirements in Section (TODO). As a side note, due to the COVID-19 pandemic during the writing we had restrictions on gathering feedback therefore we got a reduced set of people testing out our visualization.\\
+Lastly in Chapter (TODO) we discuss some problems and possible future work.
 
 \begin{figure}[h]
     \centering
@@ -88,5 +58,3 @@ Our concept of nested hierarchical layers implies that nodes and links of inner 
     \caption{Screenshot of the comorbidity network dataset from \ref{fig:original2DdiseaseNet} in our hierarchical network visualization. On the screenshot only edges from node 0.3 are displayed.} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:conceptSketch} 
 \end{figure}
-
-To evaluate our results we gathered feedback from multiple people on overview of the visualization, navigation, interaction and motion sickness. However, a full user study is out of scope of this thesis. As a side note, due to the COVID-19 pandemic during the writing we had restrictions on gathering feedback therefore we also included our own. 

@@ -7,7 +7,7 @@ However, current 2D approaches quickly reach their limits and run into the probl
 To improve process of hierarchical network exploration, we wanted to use the capabilities of VR and 3D information visualization. 
 
 \section{Requirements}
-
+\label{chap:ps-requirements}
 We defined multiple requirements based on the problems we already described in the previous Section:\\
 \textbf{The visualization is able to visualize $n$ hierarchical network datasets. Each node represents a network for itself. Links are possible within nodes of the same network but also to nodes of different networks with the same hierarchical depth.}\\
 To achieve that goal, we created our own layout see Section \ref{chap:ps-layout}. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations we use three-dimensional spheres. To dynamically build this layout for any given data as input we developed a custom force based system. It consists of various attracting forces for nodes of the same hierarchical layer and parent, as well as repelling forces between nodes of different parents in the same hierarchical layer. Details to the force system are summarized in Section \ref{chap:ps-forces}.
@@ -81,6 +81,7 @@ During our optimization we stumbled upon the problem that nodes tend to jump rap
     \label{fig:SimulationSteps} 
   \end{figure}
 \section{Graph Representation}
+\label{chap:ps-graphRepresentation}
 The goal of the graph representation was to choose appropriate rendering methods which allow us to reduce visual clutter and improve clarity while still displaying as much data as possible.\\
 To represent the graph data, we choose spheres for nodes, tubes as links and cones as arrow heads indicating the link direction.
 With solid textures the overview ability of the visualization would be poor since our layout approach use nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparent, then the user is able to see the nested nodes inside its parent node(TODO Figure). 
