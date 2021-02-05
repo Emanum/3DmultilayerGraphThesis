@@ -25,6 +25,13 @@ Other works addressed the performance of layout techniques like Itoh \cite{itoh_
 
 The presented approaches feature that there are many approaches with various explicit and implicit layouts for tree visualizations, which focus on mapping hierarchical relationships for one network at a time. However, with our approach we also want to support data structures with links between multiple networks which are not supported by the presented approaches since this would mean there is a cycle in the original data and therefore breaking the definition of a tree structure in the first place.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.40\textwidth, trim={0 0 0 4.3cm},clip]{graphics/circle_packing.pdf}
+    \caption{Hierarchical circle packing plot \cite{ribecca_circle_nodate}}
+    \label{fig:hierarchicalCirclePlot}
+\end{figure}
+
 \subsection{Multilayer Visualization}
 We already mentioned in Section \ref{exp:multilayer}, the interesting part of multilayer visualizations is that they enable us to model relationships between multiple separate networks. Which are not explicitly supported by common node-link and tree visualization techniques we discussed before.\\
 Domenico et al. \cite{de_domenico_muxviz_2015} presented their MuxVis Toolkit, an open-source software which is able to present multilayer datasets. In direct comparison to other approaches we have seen, this one stands out as it provides a complete and user-friendly software package with various layouts (see Figure \ref{fig:muxVisExample}) like a classical stacked one-line layer, a multi-line layer where multiple stacked layer planes are displayed beside each other, a force directed method and lastly a matrix layout. Besides these so-called 2.5D approaches there are also some classical 2D node-links networks, for example Ducruet \cite{ducruet_multilayer_nodate} display multiple networks showing marine traffic in a single graph just coded by color. 
