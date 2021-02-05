@@ -208,19 +208,20 @@ Particular with cable bound headsets this is useful because multiple rotations i
 
 \subsection{Challenge of spatial reference in VR}
 \label{chap:ps-spatialReference}
-A challenge of our hierarchical layout is that nodes and links are exponentially getting smaller each hierarchy step. 
-2D visualization usually deal with that by adjusting the viewport of the visualization e.g. zoom in and out. 
+In the requirements Section we stated that the visualization should ensure an equal representation of deep hierarchical networks. The challenge is that nodes and links are getting exponentially smaller with each hierarchy step.
+This leads to tiny nodes which are not detectable anymore.
+2D visualizations usually deal with that by adjusting the viewport of the visualization e.g. zoom in and out. 
 However, in the context of a 3D VR visualization a simple zooming approach is not possible. 
 In a 3D non VR visualization that problem can be mitigated by adjusting the movement speed. Therefore, distances seem similar in size for the inner nodes and navigation is also possible without overshooting the target position.\\ 
-VR visualization are trickier due to the spatial impression by rendering two perspectives. On a 2D projected image like a normal computer screen distances in the scene can only be estimated through movement. From a static image the human eye is not able to recognize the distance or size of an object without any additional size reference. 
+In VR the situation is trickier due to the spatial impression by rendering two perspectives. On a 2D projected image, like on a normal computer screen distances in the scene can only be estimated through movement. From a static image the human eye is not able to recognize the distance or size of an object without any additional size reference. 
 In the real world however we constantly see objects from two different perspectives as we have two eyes, this enables the human mind to estimate distances without the need of any movement. VR works the same way by rendering the scene from two different perspectives each for one eye.  
-This means that a simple trick of adjusting the movement speed is not working for our VR visualization. 
-That problem makes itself noticeable for example as layer 4 nodes in VR are the size of a finger where layer 0 nodes are these of the entire room.
-In addition to the perspective problem changing the movement speed also do not work because movement in a 6-DOF VR headset is also always done by movement in the real world and obviously the physical movement speed can not be adjusted.
+This means that a simple trick of adjusting the movement speed is not working for our VR visualization. (die erklärung ist ein bißchen umständlich, Hast du vorschläge wie man das besser formulieren könnte? Finde die Problematik recht schwer zu beschreiben)
+That problem makes itself noticeable for example as layer 4 nodes in VR are the size of a finger where layer 0 nodes are the size of the entire room.
+In addition to the perspective problem changing the movement speed also does not work because movement in a 6-DOF VR headset is also always done by movement in the real world and obviously the physical movement speed can not be adjusted.
 
-The only real solution to that problem in our opinion is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
+The only real solution to that problem is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
 \begin{itemize}
-    \item Dynamically adjust the fly speed while navigating in the graph. On entering a node the speed slows down when leaving speeds up again. 
+    \item Dynamically adjust the fly speed while navigating in the graph. On entering a node the speed slows down, when leaving it speeds up again. 
     \item Dynamically scaling the entire scene. When teleporting to a node in a deeper hierarchy layer, an upscaling transition is started. On teleporting to the parent layer a downscaling transition is started. 
 \end{itemize} 
 
@@ -232,9 +233,9 @@ This is important as we can not know the available room space of the users VR se
 %manueller speed + skalierung wichtig da nicht klar was User preferred und wie groß sein space ist\\ 
 \section{Exploration Flow}
 \label{chap:ps-explorationFlow}
-To provide an optimal exploration experience of the hierarchical network we use the visual information seeking mantra \ref{seeking mantra}. 
+To provide an optimal exploration experience of the hierarchical network, we use the visual information seeking mantra \ref{seeking mantra}. 
 At the beginning the user is in the overview perspective. He/she is placed on a further position away from the center where a good look on the entire graph is possible, in addition rotation to the graph can be applied.
-When the user decides to dive deeper in the network, a node can be selected via the ray cast controller interaction. This triggers the transition into the detail perspective. 
+When the user decides to dive deeper into the network, a node can be selected via the ray cast controller interaction. This triggers the transition into the detail perspective. 
 Here all navigation and interaction methods described in Section \ref{chap:solution-interaction} and \ref{chap:solution-navigation}
 are available. 
 A core concept for the exploration in the detail perspective is the use of the VR room-scale navigation experience. As the user is able to tweak the scale of the scene to their liking, walking around the graph is possible for different room sizes. The goal is to improve spatial impression of the graph which results in a better clarity and understanding of the data.
