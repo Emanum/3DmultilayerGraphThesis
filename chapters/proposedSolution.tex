@@ -188,19 +188,23 @@ On freeing the lock the indirect select automatically kicks in again and select 
 
 \section{Navigation}
 \label{chap:solution-navigation}
+To navigate in the virtual scene we support a walkable room scale VR experience setup. As we stated in Section \ref{chap:rw-vrnavigation} walking provides the best immersive and intuitive navigation method.
+However, the graph will usually be larger than the users available space, to this end we also include other navigation methods.
+To allow a maximum of flexibility during the navigation we provide two navigation methods: animated teleporting for covering larger distances and free flying to perform small and precise position adjustments.
 
-There are two modes for navigation implemented in the application: a free-fly and a teleport technique.\\
-To perform small adjustments in position, especially when the users free space is limited, the user can freely fly in the virtual scene. To control the direction the left touch sensitive trackpad can be used. 
+The user should be able to move to other far away parts of the graph without loosing orientation or interrupt the exploration flow. A common example is to jump to a connected node of another parent node. 
+Therefore, we implemented an animated teleportation method. The user can select a node by the laser pointer and then press the right trigger (nr. 7) to initiate the teleportation. The target position is the closest edge barely inside the node. This allows the user to get an overview of all nodes and links in that selected node.   
+As with a simple teleportation over long distances, the user might lose the orientation, we perform a short animation to the target position. The speed of the animation is done with an ease-in and ease-out transition.
+Remember that as soon as the users enters another node, the visibility of links changes, provided there is no active lock.\\
+Instead of teleporting deeper into the hierarchical networks, the user can also teleport to the parent hierarchical layer. In particular to the edge barely outside the node the user is currently located in, this teleportation can be triggered by pressing the middle of the left trackpad.\\
+All teleportation methods can be freely combined even during the animation, therefore allowing the user to fluently move around the graph. 
+To further improve the overview, we display the current hierarchical layer as a text element floating over the right controller (see Figure (TODO)). 
+
+To perform small adjustments in position, especially when the users free space is limited, the user can freely fly in the virtual scene. To control the direction, the left touch sensitive trackpad can be used. 
 The forward direction is linked to the users gaze direction, so the final fly direction is the combination of gaze direction and trackpad touch position. 
 In addition, the fly speed is adjustable with a click on top or bottom of the trackpad.    
-Similar to other VR applications we also implemented a camera rotation. This allows the users to better position themselves in the real world, particular with cable bound headsets this is useful because multiple rotations in the real world require to step over the cable. In other VR applications the movement is usually done with the left controller and rotation with the right, analogue to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
-
-For covering long distances and navigate through the hierarchical layers we implemented an animated teleportation method. The user can select a node by the laser pointer and then press the right trigger (nr. 7) to initiate the teleportation. The target position is the closest edge barely inside the node, this allows the user to get an overview of the entire nodes and links in that selected node.   
-As with a simple teleportation the hierarchical aspect of the graph would lead to confusion, we perform a short animation to the target position. The speed of the animation is done with an ease-in and ease-out transition.
-Remember that as soon as the users enters another node, no matter if this happens during teleportation or free flying, the visibility of links changes, provided there is no active lock.\\
-Instead of teleporting deeper into the hierarchical networks the user can also teleport to the parent hierarchical layer. In particular to the edge barely outside the node the user is currently located in, this teleportation can be triggered by pressing the middle of the left trackpad.\\
-All teleportation methods can be freely combined even during the animation, therefore allowing the user to fluently move around the graph. 
-To further improve the overview we display the current hierarchical layer e.g. “layer: 2/5“ as a text element floating over the right controller. 
+Similar to other VR applications we also implemented rotation of the entire room scale space in the virtual scene. This allows the users to better position themselves in the real world. 
+Particular with cable bound headsets this is useful because multiple rotations in the real world require to step over the cable. In other VR applications the movement is usually done with the left controller and rotation with the right, analogue to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
 
 \subsection{Challenge of spatial reference in VR}
 \label{chap:ps-spatialReference}
