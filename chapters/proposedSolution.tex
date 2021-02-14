@@ -26,8 +26,8 @@ We defined multiple requirements based on the problems we described in the previ
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{chapters/graphics/concept1.jpg}
-    \caption{(TODO redraw sketch)A sketch of our preferred layout. } 
+    \includegraphics[width=\textwidth, trim={0cm 0cm 0cm 3.5cm},clip]{graphics/filterLinks/allLinks.jpg}
+    \caption{A sketch of our preferred layout in 2D. Instead of 2D circle we use 3D spheres in the real application. The number before the dot represents the depth respectively the layer of the node and the number after the dot a node id unique for each layer.} 
     \label{fig:layoutSketch} 
 \end{figure}
 To achieve \hyperref[req:R1]{R1}, we created our own layout. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations we use three-dimensional spheres. 
@@ -71,11 +71,23 @@ During our optimization we stumbled upon the problem that nodes tend to jump rap
   \end{figure}
 \section{Graph Representation}
 \label{chap:ps-graphRepresentation}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/screenshotNesting.jpg}
+    \caption{Overview perspective of the visualization. Each node is rendered semi transparent, this allows the user to detect the topology of the data.}
+    \label{fig:ps_nestedLayout}
+\end{figure}
+\begin{figure}[!htb]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/screenshotNestingAndWireframe.jpg}
+    \caption{Detail perspective inside of node 0.2. To be able to tell the border of the nodes the node is rendered as a wireframe when looking inside out.}
+    \label{fig:ps_wireframe}
+\end{figure}
 The goal of the graph representation was to choose appropriate rendering methods which allow us to reduce visual clutter and improve clarity while still displaying as much data as possible.\\
 To represent the graph data, we choose spheres for nodes, tubes as links and cones as arrow heads indicating the link direction.
-With solid textures the overview ability of the visualization would be poor since our layout approach use nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparent, then the user is able to see the nested nodes inside its parent node(TODO Figure). 
+With solid textures the overview ability of the visualization would be poor since our layout approach use nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparent, then the user is able to see the nested nodes inside its parent node (see Figure \ref{fig:ps_nestedLayout}). 
 However, links inside other nodes are not visible because displaying a huge number of links would rather increase visual clutter and reduce overview. To deal with the big amount of links we apply filter conditions which are described in Section \ref{chap:ps-filterLinks}.
-During the entire visualization process that the user should be able to detect the borders of the nodes and their hierarchical nesting.\\ Now that our nodes are transparent, it would be hard to detect if a another node is nested in the current parent node the camera is placed into or not. Therefore, we render a wireframe (TODO Figure) with the help of the improved spatial impression given by the virtual reality room scale experience this allows the user to better see the border of node. To further improve the assignability of nodes to their layers each node and link of the same layer shares a predefined color.\\
+During the entire visualization process that the user should be able to detect the borders of the nodes and their hierarchical nesting.\\ Now that our nodes are transparent, it would be hard to detect if another node is nested in the current parent node the camera is placed into or not. Therefore, we render a wireframe (see Figure \ref{fig:ps_wireframe}) with the help of the improved spatial impression given by the virtual reality room scale experience this allows the user to better see the border of node. To further improve the assignability of nodes to their layers each node and link of the same layer shares a predefined color.\\
 Of course an important part of the visualization process is to display names and details for nodes. To this end, each node instance has a billboard text label which is placed on the border of the node and always points to the camera.
 
 To ensure an equal down scaling of all rendered entities as well as correcting the needed node radius for the layout forces we use a visualization wide scaling factor:
