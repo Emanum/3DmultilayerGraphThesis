@@ -106,8 +106,8 @@ We also take the number of child nodes into account when calculating the node si
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{chapters/graphics/controllerMapping.jpg}
-    \caption{(TODO redo sketch)Controller mapping.} 
+    \includegraphics[width=1\textwidth]{graphics/controllerMapping.jpg}
+    \caption{Our controller mapping for the interactive VR experience. Depending on the clicking position on the touchpad different actions can be called. The different clicking positions are marked in the image with different colors.} 
     \label{fig:controllerMapping} 
 \end{figure}
 For \hyperref[req:R4]{R4} we use the 6 DOF tracking of the headset and controllers from the HTC Vive. Therefore, we implemented intuitively interaction techniques to allow teleportation navigation throughout the virtual scene (see Section \ref{chap:solution-navigation}). In addition, the user should be able  to switch the visibility filter between multiple groups of links (see Section \ref{chap:ps-filterLinks}).
@@ -115,13 +115,22 @@ What both interactions have in common is that the user has to select a specific 
 This concludes that our visualization needs a general way to support the selection of nodes which then can be used by various other methods we apply during the exploration process. 
 In addition, we also stated in our requirements that we strive to use the tracking capabilities of VR to create intuitively interaction methods.
 Therefore, all user interactions can only be provided by the native VR supported hardware, in particular from 6-DOF tracked controllers. 
-To this end we implemented the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller a ray is cast through the scene. To better visualize the effect, we render a straight red line to imitate a virtual laser pointer (TODO figure). The first intersected node is then used as the selected node for other methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset (TODO figure). In addition, the selected node is visually highlighted through graying out the other nodes to increase the contrast (TODO figure). This allows the users to quickly see which node they currently have selected.
+To this end we implemented the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller a ray is cast through the scene. To better visualize the effect, we render a straight red line to imitate a virtual laser pointer (see Figure \ref{fig:screenshot_interaction}). The first intersected node is then used as the selected node for other methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset (see Figure \ref{fig:screenshot_interaction}). In addition, the selected node and directly connected nodes are visually highlighted (see Figure \ref{fig:screenshot_interaction}). This allows the users to quickly see which node they currently have selected and provides context of the connected nodes.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/screenShotFilteringNodes2.jpg}
+    \caption{Screenshot during the selection of a node. The user can see the virtual laser pointer as a red line. 
+    In the lower part of the screen the name of the pointed node is written. (In this screenshot it seems centered because the field of view in the headset is different as in the screenshot.)    
+    In addition, the selected node as well as directly connected nodes are highlighted in a brighter shading. For improved navigation the layer where the user currently is located in is displayed as a text above the controller.} 
+    \label{fig:screenshot_interaction} 
+\end{figure}
 
 Now that the users can select specific nodes in the scene we also have to give them the opportunity to trigger certain actions. These actions include the teleportation navigation (see Section \ref{chap:solution-navigation}), link visibility filter (see Section \ref{chap:ps-filterLinks}). 
 Other actions do not require the selection of a node like manual rotation, free flying with an adjustable flying speed and teleportation to the upper layer (see Section \ref{chap:solution-navigation}) as well as manual scaling (see Section \ref{chap:ps-spatialReference}).\\
-However, we have to assign each of these actions to a button on the controller (see Figure \ref{fig:controllerMapping}). In order to optimize the intuitive workflow we extend the normal trackpad (nr. 2) click by the position of clicking. 
+However, we have to assign each of these actions to a button on the controller (see Figure \ref{fig:controllerMapping}). In order to optimize the intuitive workflow we extend the normal trackpad click by the position of clicking. 
 This allows us to have 5 virtual buttons on the trackpad: top, bottom, left, right and center. The advantage of this method is that these virtual buttons can be used fluently while also interacting with the touch sensitive trackpad at the same time by one finger. 
-Therefore, the users can control the free flying direction and speed with their left thumb, as well as triggering the teleportation to the upper hierarchical layer. The right controller acts as a virtual laser pointer, the two actions which need a node selection beforehand can be started by the menu button (nr. 1) and trigger (nr. 7). 
+Therefore, the users can control the free flying direction and speed with their left thumb, as well as triggering the teleportation to the upper hierarchical layer. The right controller acts as a virtual laser pointer, the two actions which need a node selection beforehand can be started by the menu button and trigger. 
 On the right trackpad the scaling and rotation can be controlled.
 
 We optimized our application for the HTC Vive therefore all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
@@ -179,7 +188,7 @@ Another situation can be seen in Figure \ref{fig:linkFilter-layer2}, here only l
 In an earlier version we not only displayed the links of direct child nodes but instead links of all recursively child nodes, e.g. in Figure \ref{fig:linkFilter-layer1} the green links would also be visible. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
 
 In order to support an intuitively and flexible exploration workflow the user also has the ability to lock a currently applied filter.
-With the left menu button (see Figure \ref{fig:controllerMapping}; nr 1) the state of the locked can be toggled. 
+With the left menu button (see Figure \ref{fig:controllerMapping}) the state of the locked can be toggled. 
 If the lock is active, the indirect selecting of nodes by the position of the user is disabled. The lock is also automatically set if a node is directly selected by the laser pointer. 
 This allows the user to freely navigate around the visualization without constantly having to deal with changing link visibility. 
 On freeing the lock the indirect select automatically kicks in again and select the current node the user is position in.
@@ -196,7 +205,7 @@ As with a simple teleportation over long distances, the user might lose the orie
 Remember that as soon as the users enters another node, the visibility of links changes, provided there is no active lock.\\
 Instead of teleporting deeper into the hierarchical networks, the user can also teleport to the parent hierarchical layer. In particular to the edge barely outside the node the user is currently located in, this teleportation can be triggered by pressing the middle of the left trackpad.\\
 All teleportation methods can be freely combined even during the animation, therefore allowing the user to fluently move around the graph. 
-To further improve the overview, we display the current hierarchical layer as a text element floating over the right controller (see Figure (TODO)). 
+To further improve the overview, we display the current hierarchical layer as a text element floating over the right controller (see Figure\ref{fig:screenshot_interaction}). 
 
 To perform small adjustments in position, especially when the users free space is limited, the user can freely fly in the virtual scene. To control the direction, the left touch sensitive trackpad can be used. 
 The forward direction is linked to the users gaze direction, so the final fly direction is the combination of gaze direction and trackpad touch position. 
