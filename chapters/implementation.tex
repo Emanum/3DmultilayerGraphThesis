@@ -42,6 +42,53 @@ The primary VR headset we are targeting with our application is the original HTC
 
 \subsection{Data Structure}
 
+Listing \ref{lst:internalJSON} shows a minimalistic example of our data structure that we use an input data source. The data is formatted as a JSON object with a flat list of nodes and link. The hierarchical information is encoded with the attributes childNodesIDs and parentNodeID as references. 
+In addition to the necessary attributes, each node and link object can have additional attributes depending on the specific dataset.
+
+\begin{lstlisting}[language=json,label={lst:internalJSON},caption=minimal JSON input data structure]
+{
+    "nodes": [
+        {
+            "id": "0.0",
+            "weight": 4.5,
+            "color": "rgb(77, 175, 74)",
+            "layer": "0",
+            "desc": "0.0",
+            "childNodeIDs": [
+                "1.1",
+                "1.3",
+                ...
+            ]
+        },
+        ...
+        {
+            "id": "1.1",
+            "weight": 1.7,
+            "color": "rgb(250, 250, 110)",
+            "layer": "1",
+            "desc": "1.1",
+            "parentNodeID": "0.0",
+            "childNodeIDs": [
+                "2.1",
+                ...
+            ]
+        },
+        ...
+    ],
+    "links": [
+        {
+            "color": "rgb(77, 175, 74)",
+            "layer": "0",
+            "source": "0.0",
+            "target": "0.1",
+            "label": "0.0 - 0.1",
+            "linkwidth": 0.35
+        },
+        ...
+    ]
+}
+\end{lstlisting}
+
 \subsection{Program Flow}
 \label{section:programFlow}
 \begin{figure}[h]
