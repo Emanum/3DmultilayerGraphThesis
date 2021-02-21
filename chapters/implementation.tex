@@ -91,7 +91,7 @@ In addition to the necessary attributes, each node and link object can have addi
 
 \subsection{Program Flow}
 \label{section:programFlow}
-\begin{figure}[h]
+\begin{figure}[!hbt]
     \centering
     \includegraphics[width=0.74\textwidth]{graphics/vrgraph_flow.jpg}
     \caption{Sequence diagram of the program flow for our application.}
@@ -105,11 +105,35 @@ Then the main render loop is executed which produced a rendered frame for each i
 Details on how the ray casting is working is not described in this thesis because we did not adapt this from the original implementation. We only access the objects that got intersected by the virtual laser pointer in other parts such as navigation and interaction. 
 
 \subsection{Virtual Scene Graph}
-A Frame Virtual Scene Graph, 
+A-Frame application are build by creating a virtual scene graph.
+It uses an entity-component-system architecture which follows the  composition over inheritance and hierarchy principle. 
+This means that every object in A-Frame is an entity that can include our customized code.
+There are various components that can be reused and extended, the base  component is represented by the <a-entity> element.\\
+Listing \ref{lst:virtualSceneGraph} shows a simplified version of the virtual scene graph the application uses. 
+It consists of the entities for the Vive controllers, a passive and active camera and rig setup and the graph object itself.
+Most data and logic is encapsulated in the graphData object. We maintain here two lists of data: a list of nodes/links for the ray casting entities and a list of nodes/links for the actual rendered entities. The reason for the duplicated data is that the rendered entities are instanced objects (see Section \ref{sec:rendering}) and therefore can not be used for ray casting directly.
 
-2 Virtual Object Arrays
-Raycasting Objects
-Rendered Objects
+\begin{lstlisting}[label={lst:virtualSceneGraph},caption=Simplified virtual A-Frame scene graph used by the application.]
+<body>
+    <a-scene ... >
+        <a-entity vive-controls="hand: left"> </a-entity>
+        <a-entity vive-controls="hand: right"> </a-entity>
+        
+        <a-entity id="graphData" json-url="data/inputData.json" ... >
+            <a-entity id="passive_rig"  ... >  
+                <a-entity id="passive_cam" ... > </a-entity>
+            </a-entity>
+            ...
+        </a-entity>
+
+        <a-entity id="active_rig" ... >
+            <a-text id="controllerLabel" ... > </a-text>
+            <a-entity id="active_cam" ... > </a-entity>
+        </a-entity>
+        ...
+    </a-scene>
+</body>
+\end{lstlisting}
 
 \section{Application Details}
 
