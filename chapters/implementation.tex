@@ -16,10 +16,10 @@ At the time of writing, the OpenXR and WebXR specification is still relatively n
 \end{figure}
 
 \section{Prior Publication}
-For our implementation we extend the code from a prior publication from Sorger et al. \cite{sorger_immersive_2019}. 
-They implemented an immersive visualization for node-link graphs without hierarchical information. Their implementation already contains a common force-based layout, the laser-pointer ray casting technique to select objects, a free flying navigation as well as the animated teleport and lastly the code structure to include the frameworks they use. A screenshot of their work is shown in Figure \ref{fig:priorPublication}.\\
-We extend their implementation by adding ability to visualization hierarchical networks as described in Section \ref{chap:proposed-Solution}. To achieve that we had to adapt the layout algorithm, add transparent rendering, adapt some visual rendering aspects, change the target position for the animated teleport, change the controller button mappings, implement the link filtering technique, add automatic/manual scaling of the virtual scene and automatic/manual adaption of the free flying speed.
-This process is described in detail in this chapter.
+For our implementation we extend the code of a prior publication from Sorger et al. \cite{sorger_immersive_2019}. 
+They implemented an immersive visualization for node-link graphs without hierarchical information. Their implementation already contains a common force-based layout, the laser-pointer ray casting technique to select objects, a free flying as well as animated teleport navigation method and lastly a code structure with an included render engine. A screenshot of their work is shown in Figure \ref{fig:priorPublication}.\\
+We extended their implementation by adding the ability to visualization hierarchical networks as described in Section \ref{chap:proposed-Solution}. To achieve that we had to adapt the layout algorithm, add transparent rendering, adapt some visual rendering aspects, change the target position for the animated teleport, change the controller button mappings, implement the link filtering technique, add automatic/manual scaling of the virtual scene and automatic/manual adaption of the free flying speed.
+This process is described in detail in Section \ref{sec:applOverview} and \ref{sec:applDetails}.
 
 \begin{figure}[!hbt]
     \centering
@@ -30,19 +30,24 @@ This process is described in detail in this chapter.
 
 \section{Technology}
 
-Our application is implemented in plain JavaScript and runs in browsers that support the WebVR standard. 
-At the time of writing this applies only to Firefox for Windows, our tested version is 85.0.2 (64-Bit). 
-As WebVR is already deprecated and replaced with the new WebXR standard, therefore it is unlikely that other browser vendors will implement the standard in the future.\\
+The application is implemented in plain JavaScript and runs in browsers that support the WebVR standard. 
+At the time of writing this only applies to Firefox for Windows, our tested version is 85.0.2 (64-Bit). 
+WebVR is already deprecated and being replaced with the new WebXR standard, therefore it is unlikely that other browser vendors will implement the standard in the future.\\
 In order to reduce the complexity of the rendering and using the WebVR standard the application uses the framework A-Frame \cite{aframe}. A-Frame internally uses three.js \cite{threejs} as a render engine. The code from the publication we extended uses A-Frame in version 0.9.2 from September 2019, this version uses three.js version 0.108.0. 
 The old version of A-Frame brings the limitation of only supporting WebVR because WebXR was not yet ready back in 2019. 
-Updating A-Frame to a current version that supports WebXR was not possible within a reasonable time therefore we decided to stick to the old version and only supporting WebVR browsers and headsets.
+Updating A-Frame to a current version that supports WebXR was not possible within a reasonable time therefore we decided to stick to the old version and only support WebVR browsers and headsets.
 The primary VR headset we are targeting with our application is the original HTC Vive.
 
 \section{Application Overview}
 
-\subsection{Data Structure}
 
-Listing \ref{lst:internalJSON} shows a minimalistic example of our data structure that we use an input data source. The data is formatted as a JSON object with a flat list of nodes and link. The hierarchical information is encoded with the attributes childNodesIDs and parentNodeID as references. 
+
+
+\label{sec:applOverview}
+\subsection{Data Structure}
+\label{subSec:dataStruct}
+To get a better understanding of the implementation we begin with the data structure for storing the graph.
+Listing \ref{lst:internalJSON} shows a minimalistic example of the data structure that we use an input data source. The data is formatted as a JSON object with a flat list of nodes and link. The hierarchical information is encoded with the attributes childNodesIDs and parentNodeID as references. 
 In addition to the necessary attributes, each node and link object can have additional attributes depending on the specific dataset.
 
 \begin{lstlisting}[language=json,label={lst:internalJSON},caption=minimal JSON input data structure]
@@ -98,20 +103,22 @@ In addition to the necessary attributes, each node and link object can have addi
     \label{fig:impl_programFlow}
 \end{figure}
 
-To better understand the structure of our application please look at Figure \ref{fig:impl_programFlow}, this describes the program flow and all abstract steps that are necessary for the visualization to work.
-A rough separation can be made between the offline preparation phase where the graph data is converted once to our internal JSON data structure (see Section \ref{sec:preprocessing}) and the runtime phase which is executed every time the browser loads the webpage.
+We separated the application into multiple processing steps. Figure \ref{fig:impl_programFlow} describes the program flow and all abstract steps that are necessary for the visualization to work.
+It contains of an offline preparation phase where the graph data is converted once to our internal JSON data structure (see Section \ref{sec:preprocessing}) and a runtime phase which is executed every time the browser loads the webpage.
 After loading the data preparations for the instanced rendering (see Section \ref{sec:rendering}) and the force based layout (see Section \ref{sec:layoutCalculation}) are done.
-Then the main render loop is executed which produced a rendered frame for each interaction. In addition, it handles the layout calculation (see Section \ref{sec:layoutCalculation}), navigation and interaction methods (see Section \ref{sec:vrInteractions}), scaling (see Section \ref{sec:scaling}), filtering the graph's links (see Section \ref{sec:linkFiltering}) and performing the ray casting for the virtual laser pointer.
-Details on how the ray casting is working is not described in this thesis because we did not adapt this from the original implementation. We only access the objects that got intersected by the virtual laser pointer in other parts such as navigation and interaction. 
+Then the main render loop is executed which produces a rendered frame for each interaction. In addition, it handles the layout calculation (see Section \ref{sec:layoutCalculation}), navigation and interaction methods (see Section \ref{sec:vrInteractions}), scaling (see Section \ref{sec:scaling}), filtering the graph's links (see Section \ref{sec:linkFiltering}) and performing the ray casting for the virtual laser pointer.
+The objects that got intersected by the virtual laser pointer are used in the navigation and interaction techniques. 
+Details on how intersected objects are determined by ray casting is not further described as this method is already provided from the original implementation. 
 
 \subsection{Virtual Scene Graph}
 A-Frame application are build by creating a virtual scene graph.
 It uses an entity-component-system architecture which follows the  composition over inheritance and hierarchy principle. 
-This means that every object in A-Frame is an entity that can include our customized code.
-There are various components that can be reused and extended, the base  component is represented by the <a-entity> element.\\
+This means that every object in A-Frame is an entity that can be customized by code.
+There are various components that can be reused and extended, the base component is represented by the <a-entity> element.\\
 Listing \ref{lst:virtualSceneGraph} shows a simplified version of the virtual scene graph the application uses. 
-It consists of the entities for the Vive controllers, a passive and active camera and rig setup and the graph object itself.
-Most data and logic is encapsulated in the graphData object. We maintain here two lists of data: a list of nodes/links for the ray casting entities and a list of nodes/links for the actual rendered entities. The reason for the duplicated data is that the rendered entities are instanced objects (see Section \ref{sec:rendering}) and therefore can not be used for ray casting directly.
+It consists of entities for both Vive controllers, a passive and active camera and rig setup and the graph object itself.
+Most data and logic is encapsulated in the graphData object. We maintain here two lists of data: a list of nodes/links for the ray casting entities and a list of nodes/links for the actual rendered entities. 
+The reason for this duplicated data is that we use  instanced objects for rendering (see Section \ref{sec:rendering}) and these can not be used for ray casting directly.
 
 \begin{lstlisting}[label={lst:virtualSceneGraph},caption=Simplified virtual A-Frame scene graph used by the application.]
 <body>
@@ -136,10 +143,9 @@ Most data and logic is encapsulated in the graphData object. We maintain here tw
 \end{lstlisting}
 
 \section{Application Details}
-
+\label{sec:applDetails}
 \subsection{Preprocessing Scripts}
 \label{sec:preprocessing}
-
 
 Flexible transforming any CSV Data to our own data format \\
 generation of test data \\
