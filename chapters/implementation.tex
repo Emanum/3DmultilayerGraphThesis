@@ -147,10 +147,13 @@ The reason for this duplicated data is that we use  instanced objects for render
 \subsection{Preprocessing Scripts}
 \label{sec:preprocessing}
 
-Flexible transforming any CSV Data to our own data format \\
-generation of test data \\
-coloring, filtering, ... parameter \\
-File Format of final processed .JSON for the actual web-based visualization \\
+The visualization expects a combined JSON file with all nodes and links with their assigned layer as seen in Section \ref{subSec:dataStruct}.
+A common data export format for networks are multiple CSV files, one file for the nodes and another for their edges.
+In a hierarchical or clustered network there is an additional file with the hierarchical mapping.
+Therefore, we needed a script to convert these CSV files to our JSON data format. For convenience most parameters can be configured by an additional config file without changing any program code. 
+While transforming the data structure, all node IDs are extended with their hierarchical layer information to make them unique for the entire dataset.  
+In addition, we also normalize the node and link width and add color attributes for a simplified rendering process later on.\\
+To test our visualization with various networks of different sizes there is also a script for generating test data available.
 
 \subsection{Layout calculation}
 \label{sec:layoutCalculation}
