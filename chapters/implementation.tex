@@ -173,6 +173,41 @@ Wireframe
 \subsection{VR Interactions}
 \label{sec:vrInteractions}
 
+For navigation, we provide two methods free flying and an animated teleport.
+Before we go into the details of the technique, it is important to understand the core concept of navigation for 6-DOF VR headsets.\\
+The camera is placed in a virtual camera rig which represents the users available movement space (see Figure \ref{fig:vrCameraRig}). 
+VR interaction prevent programmatically changing the position of the headset or controllers in the rig. 
+The only way the headset and controllers are moved inside the rig is by physical movement in the real world, therefore enable free walking inside the virtual rig.
+However, we can programmatically change the position of the rig inside the virtual scene. 
+We apply this technique for our free flying and teleport technique.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/vrCameraRig.jpg}
+    \caption{2D representation of the camera rig technique in VR. The scene and rig each have their own coordinates. The headset move around the rig by physical movement and the rig moves around the scene by programmatically navigation methods like free flying or teleportation.} 
+    \label{fig:vrCameraRig} 
+\end{figure}
+\\
+The free flying technique is already provided by A-Frame and the implementation from the prior paper.
+We just added some additional controller button callbacks for manually selecting the fly speed and rotating the rig in the virtual scene.\\
+For the animated teleport technique we adapted the calculation of the target position. The detailed calculating can be seen in Listing \ref{lst:calculationFlyToNode} the process is also visualized in Figure \ref{fig:vrFlyToNode}.
+
+\begin{lstlisting}[language=JavaScript,label={lst:calculationFlyToNode},caption=Matrix calculations for determining the target position of the animated teleport.]
+const nodeRadius = multilayerNodeDiameter(node.__data);
+const sceneScale = detailLayout.getCurrentSceneScale() ;
+let cameraPos = getCurrentCameraRigWorldPos().add(getRelativeCameraToRigPos());
+const vecFromNodeToCamera = cameraPos.add(targetPos.clone().negate());
+const vectorFromNodeToNodeBorder = vecFromNodeToCamera.normalize().multiplyScalar(nodeRadius*0.95*sceneScale);//*0.95 as we want to be slightly inside the selected node
+const positionNodeBorder = targetPos.clone().add(vectorFromNodeToNodeBorder);
+const positionNodeBorderCorrectedWithCurrentCameraPos = positionNodeBorder.clone().add(getRelativeCameraToRigPos().negate());
+flyToPosition(positionNodeBorderCorrectedWithCurrentCameraPos, flyingElement);
+\end{lstlisting}
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/flyToNodePositionCalc.jpg}
+    \caption{2D representation of the calculation for the target position for the animated teleport.} 
+    \label{fig:vrFlyToNode} 
+\end{figure}
+
 Camera Rig vs Camera
 camera rotation, correct position 
 \\
