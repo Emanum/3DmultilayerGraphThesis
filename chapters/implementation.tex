@@ -189,16 +189,21 @@ We apply this technique for our free flying and teleport technique.
 \\
 The free flying technique is already provided by A-Frame and the implementation from the prior paper.
 We just added some additional controller button callbacks for manually selecting the fly speed and rotating the rig in the virtual scene.\\
-For the animated teleport technique we adapted the calculation of the target position. The detailed calculating can be seen in Listing \ref{lst:calculationFlyToNode} the process is also visualized in Figure \ref{fig:vrFlyToNode}.
+For the animated teleport technique we no longer fly to the center of the selected node instead the target position is the node border barely on the inside of the node. Therefore we added a new calculation for the target position which can be seen in Listing \ref{lst:calculationFlyToNode}, the process is also visualized in Figure \ref{fig:vrFlyToNode}.
 
 \begin{lstlisting}[language=JavaScript,label={lst:calculationFlyToNode},caption=Matrix calculations for determining the target position of the animated teleport.]
+//1. get all needed information
+const nodePos = node.pos;
 const nodeRadius = multilayerNodeDiameter(node.__data);
 const sceneScale = detailLayout.getCurrentSceneScale() ;
 let cameraPos = getCurrentCameraRigWorldPos().add(getRelativeCameraToRigPos());
-const vecFromNodeToCamera = cameraPos.add(targetPos.clone().negate());
-const vectorFromNodeToNodeBorder = vecFromNodeToCamera.normalize().multiplyScalar(nodeRadius*0.95*sceneScale);//*0.95 as we want to be slightly inside the selected node
-const positionNodeBorder = targetPos.clone().add(vectorFromNodeToNodeBorder);
+//2. calculate the node border position between the camera and nodeCenter
+const vecNodeToCamera = cameraPos.add(nodePos.clone().negate());
+const vecCenterToNodeBorder = vecNodeToCamera.normalize().multiplyScalar(nodeRadius*0.95*sceneScale);//*0.95 as we want to be slightly inside the selected node
+//3. convert position so that the headset instead of the rig is centered
+const positionNodeBorder = nodePos.clone().add(vecCenterToNodeBorder);
 const positionNodeBorderCorrectedWithCurrentCameraPos = positionNodeBorder.clone().add(getRelativeCameraToRigPos().negate());
+//4. initiate animated teleport
 flyToPosition(positionNodeBorderCorrectedWithCurrentCameraPos, flyingElement);
 \end{lstlisting}
 \begin{figure}[h]
@@ -208,14 +213,18 @@ flyToPosition(positionNodeBorderCorrectedWithCurrentCameraPos, flyingElement);
     \label{fig:vrFlyToNode} 
 \end{figure}
 
-Camera Rig vs Camera
-camera rotation, correct position 
-\\
-extend controller
-\\
-Teleport => calculation of target Position (+Grafik?)
-\\
-FreeFly
+In a first step we get all information needed including the camera position in world space, position of the node center, the node radius and the current adaptable scale of the scene.
+Then we calculate the position of the crossing between the node border and the direct path from the camera to the node center. We do this by calculating a vector from the node center to the camera position. After normalizing the length and applying this vector with the correct length determined by the node radius and scene scale to the center of the node we get the position where the headset should end up when teleporting to the selected node.
+We can only manipulate the headset position indirectly through changing the rig position, therefore we have to calculate this position in the third step. 
+The resulting position is the final coordinates that we center the rig so that the VR headset ends up barely inside the node.\\
+For calculating the target position when flying to the parent Node we apply a similar technique which is shown is Figure \ref{fig:vrFlyToParentNode}.
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=1\textwidth]{graphics/flyToParentNode.jpg}
+    \caption{2D representation for calculating the teleporting positing when teleporting to the parent Node.} 
+    \label{fig:vrFlyToParentNode} 
+\end{figure}
 
 \subsection{Scale}
 \label{sec:scaling}
