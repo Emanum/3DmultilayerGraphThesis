@@ -214,13 +214,12 @@ nodes.forEach(node => {
 
 \subsection{Rendering}
 \label{sec:rendering}
-Goal of Rendering: 
-Performance, Support Transparency of nodes. 
 
-Instancing per Links, 
-Instancing per Hierarchical Layer of nodes, 
-Transparency,
-Wireframe
+For the rendering part we have multiple goals. One of them is to increase performance for large graphs. 
+To increase FPS the application uses instanced rendering for the nodes and links. This means that there is not one 3D object for every node/link in the virtual scene instead we group multiple items and render them as a group. The final rendered position is then determined in the vertex shader, which reduces the overhead of draw calls from WebGL.
+The implementation of the prior paper used two instanced buffers: one for the nodes and node for the links. 
+Another goal for the rendering was to use transparent nodes. This requires to create multiple instanced buffers for the nodes, one for each hierarchical layer. 
+Therefore, enabling us to set the render order of the instanced buffers ascending according to the hierarchical layers. A correct render order ensures  a valid transparency so that child nodes can be seen from the outside.
 
 \subsection{VR Navigation}
 \label{sec:vrInteractions}
