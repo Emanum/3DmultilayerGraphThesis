@@ -106,7 +106,7 @@ In addition to the necessary attributes, each node and link object can have addi
 We separated the application into multiple processing steps. Figure \ref{fig:impl_programFlow} describes the program flow and all abstract steps that are necessary for the visualization to work.
 It contains of an offline preparation phase where the graph data is converted once to our internal JSON data structure (see Section \ref{sec:preprocessing}) and a runtime phase which is executed every time the browser loads the webpage.
 After loading the data preparations for the instanced rendering (see Section \ref{sec:rendering}) and the force based layout (see Section \ref{sec:layoutCalculation}) are done.
-Then the main render loop is executed which produces a rendered frame for each interaction. In addition, it handles the layout calculation (see Section \ref{sec:layoutCalculation}), navigation and interaction methods (see Section \ref{sec:vrInteractions}), scaling (see Section \ref{sec:scaling}), filtering the graph's links (see Section \ref{sec:linkFiltering}) and performing the ray casting for the virtual laser pointer.
+Then the main render loop is executed which produces a rendered frame for each interaction. In addition, it handles the layout calculation (see Section \ref{sec:layoutCalculation}), navigation methods (see Section \ref{sec:vrInteractions}), scaling (see Section \ref{sec:scaling}), filtering the graph's links (see Section \ref{sec:linkFiltering}) and performing the ray casting for the virtual laser pointer.
 The objects that got intersected by the virtual laser pointer are used in the navigation and interaction techniques. 
 Details on how intersected objects are determined by ray casting is not further described as this method is already provided from the original implementation. 
 
@@ -157,8 +157,60 @@ To test our visualization with various networks of different sizes there is also
 
 \subsection{Layout calculation}
 \label{sec:layoutCalculation}
-Implementation Details of Forces, \\
-Optimization for Saving Pos and set after done
+
+The node layout is automatically calculated on runtime by a force system powered by D3-Force. On begin all D3-Force specific parameters including alphaDecay, alphaTarget, alphaMin, velocityDecay and cooldownTime are set. 
+These parameters adjust the flexibility of the simulation by changing the strength behavior for all forces, how much the velocity is decreased between every simulation step and how many simulation steps are applied in total.
+In a second step we add all forces to the simulation, this process is shown in Listing \ref{lst:addForces}.\\
+The center, many-body, link and collision force use the classical implementation from D3 force slightly adapted. 
+For implementation details of the spherical constraint see Listing \ref{lst:sphericalConstraint}. The main goal here is to add a velocity for each child node depending on the current node position.\\
+Lastly a simulation steps is called every frame which handles the subroutine calls for the different forces. The simulation is then stopped when a fixed number of steps is done determined by the alpha parameters set in the first step.
+
+\begin{lstlisting}[language=JavaScript,label={lst:addForces},caption=Simplified algorithm that shows which forces are added to the simulation.] 
+//add forces for hierarchical layer 0
+d3ForceLayout.force("layer0-center",centerForce(...));
+d3ForceLayout.force("layer0-link",linkForce(...))
+d3ForceLayout.force("layer0-manyBody",manyBodyForce(...));
+d3ForceLayout.force("layer0-collide",collideForce(...)));
+
+//add forces for each parent node (layer 1-n)
+parentNodeIDs.forEach((parentNodeID, index) => {
+    const filteredNodesForLayer = filterNodes(nodes, function (d) {
+        return d[parentNodeIDKey] === parentNodeID && parseInt(d.layer) === childLayer;
+    })
+
+    d3ForceLayout.force(parentNodeID + "-sphericalConstraint",sphericalConstraint(filteredNodesForLayer,...));
+    d3ForceLayout.force(parentNodeID + "-forceCollision",collisionForce(filteredNodesForLayer,...));
+    d3ForceLayout.force(parentNodeID+ "-manyBody",manyBodyForce(filteredNodesForLayer,...));
+    d3ForceLayout.force(parentNodeID+ "-link",linkForce(filteredNodesForLayer,...));
+});
+\end{lstlisting}
+\begin{lstlisting}[language=JavaScript,label={lst:sphericalConstraint},caption=Simplified algorithm for the spherical constraint. We apply adapted velocities whenether the child node is inside the parent. In addition we further seperate if the childnode is already inside an closer radius or not.] 
+nodes.forEach(node => {
+    // METHOD 3.75: Outer and Inner Radius + jiggle
+    let diffX = node.x - parentNode.x;
+    ... (same for y,z)
+
+    let layerInt = parseInt(node.layer);
+
+    let velocityDiffX;
+    if(Math.abs(diffX) < radius){//child is inside parent
+        if (Math.abs(diffX) < innerRadius) {
+            velocityDiffX = diffX * jiggle(layerInt * const);
+        }else{
+            velocityDiffX = diffX * strength / const;
+        } 
+    }else{//child is outside parent
+        velocityDiffX = diffX * strength + jiggle(layerInt);
+    }
+    ... (same for y,z)
+
+    node.vx -= (velocityDiffX/constant);
+    ... (same for y,z)
+
+    node.vx *= (1-alpha);
+    ... (same for y,z)
+}
+\end{lstlisting}
 
 \subsection{Rendering}
 \label{sec:rendering}
@@ -170,7 +222,7 @@ Instancing per Hierarchical Layer of nodes,
 Transparency,
 Wireframe
 
-\subsection{VR Interactions}
+\subsection{VR Navigation}
 \label{sec:vrInteractions}
 
 For navigation, we provide two methods free flying and an animated teleport.
