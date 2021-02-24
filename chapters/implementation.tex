@@ -254,8 +254,35 @@ if(scalingPos === undefined){//manual scaling
 return resultScalingMatrix;
 \end{lstlisting}
 
-\subsection{LinkFiltering}
+\subsection{Filtering the visible links}
 \label{sec:linkFiltering}
 
-Filtering of Links\\
-Algorithmus multilayer detail layout\\
+Changing the visibility of the links requires either a directly selected node which is accomplishment by ray casting or the most inner node related to the users position.
+In order to determine the most inner node we first have to check for every node if the user is inside it or not (see Listing \ref{lst:checkInsideNode}). We store all entered nodes in a temporary node cache in order to calculate the most inner node (see Listing \ref{lst:determineInnestNode}).
+Then we update the visibility of all links as described in Section \ref{chap:ps-filterLinks}.
+
+\begin{lstlisting}[language=JavaScript,label={lst:checkInsideNode},caption=Simplified algorithm to determine whenether the user is inside a node or not.]
+//called for every frame
+for (var i = 0; i < graphData.nodes.length; i++) {
+    ...
+    var dist = nodePos.distanceTo(getCurrentCameraRigWorldPos().add(getRelativeCameraToRigPos()));
+    var threshold = multilayerNodeDiameter(node) * sceneScale;
+    if (dist <= threshold) {
+        detailLayout.onEnterNode(node);
+    }else{
+        detailLayout.onLeaveNode(node);
+    }
+}
+\end{lstlisting}
+
+\begin{lstlisting}[language=JavaScript,label={lst:determineInnestNode},caption=Simplified algorithm to determine the inner most node.] 
+getCurrentInnestNode(){
+    let innestNode = {id:"-",layer:-1};
+    for (let enteredNodesKey in this.enteredNodes) {
+        if(innestNode.layer < parseInt(this.enteredNodes[enteredNodesKey])){
+            innestNode.id = enteredNodesKey;
+        }
+    }
+    return this.nodeCache[innestNode.id];
+}
+\end{lstlisting}
