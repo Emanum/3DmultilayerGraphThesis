@@ -209,7 +209,7 @@ flyToPosition(positionNodeBorderCorrectedWithCurrentCameraPos, flyingElement);
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{graphics/flyToNodePositionCalc.jpg}
-    \caption{2D representation of the calculation for the target position for the animated teleport.} 
+    \caption{2D representation of the calculation for the target position for the animated teleport. A virtual teleport path is formed between the center of the node and position of the headset. This virtual path is extended till it reaches the end of the node.} 
     \label{fig:vrFlyToNode} 
 \end{figure}
 
@@ -226,12 +226,33 @@ For calculating the target position when flying to the parent Node we apply a si
     \label{fig:vrFlyToParentNode} 
 \end{figure}
 
-\subsection{Scale}
+\subsection{Scaling of the virtual scene}
 \label{sec:scaling}
 
-Move + Scale\\
-Animation
-\\
+In Section \ref{chap:ps-spatialReference} we described why it is necessary to scale up the entire scene while navigating through the graph. 
+The challenge while scaling is that the users relative position in comparison the to virtual scene must not change. Otherwise, the user will get distracted while exploring.
+When applying a scaling matrix then center of the scene (0,0,0) stays in the same position, all other points are move by the scaling process. 
+Therefore, we translate the target position of the animated teleport into the center of the scene, then scale up/down and afterwards translate the scene back.
+In order to achieve a smooth user-friendly scaling instead scaling to the desired size once we do an animated scaling. The duration of the animation has to be the exact time as the animated teleportation otherwise the teleportation path will get distorted and not be a straight line anymore.
+For manual scaling we use the world position of the headset for translating. Both calculations can be seen in Listing \ref{lst:scaling}.
+
+\begin{lstlisting}[language=JavaScript,label={lst:scaling},caption=Simplified algorithm for calculating the scaling matrix]
+const resultScalingMatrix = new THREE.Matrix4();
+if(scalingPos === undefined){//manual scaling
+    resultScalingMatrix
+        .multiply(translateMatrixRig)
+        .multiply(translateMatrixCam)
+        .multiply(scaleMatrix)
+        .multiply(reverseTranslationMatrixCam)
+        .multiply(reverseTranslationMatrixRig);
+}else{//automated scaling while animated teleportation
+    resultScalingMatrix
+        .multiply(translationMatrix)
+        .multiply(scaleMatrix)
+        .multiply(reverseTranslationMatrix);
+}
+return resultScalingMatrix;
+\end{lstlisting}
 
 \subsection{LinkFiltering}
 \label{sec:linkFiltering}

@@ -226,7 +226,7 @@ This means that a simple trick of adjusting the movement speed is not working fo
 That problem makes itself noticeable for example as layer 4 nodes in VR are the size of a needle where layer 0 nodes are the size of an entire house.
 In addition to the perspective problem changing the movement speed also does not work because movement in a 6-DOF VR headset is also always done by movement in the real world and obviously the physical movement speed can not be adjusted.
 
-The only real solution to that problem is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
+One solution to that problem is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
 \begin{itemize}
     \item Dynamically adjust the fly speed while navigating in the graph. On entering a node the speed slows down, when leaving it speeds up again. 
     \item Dynamically scaling the entire scene. When teleporting to a node in a deeper hierarchy layer, an upscaling transition is started. On teleporting to the parent layer a downscaling transition is started. 
