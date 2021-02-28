@@ -4,7 +4,7 @@
 
 To implement VR applications, we can work directly with the SDK provided from each headset manufacturer, the advantage is that we can interact at a low level with the devices.\\ 
 Another way is to use an SDK of a well-defined standard for example OpenVR from Valve or OpenXR from the Khronos group. This allows us to write applications for a target group of devices like 6-DOF supporting headsets without having to deal with different manufacturer SDKs (see Figure \ref{fig:openxr-overview}). On a side note: the X in OpenXR means that the specification is not only used for virtual reality (VR) applications but also for augmented reality (AR) and other technologies (XR) possibly proposed in the future.\\
-Lastly, we can work with different engines which will provide with additional features. While classical desktop engines rely on downloading a complete bundled software package for distributing the application, WebXR and WebVR allow us to distribute and run our application via the browser, similar to WebGL.
+Lastly, we can work with different engines which provides various additional features. While classical desktop engines rely on downloading a complete bundled software package for distributing the application, browser based engines like A-Frame that use WebXR and WebVR allow us to distribute and run our application via the browser, similar to WebGL.
 
 At the time of writing, the OpenXR and WebXR specification is still relatively new being in its first revision therefore it is not implemented by each headset manufacturer, browser and engine yet. However, these standards are meant to replace the old OpenVR and WebVR in the future.
 
@@ -32,10 +32,10 @@ This process is described in detail in Section \ref{sec:applOverview} and \ref{s
 
 The application is implemented in plain JavaScript and runs in browsers that support the WebVR standard. 
 At the time of writing this only applies to Firefox for Windows, our tested version is 85.0.2 (64-Bit). 
-WebVR is already deprecated and being replaced with the new WebXR standard, therefore it is unlikely that other browser vendors will implement the standard in the future.\\
-In order to reduce the complexity of the rendering and using the WebVR standard the application uses the framework A-Frame \cite{aframe}. A-Frame internally uses three.js \cite{threejs} as a render engine. The code from the publication we extended uses A-Frame in version 0.9.2 from September 2019, this version uses three.js version 0.108.0. 
-The old version of A-Frame brings the limitation of only supporting WebVR because WebXR was not yet ready back in 2019. 
-Updating A-Frame to a current version that supports WebXR was not possible within a reasonable time therefore we decided to stick to the old version and only support WebVR browsers and headsets.
+In order to reduce the complexity for rendering and implementing the WebVR standard the application uses the framework A-Frame \cite{aframe}. The code from the publication we extended uses A-Frame in version 0.9.2 from September 2019 which internally uses three.js \cite{threejs} in version 0.108.0 as a render engine.
+This old version of A-Frame brings the limitation of only supporting WebVR because WebXR was not yet ready back in 2019.
+Unfortunately WebVR is already deprecated and being replaced with the new WebXR standard.
+While we know that it is unlikely that other browser vendors will support WebVR in the future, we decided to not update the A-Frame version. Updating to a current version would break many features already implemented and a complete migration would not be possible within reasonable time. Therefore, we decided to stick to the old version and only support WebVR browsers and headsets.
 The primary VR headset we are targeting with our application is the original HTC Vive.
 
 \section{Application Overview}
@@ -46,8 +46,8 @@ The primary VR headset we are targeting with our application is the original HTC
 \label{sec:applOverview}
 \subsection{Data Structure}
 \label{subSec:dataStruct}
-To get a better understanding of the implementation we begin with the data structure for storing the graph.
-Listing \ref{lst:internalJSON} shows a minimalistic example of the data structure that we use an input data source. The data is formatted as a JSON object with a flat list of nodes and link. The hierarchical information is encoded with the attributes childNodesIDs and parentNodeID as references. 
+To get a better understanding of the implementation we begin with describing the data structure for storing the graph.
+Listing \ref{lst:internalJSON} shows a minimalistic example of the data structure that we use an input data source. The data is formatted as a JSON object with a flat list of nodes and link. The hierarchical information is encoded within the attributes childNodesIDs and parentNodeID as references. 
 In addition to the necessary attributes, each node and link object can have additional attributes depending on the specific dataset.
 
 \begin{lstlisting}[language=json,label={lst:internalJSON},caption=minimal JSON input data structure]
@@ -103,17 +103,17 @@ In addition to the necessary attributes, each node and link object can have addi
     \label{fig:impl_programFlow}
 \end{figure}
 
-We separated the application into multiple processing steps. Figure \ref{fig:impl_programFlow} describes the program flow and all abstract steps that are necessary for the visualization to work.
-It contains of an offline preparation phase where the graph data is converted once to our internal JSON data structure (see Section \ref{sec:preprocessing}) and a runtime phase which is executed every time the browser loads the webpage.
-After loading the data preparations for the instanced rendering (see Section \ref{sec:rendering}) and the force based layout (see Section \ref{sec:layoutCalculation}) are done.
-Then the main render loop is executed which produces a rendered frame for each interaction. In addition, it handles the layout calculation (see Section \ref{sec:layoutCalculation}), navigation methods (see Section \ref{sec:vrInteractions}), scaling (see Section \ref{sec:scaling}), filtering the graph's links (see Section \ref{sec:linkFiltering}) and performing the ray casting for the virtual laser pointer.
+We separated the application into multiple processing steps. Figure \ref{fig:impl_programFlow} describes the program flow and all abstract steps that are necessary for the visualization.
+It consists of an offline preparation phase where the graph data is converted once to our internal JSON data structure (see Section \ref{sec:preprocessing}) and a runtime phase which is executed every time the browser loads the webpage.
+The runtime phase starts with loading the data, afterwards preparations for the instanced rendering (see Section \ref{sec:rendering}) and the force based layout (see Section \ref{sec:layoutCalculation}) are done.
+Then the main render loop is executed which produces a rendered frame for each interaction. In addition, it handles the layout calculation (see Section \ref{sec:layoutCalculation}), navigation methods (see Section \ref{sec:vrInteractions}), scaling (see Section \ref{sec:scaling}), filtering visible links (see Section \ref{sec:linkFiltering}) and performing the ray casting for the virtual laser pointer.
 The objects that got intersected by the virtual laser pointer are used in the navigation and interaction techniques. 
 Details on how intersected objects are determined by ray casting is not further described as this method is already provided from the original implementation. 
 
 \subsection{Virtual Scene Graph}
 A-Frame application are build by creating a virtual scene graph.
-It uses an entity-component-system architecture which follows the  composition over inheritance and hierarchy principle. 
-This means that every object in A-Frame is an entity that can be customized by code.
+The framework us an entity-component-system architecture which follows the composition over inheritance and hierarchy principle. 
+This means that every object in A-Frame is an entity that can be extended and customized.
 There are various components that can be reused and extended, the base component is represented by the <a-entity> element.\\
 Listing \ref{lst:virtualSceneGraph} shows a simplified version of the virtual scene graph the application uses. 
 It consists of entities for both Vive controllers, a passive and active camera and rig setup and the graph object itself.
@@ -149,9 +149,9 @@ The reason for this duplicated data is that we use  instanced objects for render
 
 The visualization expects a combined JSON file with all nodes and links and their assigned layer as seen in Section \ref{subSec:dataStruct}.
 A common data export format for networks are multiple CSV files, one file for the nodes and another for their edges.
-In a hierarchical or clustered network there is an additional file with the hierarchical mapping.
+In a hierarchical or clustered network there can be an additional file with the hierarchical mapping.
 Therefore, we needed a script to convert these CSV files to our JSON data format. For convenience most parameters can be configured by an additional config file without changing any program code. 
-While transforming the data structure, all node IDs are extended with their hierarchical layer information to ensure unique IDs for the entire dataset.  
+While transforming the data structure, all node IDs are extended with their hierarchical layer information to ensure unique IDs for the entire dataset. So the node with an id 1 on hierarchical layer 0 gets the new id 0.1.  
 In addition, we also normalize the node and link width and add color attributes for a simplified rendering process later on.\\
 To test our visualization with various networks of different sizes there is also a script for generating test data available.
 
@@ -161,8 +161,8 @@ To test our visualization with various networks of different sizes there is also
 The node layout is automatically calculated on runtime by a force system powered by D3-Force. At the beginning all D3-Force specific parameters including alphaDecay, alphaTarget, alphaMin, velocityDecay and cooldownTime are set. 
 These parameters adjust the flexibility of the simulation by changing the strength behavior for all forces, how much the velocity is decreased between every simulation step and how many simulation steps are applied in total.
 In a second step we add all forces to the simulation, this process is shown in Listing \ref{lst:addForces}.\\
-The center, many-body, link and collision force use the classical implementation from D3 force slightly adapted. 
-For implementation details of the spherical constraint see Listing \ref{lst:sphericalConstraint}. The main goal here is to add a velocity for each child node depending on the current node position.\\
+The center, many-body, link and collision forces uses a slightly adapted version of the original implementation by D3 force. 
+The spherical constraint is our own implementation which can be seen in Listing \ref{lst:sphericalConstraint}. The main goal here is to add a velocity for each child node depending on the current node position.\\
 Lastly a simulation steps is called every frame which handles the subroutine calls for the different forces. The simulation is then stopped when a fixed number of steps is done determined by the alpha parameters set in the first step.
 
 \begin{lstlisting}[language=JavaScript,label={lst:addForces},caption=Simplified algorithm that shows which forces are added to the simulation.] 
@@ -215,19 +215,19 @@ nodes.forEach(node => {
 \subsection{Rendering}
 \label{sec:rendering}
 
-For the rendering part we have multiple goals. One of them is to increase performance for large graphs. 
-To increase FPS the application uses instanced rendering for the nodes and links. This means that there is not one 3D object for every node/link in the virtual scene instead we group multiple items and render them as a group. The final rendered position is then determined in the vertex shader, which reduces the overhead of draw calls from WebGL.
+There are multiple goals for the rendering part, one of them is to increase performance for large graphs. 
+To achieve that FPS improvement the application uses instanced rendering for nodes and links. This means that there is not one 3D object for every node/link in the virtual scene instead we group multiple items and render them as a group. The final rendered position is then determined in the vertex shader, which reduces the overhead of draw calls from WebGL.
 The implementation of the prior paper used two instanced buffers: one for the nodes and node for the links. 
 Another goal for the rendering was to use transparent nodes. This requires to create multiple instanced buffers for the nodes, one for each hierarchical layer. 
-Therefore, enabling us to set the render order of the instanced buffers ascending according to the hierarchical layers. A correct render order ensures  a valid transparency so that child nodes can be seen from the outside.
+Therefore, enabling us to set the render order of the instanced buffers ascending according to the hierarchical layers. A correct render order ensures  a valid transparency so that child nodes can be seen from outside.
 
 \subsection{VR Navigation}
 \label{sec:vrInteractions}
 
-For navigation, we provide two methods free flying and an animated teleport.
-Before we go into the details of the technique, it is important to understand the core concept of navigation for 6-DOF VR headsets.\\
+As described in section \ref{chap:solution-navigation}, for navigation we provide two methods free flying and an animated teleport.
+Before we go into the details of the techniques, it is important to understand the core concept of navigation for 6-DOF VR headsets.\\
 The camera is placed in a virtual camera rig which represents the users available movement space (see Figure \ref{fig:vrCameraRig}). 
-VR interaction prevent programmatically changing the position of the headset or controllers in the rig. 
+Programming guidelines from VR APIs prohibit programmatically changing the position of the headset or controllers in the rig as this would create confusion for the user. 
 The only way the headset and controllers are moved inside the rig is by physical movement in the real world, therefore enable free walking inside the virtual rig.
 However, we can programmatically change the position of the rig inside the virtual scene. 
 We apply this technique for our free flying and teleport technique.
@@ -239,7 +239,7 @@ We apply this technique for our free flying and teleport technique.
 \end{figure}
 \\
 The free flying technique is already provided by A-Frame and the implementation from the prior paper.
-We just added some additional controller button callbacks for manually selecting the fly speed and rotating the rig in the virtual scene.\\
+We just added some additional controller button callbacks for adapting the fly speed and rotate the rig in the virtual scene on demand.\\
 For the animated teleport technique we no longer fly to the center of the selected node instead the target position is the node border barely on the inside of the node. Therefore we added a new calculation for the target position which can be seen in Listing \ref{lst:calculationFlyToNode}, the process is also visualized in Figure \ref{fig:vrFlyToNode}.
 
 \begin{lstlisting}[language=JavaScript,label={lst:calculationFlyToNode},caption=Matrix calculations for determining the target position of the animated teleport.]
@@ -266,13 +266,13 @@ flyToPosition(positionNodeBorderCorrectedWithCurrentCameraPos, flyingElement);
 
 In a first step we get all information needed including the camera position in world space, position of the node center, the node radius and the current adaptable scale of the scene.
 Then we calculate the position of the crossing between the node border and the direct path from the camera to the node center. We do this by calculating a vector from the node center to the camera position. After normalizing the length and applying this vector with the correct length determined by the node radius and scene scale to the center of the node we get the position where the headset should end up when teleporting to the selected node.
-We can only manipulate the headset position indirectly through changing the rig position, therefore we have to calculate this position in the third step. 
+We can only manipulate the headset position indirectly through changing the rig position, therefore we have to calculate the relative rig position in the third step. 
 The resulting position is the final coordinates that we center the rig so that the VR headset ends up barely inside the node.\\
 For calculating the target position when flying to the parent Node we apply a similar technique which is shown is Figure \ref{fig:vrFlyToParentNode}.
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{graphics/flyToParentNode.jpg}
+    \includegraphics[width=0.75\textwidth]{graphics/flyToParentNode.jpg}
     \caption{2D representation for calculating the teleporting positing when teleporting to the parent Node.} 
     \label{fig:vrFlyToParentNode} 
 \end{figure}
@@ -282,9 +282,9 @@ For calculating the target position when flying to the parent Node we apply a si
 
 In Section \ref{chap:ps-spatialReference} we described why it is necessary to scale up the entire scene while navigating through the graph. 
 The challenge while scaling is that the users relative position in comparison the to virtual scene must not change. Otherwise, the user will get distracted while exploring.
-When applying a scaling matrix then center of the scene (0,0,0) stays in the same position, all other points are move by the scaling process. 
+When applying a scaling matrix then center of the scene (0,0,0) stays in the same position, all other points are moved during the scaling process. 
 Therefore, we translate the target position of the animated teleport into the center of the scene, then scale up/down and afterwards translate the scene back.
-In order to achieve a smooth user-friendly scaling instead scaling to the desired size once we do an animated scaling. The duration of the animation has to be the exact time as the animated teleportation otherwise the teleportation path will get distorted and not be a straight line anymore.
+In order to achieve a smooth user-friendly scaling instead scaling to the desired size once we do an animated scaling. The duration of the animation has to be the exact time as the animated teleportation otherwise the teleportation path will get distorted and result in a curve instead of a straight line.
 For manual scaling we use the world position of the headset for translating. Both calculations can be seen in Listing \ref{lst:scaling}.
 
 \begin{lstlisting}[language=JavaScript,label={lst:scaling},caption=Simplified algorithm for calculating the scaling matrix]
@@ -310,7 +310,7 @@ return resultScalingMatrix;
 
 Changing the visibility of the links requires either a directly selected node which is accomplishment by ray casting or the most inner node related to the users position.
 In order to determine the most inner node we first have to check for every node if the user is inside it or not (see Listing \ref{lst:checkInsideNode}). We store all entered nodes in a temporary node cache in order to calculate the most inner node (see Listing \ref{lst:determineInnestNode}).
-Then we update the visibility of all links as described in Section \ref{chap:ps-filterLinks}.
+Then we use that determined node to update the visibility of all links with the rules described in Section \ref{chap:ps-filterLinks}.
 
 \begin{lstlisting}[language=JavaScript,label={lst:checkInsideNode},caption=Simplified algorithm to determine whenether the user is inside a node or not.]
 //called for every frame
