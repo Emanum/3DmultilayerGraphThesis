@@ -6,3 +6,4 @@ cybersickness
 gamepad
 Vive
 WebVR
+Ryzen

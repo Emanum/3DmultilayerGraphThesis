@@ -4,7 +4,13 @@
 
 \subsection{Measurements}
 
+Our setup for the performance tests was a PC with a Ryzen 7 3700X CPU and a Radeon RX 590 GPU.
+
 See Table \ref{table:resultFPS}, See Figure \ref{fig:performanceNodes}, See Figure \ref{fig:performanceLinks}
+
+Notes:
+With an increasing number of links the variance of FPS increase. During the animated teleportation the FPS drop noticeably. We assume this is because of the often applied scaling to all entities in the scene. Filtering links does not influence performance. The maximum of 90 FPS is due to the 90HZ panel of the HTC Vive.
+CPU and GPU utilization was only about 50\%
 
 \begin{table}
     \centering
@@ -44,6 +50,7 @@ See Table \ref{table:resultFPS}, See Figure \ref{fig:performanceNodes}, See Figu
 
 \subsection{Possible optimization}
 
+Raycasting only while a button is pressed. 
 
 \section{Informal feedback}
 
