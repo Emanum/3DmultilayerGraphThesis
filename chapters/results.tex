@@ -71,7 +71,16 @@ During the exploration the CPU and GPU utilization was not at maximum. We assume
 
 \subsection{Possible optimization}
 
-Raycasting only while a button is pressed. 
+To increase the overall performance the scalability for the number of nodes has to improve. We can separate the performance between GPU performance and CPU performance.
+\\
+For the GPU performance we already limit the draw calls by rendering the nodes with instanced buffers.
+However, the number of rendered triangles is still very high. 
+One improvement could be to use simpler spheres with a lower polygon count. Or implementing a technique that prevents the rendering of the small nodes which can not be seen anyway.
+\\
+To increase CPU performance we have to reduce the number of tasks during each iteration of the main render loop (see Figure \ref{fig:impl_programFlow}).
+A big performance issues might be the ray casting. This could be improved by take advantage of the hierarchical layout. An intersection of child nodes from different parents than the one the user is currently inside is not possible anyways, therefore these nodes could be excluded from the ray intersection checks. 
+Another improvement could be to bind the virtual laser pointer to a button that the user actively hold for its usage. 
+That would enable an improved frame rate when the user is only looking around and not doing any interaction. 
 
 \section{Informal feedback}
 \label{sec:informalFeedback}
