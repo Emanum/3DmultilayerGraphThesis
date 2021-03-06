@@ -1,7 +1,7 @@
 \chapter{Results}
 
 Our proclaimed goal for the visualization was to enable large hierarchical networks in VR. 
-Therefore, we tested our application in a performance evaluation in Section \ref{sec:performanceEvaluation} and gather different user feedback in the form of an informal evaluation (see Section \ref{sec:informalFeedback}) and heuristic evaluation (see Section \ref{sec:heuristicEvaluation}).
+Therefore, we tested our application in a performance evaluation in Section \ref{sec:performanceEvaluation} and gather different user feedback in the form of a heuristic evaluation (see Section \ref{sec:heuristicEvaluation}).
 
 \section{Performance}
 \label{sec:performanceEvaluation}
@@ -84,9 +84,17 @@ That would enable an improved frame rate when the user is only looking around wi
 \\
 Besides performance improvements to the techniques themselves, improving the internal data structure would also increase the performance. Based on the prior implementation we use a flat list similar to the JSON seen in Section \ref{lst:internalJSON}. With a tree data structure that directly represents the hierarchical relationships our internal algorithms could be improved as a faster access to the nodes would be possible.
 
-\section{Informal feedback}
-\label{sec:informalFeedback}
+\section{Heuristic Evaluation}
+\label{sec:heuristicEvaluation}
 
+The focus of this thesis was to develop a new visualization technique, this included a hierarchical layout, optimization for the use in different VR experiences and VR optimized navigation and interaction techniques.
+The visualization should deliver a smooth and user-friendly visualization tool, to test the usability we gathered feedback from multiple people using an online form.
+As the application just runs in the browser, we set up a hosted version \cite{thesisWebsite} with an included introduction to the topic and user instructions on how to start and interact with the visualization. The hosted version included multiple datasets with various sizes. Afterwards we invited users to participate in the evaluation and fill out the online form we prepared.
+\\
+Besides doing an online evaluation we also had one participant that tried our the visualization on site were we interviewed him during the exploration.
+The results of the interview as well as the online forms are presented in the appropriated subsections.
+\\
+   
 \subsection{Clarity of the visualization}
 Filtering, visual clutter, hierarchical layout(intuitive?), ...
 
@@ -98,6 +106,3 @@ Button Mappings, Laser Pointer,
 
 \subsection{Performance}
 Tested system and dataset
-
-\section{Heuristic Evaluation}
-\label{sec:heuristicEvaluation}
