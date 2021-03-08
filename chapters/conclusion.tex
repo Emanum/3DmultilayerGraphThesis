@@ -2,24 +2,24 @@
 \label{chap:conclusion}
 
 The aim of this thesis was to enable the visualization of hierarchical networks in virtual reality and fully utilize the benefits of 3D information visualization and VR. 
-Including the improved spatial impression and intuitive interaction and navigation methods VR applications can provide. 
+Including the improved spatial impression, intuitive interaction and navigation methods VR applications can provide. 
 This visualization should enable data scientists in the future to explore even larger hierarchical datasets than currently possible and provide more insight.
 To accomplish this, we adapted the original VR node-link visualization from Sorger et al. \cite{sorger_immersive_2019}. 
 Our customized implementation includes an optimized force based layout with our own developed spherical constraint that enables a hierarchical nested node layout of n hierarchical layers.
 The visualization introduces transparent node rendering and optimized navigation methods as well as a technique to filter the visible links. 
 To solve the multi scale scene problem we automatically adjust the movement speed as well as scene scale.
 In addition, to provide a fully flexible user experience the movement speed and scale can be adjusted by the user at any time and all navigation methods can be combined fluently.
-To evaluate our results we did a performance test and gathered user feedback using an interview and a heuristic evaluation.
+To evaluate our results we did a performance test and gathered user feedback using an on site interview and an online heuristic evaluation.
 
 During the evaluation we revealed some problems of the visualization. 
-A first concerns the layout algorithm. On large graphs the visualization can not ensure a correct hierarchical nesting, which also leads to resulting problems for the navigation during the exploration. By adapting the simulation parameters according to the number of hierarchical layers or including a check before stopping the layout calculation this could be improved and enable visualization more hierarchical layers.
+A first concerns the layout algorithm. On large graphs the visualization can not ensure a correct hierarchical nesting, which also leads to resulting problems for the navigation during the exploration. By adapting the simulation parameters according to the number of hierarchical layers or including a check before stopping the layout calculation this could be improved and enable the visualization to represent more hierarchical layers.
 To provide an optimal user experience multiple parameters like the free flying speed, node and link size and automatic scaling needs to be further optimized.
-The combination of the instanced and transparent node rendering creates a new challenge, as the correct render order can not be determined by the default implementation from A-Frame. This sometimes wrong render order leads to a wrong representation of parent node affiliation.
+The combination of the instanced and transparent node rendering creates a new challenge, as the correct render order can not be determined by the default implementation from A-Frame. This leads to a sometimes wrong render which generates a wrong representation of parent node affiliation.
 Lastly the position of the node labels needs to be adjusted, so that a flickering effect is prevented.
 \\
-After solving these open problems we believe the visualization can be a success and provide a big opportunity for data scientists dealing with hierarchical network data.
+Despite these problems, we believe that the visualization when further improved can be a success and provide an opportunity for data scientists dealing with hierarchical network data.
 
-To our knowledge this thesis provides a first approach on visualizing hierarchical networks in VR. Therefore, future work could further extend our concepts and improve the stability, performance and feature richness.
+To our knowledge this thesis provides a first approach on visualizing hierarchical networks in VR. Therefore, future work could extend our concepts and improve the stability, performance and feature richness.
 With an added support for links between different hierarchical layers, applications could enable the visualization of multilayer datasets. Edge bundling could further improve the clarity of the visualization and allow displaying larger amounts of links at once. Different navigation and interaction techniques we have seen in Section \ref{chap:rw-vrnavigation} and \ref{chap:rw-vrinteraction} could be implemented to improve the user experience while exploring the graph.\
 \\
 As for our application in particular, upgrading to the newest A-Frame version would enable the use of the WebXR standard and therefore support a variety of different VR headsets and browsers. To allow further expendability a refactoring needs be done by replacing the static imported dependencies with a dependency management software like npm.
