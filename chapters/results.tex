@@ -22,13 +22,13 @@ When we assume an equal distributed graph, the number of hierarchical layers onl
 So before the application would run into performance problems by the amount of layers, the amount of nodes would be too large anyway. 
 In addition, at about 6 hierarchical layers the layout algorithm becomes unstable and can not guarantee a correct hierarchical nesting anymore.
 \\
-While the average frame rate is not drastically reduced by the links, the frame rate seems to get more unstable. 
+While the average frame rate is not drastically reduced by the amount of links, the frame rate seems to get more unstable with an increasing amount of links. 
 This was especially noticeable during the teleportation animation were the frame rate dropped on a large dataset up to 20 FPS. 
-Although we do not know for sure, we assume the automated scaling reduced the frame rate quite significantly. During the animation the scale of nearly all objects in the scenes is updated on every frame.
+We assume the automated scaling reduced the frame rate quite significantly. During the animation, the scale of nearly all objects in the scenes is updated on every frame.
 Our data only shows a maximum of 90 FPS due to the headset's maximum refresh rate of 90 Hz.
 \\
-In conclusion, with the current state of implementation the visualization can support datasets up to 1500 nodes and 3000 links depending on the hardware available.
-In addition, we noticed that during the exploration the CPU and GPU utilization was not at maximum. An explanation for this could be that the application is CPU bound and further limited by a single threaded JavaScript implementation.
+In conclusion, with the current state of the implementation, the visualization can support datasets up to 1500 nodes and 3000 links depending on the hardware available.
+In addition, we noticed that during the exploration, the CPU and GPU utilization was not at maximum. An explanation for this could be that the application is CPU bound and further limited by a single threaded JavaScript implementation.
 
 \begin{table}[!hbt]
     \resizebox{\textwidth}{!}{%
