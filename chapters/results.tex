@@ -8,9 +8,9 @@ Therefore, we decided to test our application in a performance evaluation in Sec
 
 Real time 3D applications need to have a constant frame rate in order to achieve a smooth experience.
 For VR-based applications this is even more important as a low frame rate could lead to motion sickness. 
-In our performance test, we distinguish between the initial phase when the application is started until the force based layout algorithm is finished, and the actual exploration phase. 
+In our performance test, we distinguish between the duration of the initial phase when the application is started until the force based layout algorithm is finished, and the render performance during the exploration phase. 
 
-In the performance evaluation we wanted to find out the scalability of our tool. 
+In the performance evaluation we want to find out the scalability of our application. 
 For an optimal VR experience the frame rate should be constant and equal to the maximum supported refresh rate of the VR headset's displays. In the case of the HTC Vive this requires us to have a constant frame rate of 90 FPS.
 Own experiments showed that 20-30 FPS is the minimum while exploring a virtual scene without being distracted.
 \\
@@ -18,9 +18,8 @@ We measured the FPS directly from the visualization by adding an FPS counter on 
 We tested multiple datasets with different sizes, the results are shown in Table \ref{table:resultFPS}. 
 In order to detect possible performance problems, we tested the scaling of the nodes and links individually.
 We found that the number of nodes scale worse than the number of links (see Figure \ref{fig:performanceNodes} and \ref{fig:performanceLinks}). 
-When we assume an equal distributed graph, the number of hierarchical layers only indirectly influence the frame rate, as with an increased number of layers the number of nodes grows exponentially. 
-So before the application would run into performance problems by the amount of layers, the amount of nodes would be too large anyway. 
-In addition, at about 6 hierarchical layers the layout algorithm becomes unstable and can not guarantee a correct hierarchical nesting anymore.
+For an equal distributed graph, the number of hierarchical layers only indirectly influence the frame rate, as with an increased number of layers the number of nodes grows exponentially.
+We always apply a constant number of simulation steps, therefore at about 6 hierarchical layers the layout algorithm becomes unstable and can not guarantee a correct hierarchical nesting anymore.
 \\
 While the average frame rate is not drastically reduced by the amount of links, the frame rate seems to get more unstable with an increasing amount of links. 
 This was especially noticeable during the teleportation animation were the frame rate dropped on a large dataset up to 20 FPS. 
@@ -33,35 +32,35 @@ In addition, we noticed that during the exploration, the CPU and GPU utilization
 \begin{table}[!hbt]
     \resizebox{\textwidth}{!}{%
     \centering
-    \begin{tabular}{ | c | c | c | c | c | c | }
+    \begin{tabular}{ | c | c | c | c | c | c | c | }
         \hline
-        \textbf{nodes} & \textbf{links} &\textbf{layers} &\textbf{layout - avg FPS} &\textbf{expl. - min FPS} &\textbf{expl. - avg FPS}\\
+        \textbf{nodes} & \textbf{links} &\textbf{layers} &\textbf{layout duration (s)} &\textbf{min FPS} &\textbf{avg FPS}\\
         \hline
-        310  & 0    & 3 & 40 & 90 & 90\\ \hline
-        730  & 0    & 3 & 30 & 70 & 75\\ \hline
-        1100 & 0    & 3 & 20 & 55 & 60\\ \hline
-        1560 & 0    & 4 & 20 & 40 & 55\\ \hline
-        2343 & 0    & 5 & 10 & 30 & 35\\ \hline
-        774  & 387  & 3 & 20 & 60 & 70\\ \hline
-        774  & 1548 & 3 & 20 & 55 & 70\\ \hline
-        774  & 3870 & 3 & 10 & 40 & 60\\ \hline
-        1560 & 3120 & 4 & 5  & 25 & 45\\ \hline
-        1020 & 2040 & 4 & 10 & 40 & 60\\ \hline
+        310  & 0    & 3 & 5    & 90 & 90\\ \hline
+        730  & 0    & 3 & 7,5  & 70 & 75\\ \hline
+        1100 & 0    & 3 & 9,5  & 55 & 60\\ \hline
+        1560 & 0    & 4 & 10,5 & 40 & 55\\ \hline
+        2343 & 0    & 5 & 15   & 30 & 35\\ \hline
+        774  & 387  & 3 & 10   & 60 & 70\\ \hline
+        774  & 1548 & 3 & 15   & 55 & 70\\ \hline
+        774  & 3870 & 3 & 27   & 40 & 60\\ \hline
+        1560 & 3120 & 4 & 30   & 25 & 45\\ \hline
+        1020 & 2040 & 4 & 20   & 40 & 60\\ \hline
      \end{tabular}}
-     \caption{Results from performance measurement evaluation separated into layout phase and exploration (expl.) phase. Test setup: Ryzen 7 3700X + Radeon RX 590.}
+     \caption{Results from the performance evaluation, separated into duration of the layout phase in seconds and render performance in FPS during the exploration phase. Test setup: Ryzen 7 3700X + Radeon RX 590.}
      \label{table:resultFPS}
 \end{table}
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.75\textwidth]{graphics/performanceAnalysisNodes.png}
+    \includegraphics[width=0.75\textwidth]{graphics/performanceAnalysisNodes2.png}
     \caption{Performance chart for scaling the number of nodes. To better compare the results only datasets with 0 links are shown in this graph. Increasing the number of nodes quickly leads to a performance issue.} 
     \label{fig:performanceNodes} 
 \end{figure}
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.75\textwidth]{graphics/performanceAnalysisLinks.png}
+    \includegraphics[width=0.75\textwidth]{graphics/performanceAnalysisLinks2.png}
     \caption{Performance chart for scaling the number of links. To better compare the results only datasets with the same amount of 774 nodes are shown in this graph. In comparison to the nodes, links can be easier scaled up without impacting the performance too much.} 
     \label{fig:performanceLinks} 
 \end{figure}
