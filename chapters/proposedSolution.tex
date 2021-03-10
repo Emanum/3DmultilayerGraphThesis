@@ -27,7 +27,7 @@ We defined multiple requirements based on the problems we described in the previ
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth, trim={0cm 0cm 0cm 3.5cm},clip]{graphics/filterLinks/allLinks.jpg}
-    \caption{A sketch of our preferred layout in 2D. Instead of 2D circle we use 3D spheres in the real application. The number before the dot represents the depth respectively the layer of the node and the number after the dot a node id unique for each layer.} 
+    \caption[A sketch of our preferred layout in 2D.]{A sketch of our preferred layout in 2D. Instead of 2D circle we use 3D spheres in the real application. The number before the dot represents the depth respectively the layer of the node and the number after the dot a node id unique for each layer.} 
     \label{fig:layoutSketch} 
 \end{figure}
 To achieve \hyperref[req:R1]{R1}, we created our own layout. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations we use three-dimensional spheres. 
@@ -66,7 +66,7 @@ During our optimization we stumbled upon the problem that nodes tend to jump rap
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth, trim={5cm 5cm 0 25cm},clip]{graphics/simulationStepsSplit.jpg}
-    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Distribution of all simulation steps for a dataset with 4 hierarchical layers. Each layer receives the same amount of simulation steps, in this case 25 from 100.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption[Distribution of all simulation steps.]{Distribution of all simulation steps for a dataset with 4 hierarchical layers. Each layer receives the same amount of simulation steps, in this case 25 from 100.} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:SimulationSteps} 
   \end{figure}
 \section{Graph Representation}
@@ -74,13 +74,13 @@ During our optimization we stumbled upon the problem that nodes tend to jump rap
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=1\textwidth]{graphics/screenshotNesting.jpg}
-    \caption{Overview perspective of the visualization. Each node is rendered semi transparent, this allows the user to detect the topology of the data.}
+    \caption[Screenshot of the visualization.]{Overview perspective of the visualization. Each node is rendered semi transparent, this allows the user to detect the topology of the data.}
     \label{fig:ps_nestedLayout}
 \end{figure}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=1\textwidth]{graphics/screenshotNestingAndWireframe.jpg}
-    \caption{Detail perspective inside of node 0.2. To be able to tell the border of the nodes the node is rendered as a wireframe when looking inside out.}
+    \caption[Screenshot of the visualization.]{Detail perspective inside of node 0.2. To be able to tell the border of the nodes the node is rendered as a wireframe when looking inside out.}
     \label{fig:ps_wireframe}
 \end{figure}
 The goal of the graph representation was to choose appropriate rendering methods which allow us to reduce visual clutter and improve clarity while still displaying as much data as possible.\\
@@ -107,7 +107,7 @@ We also take the number of child nodes into account when calculating the node si
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{graphics/controllerMapping.jpg}
-    \caption{Our controller mapping for the interactive VR experience. Depending on the clicking position on the touchpad different actions can be called. The different clicking positions are marked in the image with different colors.} 
+    \caption[Our controller mapping for the interactive VR experience.]{Our controller mapping for the interactive VR experience. Depending on the clicking position on the touchpad different actions can be called. The different clicking positions are marked in the image with different colors.} 
     \label{fig:controllerMapping} 
 \end{figure}
 For \hyperref[req:R4]{R4} we use the 6 DOF tracking of the headset and controllers from the HTC Vive. Therefore, we implemented intuitively interaction techniques to allow teleportation navigation throughout the virtual scene (see Section \ref{chap:solution-navigation}). In addition, the user should be able  to switch the visibility filter between multiple groups of links (see Section \ref{chap:ps-filterLinks}).
@@ -120,7 +120,7 @@ To this end we implemented the common concept of ray cast selection for selectin
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{graphics/screenShotFilteringNodes2.jpg}
-    \caption{Screenshot during the selection of a node. The user can see the virtual laser pointer as a red line. 
+    \caption[Screenshot during the selection of a node.]{Screenshot during the selection of a node. The user can see the virtual laser pointer as a red line. 
     In the lower part of the screen the name of the pointed node is written. (In this screenshot it seems centered because the field of view in the headset is different as in the screenshot.)    
     In addition, the selected node as well as directly connected nodes are highlighted in a brighter shading. For improved navigation the layer where the user currently is located in is displayed as a text above the controller.} 
     \label{fig:screenshot_interaction} 
@@ -165,7 +165,7 @@ As other 6-DOF headsets usually provide the same or similar interaction possibil
         \subcaption{Visible links when the user inside node 1.1 or selected it by the laser pointer interaction.}
         \label{fig:linkFilter-layer2}
     \end{subfigure}
-    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Our filtering technique visualized on a small example graph.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption{Our filtering technique visualized on a small example graph.} % Remove the [...] argument if the original caption should be used in the figure list.
   \end{figure}
 
 To ensure the clarity of the visualization (see \hyperref[req:R6]{R6}) and display larger networks than 2D approaches (see \hyperref[req:R2]{R2}) we apply a filtering approach for links according to the requirements. 

@@ -31,7 +31,7 @@ Furthermore, multivariate networks \cite{kerren_introduction_2014} combines the 
         \label{fig:simple_tree}
     \end{subfigure}
     
-    \caption[Optional caption for the figure list (often used to abbreviate long captions)]{Schematic depictions of graph data structures} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption{Schematic depictions of graph data structures.} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:intro} 
   \end{figure}
 
@@ -53,54 +53,6 @@ Instead of defining interactions between nodes and links, constraints try to mod
 While node-link layouts display one graph at a time, the goal of multilayer visualizations \label{exp:multilayer} is to combine multiple node-link graphs, the so-called layers, into one visualization including their relations between them. Although the concept of layers in multilayer networks (see Figure \ref{fig:2dmultilayerVis}) seem similar to the depth layers we saw at tree structure, they are fundamentally different. A group of visualizations defines the layers as an aspect of the dataset, one entity of a node can be part in multiple aspects respectively multiple networks. For example a single person can be in a network of family-friends (layer/network 1) and at the same time in a network of social-media friends (layer/network 2). Keep in mind that each node is not necessary part of every aspect, e.g. people can be not represented in the social-media network.\\
 Source and target layer of the links however are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not. \cite{ghoniem_state_2019}. Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.\\
 While the concept of a well-defined source and target layer for each link is shared for the most visualizations, the idea having multiple aspects for a single node entity is not. Some visualizations treat the different layers just as different networks which are combined into one graph, this often makes their concept flexible to use in other layout techniques. 
-% \section{Visualization Techniques}
-% Papers:\\
-
-% Shneiderman\\
-% The Eyes Have It: A Task by Data Type Taxonomy for Information Visualizations\\
-% Visual Information Seeking Mantra\\
-% \\
-% Kobourov\\
-% Gestalt Principles in Graph Drawing\\
-% \\
-% Brath \\
-% 3D InfoVis is Here to Stay: Deal with It\\
-% Warum allgemein 3D Infos Vis Vorteile hat\\
-% \\
-% Lee\\
-% Task Taxonomy for Graph Visualization\\
-% a list of tasks for graph visualization that has
-% enough detail and specificity to be useful to: 1) designers who
-% want to improve their system and 2) to evaluators who want to
-% compare graph visualization systems.\\
-% \\
-
-% \subsection{Force-directed graph drawing}
-% alt:\\
-% Fruchterman\\
-% Graph drawing by force-directed placement\\
-% \\
-% Kamada Kawai\\
-% AN ALGORITHM FOR DRAWING GENERAL UNDIRECTED GRAPHS\\
-% \\
-
-% aktueller:\\
-% Yifan Hu\\
-% Efficient, High-Quality Force-Directed Graph Drawing\\
-% Algorithmus für force Graph,  Erklärkung barnes hut etc Sehr detailliert, viel info\\
-% \\
-% Kobourov\\
-% Spring Embedders and Force Directed Graph Drawing Algorithms\\
-% Mehrere Algorithmen für Force Graph, Sehr detailliert\\
-% \\
-
-% \section{Network Visualization}
-
-% \subsection{Network Visualization Basics}
-
-% Kerren\\
-% \textbf{Introduction to Multivariate Network Visualization vorallem Chapter9: Heterogeneous Networks on Multiple Levels} \\
-% gute Zusammenfassung von Multilayer Network Visualization\\
 
 \section{VR Technology}
 \label{chap:bg-vrtech}
