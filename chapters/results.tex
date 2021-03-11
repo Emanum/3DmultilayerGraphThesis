@@ -1,7 +1,7 @@
 \chapter{Results}
 
 Our proclaimed goal for the visualization was to enable large hierarchical networks in VR. 
-Therefore, we decided to test our application in a performance evaluation in Section \ref{sec:performanceEvaluation} and gather user feedback in the form of a heuristic evaluation in Section \ref{sec:heuristicEvaluation}.
+Therefore, we decided to test our application in a performance evaluation in Section \ref{sec:performanceEvaluation} and gather user feedback in the form of an informal feedback in Section \ref{sec:informalFeedback}.
 
 \section{Performance}
 \label{sec:performanceEvaluation}
@@ -81,8 +81,8 @@ That would enable an improved frame rate when the user is only looking around wi
 \\
 Besides performance improvements to the techniques themselves, improving the internal data structure would also increase the performance. Based on the prior implementation, we use a flat list similar to the JSON seen in Section \ref{lst:internalJSON}. With a tree data structure that directly represents the hierarchical relationships, our internal algorithms can be implemented more efficiently when accessing the node details, therefore reducing the workload on the main render loop and increasing the FPS.
 
-\section{Heuristic Evaluation}
-\label{sec:heuristicEvaluation}
+\section{Informal Feedback}
+\label{sec:informalFeedback}
 
 The focus of this thesis was to develop a new visualization technique, this included a hierarchical layout and VR optimized navigation and interaction techniques.
 The application should deliver a smooth and user-friendly visualization.
@@ -90,16 +90,45 @@ As the application runs in the browser, we set up a website \cite{thesisWebsite}
 \\
 Besides online evaluation, we also had one participant that tried the visualization on site. During and after the exploration we conducted an interview.
 The results of the interview as well as the online forms are presented in the following subsections.
+
+\subsection{Evaluation results}
+%\subsection{Overview and Clarity}
+%Filtering, visual clutter, hierarchical layout(intuitive?), ...
+
+All participants described their first impression as slightly overwhelming.
+Especially in the beginning it was hard for them to get a good overview of the graph.
+However, after a few minutes exploring the visualization the structure of the graph became more clear.
+The hierarchical nesting helped them to understand the clustering of the nodes.
+At the initial scale of the scene, the room scale experience did not help much as the nodes where too large to wander around the graph. 
+After manually scaling down the scene, one participant described that the overview got a lot better as he now was able to navigate in the graph by moving around in the real world. 
+The improved spatial impression made it easier to detect the hierarchical nesting of the nodes.
 \\
-   
-\subsection{Clarity of the visualization}
-Filtering, visual clutter, hierarchical layout(intuitive?), ...
+All participants described the visualization as aesthetically pleasant and were able to detect the nodes and links. One negative point was that the links get too small with increasing hierarchical layer depth. That made it hard to see them or hover over them with the laser pointer.
+The participants also noted a flickering of the node labels.  
 
-\subsection{Navigation}
-Free fly, animated teleport, scaling, motion sickness.
+For navigation, we had mixed results. One participant mostly used the free flying technique another preferred real world movement with the combined animated teleport technique.
+The participant of the interview commented that the free flying speed was too slow. In addition, he missed explicit buttons to move up and down without having to change his gaze direction.
+The animated teleport was intuitive and useful for all participants, while some noticed a bit of motion sickness during the transition and suggested speeding up the animation. Another suggestion was to use the left trigger for the animated teleport to the parent node.   
+In general there were no major problems navigating around the graph. 
 
-\subsection{Interaction}
-Button Mappings, Laser Pointer, 
+Lastly, filtering of the visible nodes was rather confusing for the participants. It was not clear when and how the automated filtering works.
+There was a visual indicator missing if the automated filtering is currently enabled or disabled. 
+When entering another node, there was a slight delay before the visibility of the nodes updated.
+The manual filtering was easier to understand, selecting a node for filtering with the laser pointer was intuitive and there was also an immediate update visible.
 
-\subsection{Performance}
-Tested system and dataset
+\subsection{Usability conclusion}
+In addition to the feedback we got from participants of the usability evaluation, we added our own experience to this conclusion.
+\\
+In our internal tests we experienced some problems for the layout algorithm. 
+On large graphs, the visualization can not ensure a correct hierarchical nesting, which also leads to resulting problems for the navigation during the exploration. 
+By adapting the simulation parameters according to the number of hierarchical layers or including a check before stopping the layout calculation this could be improved and enable the visualization to represent more hierarchical layers.
+\\
+During the evaluation we found out that the application has a learning curve. 
+While some techniques were confusing in the beginning, after about 15 minutes exploring and testing the experience the navigation, filtering and overview got a lot better.
+This could be improved by optimizing multiple parameters like the free flying speed, node and link size and automatic scaling size. 
+In addition, a user guide would enable an easier start for exploring large hierarchical networks using our visualization.
+In a polished version of the visualization a customizable button mapping would allow the users to configure the application to their preferences.
+An additional visual indicator if the automated filtering is active and for which node would give the user more control over the filtering process. 
+\\
+The combination of the instanced and transparent node rendering creates a new challenge, as the correct render order can not be determined by the default implementation from A-Frame. This leads to a sometimes wrong render which generates a wrong representation of parent node affiliation.
+Lastly the position and scale of the node labels needs to be adjusted, so that a flickering effect is prevented.

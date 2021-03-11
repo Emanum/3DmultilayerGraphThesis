@@ -10,12 +10,6 @@ To solve the multi scale scene problem, we automatically adjust the movement spe
 In addition, to provide a fully flexible user experience, the movement speed and scale can be adjusted by the user at any time and all navigation methods can be combined fluently.
 To evaluate our results, we did a performance test and gathered user feedback using an on site interview and an online form.
 
-During the evaluation we revealed some problems of the visualization. 
-The first one concerns the layout algorithm. On large graphs, the visualization can not ensure a correct hierarchical nesting, which also leads to resulting problems for the navigation during the exploration. By adapting the simulation parameters according to the number of hierarchical layers or including a check before stopping the layout calculation this could be improved and enable the visualization to represent more hierarchical layers.
-To provide an optimal user experience multiple parameters like the free flying speed, node and link size and automatic scaling needs to be further optimized.
-The combination of the instanced and transparent node rendering creates a new challenge, as the correct render order can not be determined by the default implementation from A-Frame. This leads to a sometimes wrong render which generates a wrong representation of parent node affiliation.
-Lastly the position of the node labels needs to be adjusted, so that a flickering effect is prevented.
-
 To our knowledge this thesis provides a first approach on visualizing hierarchical networks in VR. Therefore, future work could extend our concepts and improve the stability, performance and feature richness.
 With an added support for links between different hierarchical layers, applications could enable the visualization of multilayer datasets without a hierarchical relationship. Edge bundling could further improve the clarity of the visualization and allow displaying larger amounts of links at once. Different navigation and interaction techniques we have seen in Section \ref{chap:rw-vrnavigation} and \ref{chap:rw-vrinteraction} could be implemented to improve the user experience while exploring the graph.\
 \\
