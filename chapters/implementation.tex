@@ -154,7 +154,7 @@ While transforming the data structure, all node IDs are extended with their hier
 In addition, we also normalize the node and link width and add color attributes for a simplified rendering process later on.\\
 To test our visualization with various networks of different sizes there is also a script for generating test data available.
 
-\subsection{Automated force layout}
+\subsection{Automated Force Layout}
 \label{sec:layoutCalculation}
 
 The node layout is automatically calculated during runtime by a force system powered by D3-Force \cite{bostock_d3forcejs_nodate}. At the beginning, all D3-Force specific parameters including alphaDecay, alphaTarget, alphaMin, velocityDecay and cooldownTime are set. 
@@ -284,7 +284,7 @@ For calculating the target position when flying to the parent node, we apply a s
 
 \pagebreak
 
-\subsection{Scaling of the virtual scene}
+\subsection{Scaling of the Virtual Scene}
 \label{sec:scaling}
 
 In Section \ref{chap:ps-spatialReference}, we described why it is necessary to scale up the entire scene while navigating through the graph. 
@@ -313,7 +313,7 @@ if(scalingPos === undefined){//manual scaling
 return resultScalingMatrix;
 \end{lstlisting}
 
-\subsection{Filtering visible links}
+\subsection{Filtering Visible Links}
 \label{sec:linkFiltering}
 
 In our visualization links can be filtered by two ways: either by directly selecting a node which is accomplishment with the virtual laser pointer and ray casting, or by an automated process which selects the most inner node related to the users position if no node is directly selected.
