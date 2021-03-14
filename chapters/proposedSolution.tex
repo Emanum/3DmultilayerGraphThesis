@@ -3,7 +3,7 @@
 \section{Initial Problem}
 
 Our initial motivation for this thesis was to enable visualization of hierarchical multilayer datasets in a VR environment. 
-This is necessary because data scientists often deal with these datasets and because of the complexity of the data they often rely on classical 2D visualization software.
+Data scientists often deal with these datasets and because of the complexity of the data they often rely on classical 2D visualization software.
 However, current 2D approaches quickly reach their limits and run into the problem of visual clutter, especially when visualizing large networks and deep hierarchies. For example the comorbidity network we saw in Figure \ref{fig:original2DdiseaseNet} hides links and first and foremost is limited to only one hierarchical layer. This is not a problem for this dataset in particular, but we wanted a solution to visualize n hierarchical networks.
 To improve process of hierarchical network exploration, we wanted to use the capabilities of VR and 3D information visualization. 
 
@@ -13,8 +13,8 @@ We defined multiple requirements based on the problems we described in the previ
 \begin{enumerate}
     \item[R1]\label{req:R1} The visualization is able to visualize $n$ hierarchical network datasets. Each node represents a network for itself. Links are possible within nodes of the same network but also to nodes of different networks with the same hierarchical depth.
     \item[R2]\label{req:R2} The visualization can display larger networks than classical 2D approaches, before reaching a critical point of visual clutter where a meaningful exploration is not possible anymore.
-    \item[R3]\label{req:R3} The visualization provides a room scale experience for small and large room sizes.
-    \item[R4]\label{req:R4} The visualization fully utilized the tracking capabilities of the VR Headset to optimize interaction experience for the user.
+    \item[R3]\label{req:R3} The visualization provides a seated, standing and room scale experience for small and large room sizes.
+    \item[R4]\label{req:R4} The visualization fully utilizes the tracking capabilities of the VR Headset to optimize interaction experience for the user.
     \item[R5]\label{req:R5} The visualization allows a flexible navigation through the graph during the exploration process.
     \item[R6]\label{req:R6} The visualization ensures the clarity of the entire visualization by applying appropriated techniques according to Shneiderman's visualization seeking mantra.
     \item[R7]\label{req:R7} The visualization ensures that deep hierarchical networks are equally represented and can be explored intuitively.
@@ -31,7 +31,7 @@ We defined multiple requirements based on the problems we described in the previ
     \label{fig:layoutSketch} 
 \end{figure}
 To achieve \hyperref[req:R1]{R1}, we created our own layout. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations we use three-dimensional spheres. 
-By using the third dimension in combination we can achieve a better distribution of nodes and links and therefore display larger networks than with classical 2D approaches, as required in \hyperref[req:R2]{R2}. 
+By using the third dimension we can achieve a better distribution of nodes and links and therefore display larger networks than with classical 2D approaches, as required in \hyperref[req:R2]{R2}. 
 To dynamically build this layout for any given data as input we developed a custom force based system.
 The main goal is to prevent overlapping of nodes while still visualize the different clusters of hierarchical nodes by proximity. Figure \ref{fig:layoutSketch} shows a sketch of our envisioned layout. The entire data can be seen as a tree structure where each entity in the tree is a graph itself nested in its parent node. Therefore, the number of nodes can grow exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
 
@@ -46,11 +46,11 @@ The force system consists of multiple forces and constrains to automatically cal
     \item Center-Force: This force helps us to position the entire visualization in the center of our viewpoint, however there is no strict distance or radius like the Spherical-Constraint applies.
 \end{itemize}
 
-It is important to understand that these templates are not applied equally to all nodes. Instead, we apply multiple instances of these forces with different parameters to subsets of our graph. 
-This separation allows us to prevent of interference between different group of nodes for different parents.\\ 
+It is important to understand that these templates are not applied equally to all nodes. Instead, we apply multiple instances of these forces with different parameters to various subsets of our graph. 
+This separation allows us to prevent interference between different group of nodes for different parents.\\ 
 Firstly we distinguish between the top hierarchical layer, from now on called layer $0$, and all other subsequent layers 1,2,3 and so on. Each node and link instance is assigned their respectively layer attribute. Layer $0$ is treated separately because these nodes have no direct assigned parent node. 
 For Layer $0$, the center-force with the coordinates $(x:0,y:0,z:0)$, ManyBody-Force, Collision-Force and lastly Link-Force are applied to all nodes and links with a layer $0$ attribute. 
-As for layer $1$ to layer $n$, we do not apply forces by layer but instead by parent node. For each parent we add a Collision-force, ManyBody-force and Link-force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for that specific constraint entity.\\
+As for layer $1$ to layer $n$, we do not apply forces by layer but instead by parent node. For each parent we add a Collision-Force, ManyBody-Force and Link-Force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for the Spherical-Constraints.\\
 In conclusion, the total number of forces and constraints in our force system is: 
 \begin{equation}
     |forces| + |constraints| \: = 4 \, + 4 * |parent\_nodes|
@@ -61,11 +61,11 @@ In conclusion, the total number of forces and constraints in our force system is
 A big challenge in our force system was to equally balance out all added forces so that each one performs their specific task and does not influence the effect of other forces. To achieve that, we parameterized each force with a strength parameter.
 In addition, we also use the concept of an alpha Target from D3-Force \cite{bostock_d3forcejs_nodate}. To put it briefly, it is an additional value which decreases throughout the simulation this allows the simulation to “cool down” and stop it as soon as it reaches that set alpha Target value. We use the alpha Target to control the number of simulation iterations. 
 Besides balancing out the different templates of forces we also have to decrease the strength recursively for each layer as the nodes and their radius get smaller each layer iteration.\\
-To further improve the stability of the layout, we add a small amount of randomness to the applied velocities and strengths. This improves the nodes distribution and prevent scenarios where multiple nodes receive the same forces and therefore overlap each other.\\
+To further improve the stability of the layout, we add a small amount of randomness to the applied velocities and strengths. This improves the nodes distribution and prevent scenarios where multiple nodes receive the same forces and therefore would overlap each other.\\
 During our optimization we stumbled upon the problem that nodes tend to jump rapidly to a far position. This is only natural as we squish the nodes into the sphere of the parent while still applying the ManyBody- and Collision-Forces. Therefore, in some boundary scenarios the only “free” position for this node is further away which results in the jumping behavior. However, it defeats the concept of successively fine-tuning the positions throughout the simulation steps. For example nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem, we do not perform the positioning of all nodes throughout the entire simulation, instead we split up the amount of simulation steps and perform them for each layer successively (see Figure \ref{fig:SimulationSteps}). Beginning with positioning the layer 0 nodes afterwards layer 1 nodes and so on. Luckily, we also gain a performance benefit through that strategy. The reason for this is that the number of nodes grows exponentially for each layer, now that we only perform a subset of the simulation interactions to that increasing number of nodes the sum of position update operations reduces significantly.
 \begin{figure}[h]
     \centering
-    \includegraphics[width=\textwidth, trim={5cm 5cm 0 25cm},clip]{graphics/simulationStepsSplit.jpg}
+    \includegraphics[width=\textwidth]{graphics/simulationStepsSplit.jpg}
     \caption[Distribution of all simulation steps.]{Distribution of all simulation steps for a dataset with 4 hierarchical layers. Each layer receives the same amount of simulation steps, in this case 25 from 100.} % Remove the [...] argument if the original caption should be used in the figure list.
     \label{fig:SimulationSteps} 
   \end{figure}
@@ -87,16 +87,17 @@ The goal of the graph representation was to choose appropriate rendering methods
 To represent the graph data, we choose spheres for nodes, tubes as links and cones as arrow heads indicating the link direction.
 With solid textures the overview ability of the visualization would be poor since our layout approach use nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparent, then the user is able to see the nested nodes inside its parent node (see Figure \ref{fig:ps_nestedLayout}). 
 However, links inside other nodes are not visible because displaying a huge number of links would rather increase visual clutter and reduce overview. To deal with the big amount of links we apply filter conditions which are described in Section \ref{chap:ps-filterLinks}.
-During the entire visualization process that the user should be able to detect the borders of the nodes and their hierarchical nesting.\\ Now that our nodes are transparent, it would be hard to detect if another node is nested in the current parent node the camera is placed into or not. Therefore, we render a wireframe (see Figure \ref{fig:ps_wireframe}) with the help of the improved spatial impression given by the virtual reality room scale experience this allows the user to better see the border of node. To further improve the assignability of nodes to their layers each node and link of the same layer shares a predefined color.\\
-Of course an important part of the visualization process is to display names and details for nodes. To this end, each node instance has a billboard text label which is placed on the border of the node and always points to the camera.
+\\ Now that our nodes are transparent, it would be hard to detect if another node is nested in the current parent node the camera is placed into or not. Therefore, we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality room scale experience allows the user to better see the border of node. To further improve the assignability of nodes to their layers each node and link of the same layer shares a predefined color.\\
+Of course an important part of the visualization process is to display names and details for nodes. To this end, each node instance has a billboard text label which is placed on the border of the node and always points towards the camera.
 
 To ensure an equal down scaling of all rendered entities as well as correcting the needed node radius for the layout forces we use a visualization wide scaling factor:
 \begin{equation}
     scalingFactor = \frac{1}{(layer+1)^{(layer+1)} * constant}
 \end{equation}
 
-We also take the number of child nodes into account when calculating the node size: 
+\pagebreak
 
+We also take the number of child nodes into account when calculating the node size: 
 \begin{equation}
     nodeSize = baseSize + (numChildNodes * constant)
 \end{equation}
@@ -104,7 +105,7 @@ We also take the number of child nodes into account when calculating the node si
 \section{Interaction}
 \label{chap:solution-interaction}
 
-\begin{figure}[h]
+\begin{figure}[b]
     \centering
     \includegraphics[width=1\textwidth]{graphics/controllerMapping.jpg}
     \caption[Our controller mapping for the interactive VR experience.]{Our controller mapping for the interactive VR experience. Depending on the clicking position on the touchpad different actions can be called. The different clicking positions are marked in the image with different colors.} 
@@ -115,7 +116,7 @@ What both interactions have in common is that the user has to select a specific 
 This concludes that our visualization needs a general way to support the selection of nodes which then can be used by various other methods we apply during the exploration process. 
 In addition, we also stated in our requirements that we strive to use the tracking capabilities of VR to create intuitively interaction methods.
 Therefore, all user interactions can only be provided by the native VR supported hardware, in particular from 6-DOF tracked controllers. 
-To this end we implemented the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller a ray is cast through the scene. To better visualize the effect, we render a straight red line to imitate a virtual laser pointer (see Figure \ref{fig:screenshot_interaction}). The first intersected node is then used as the selected node for other methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset (see Figure \ref{fig:screenshot_interaction}). In addition, the selected node and directly connected nodes are visually highlighted (see Figure \ref{fig:screenshot_interaction}). This allows the users to quickly see which node they currently have selected and provides context of the connected nodes.
+To this end we use the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller a ray is cast through the scene. To better visualize the effect, we render a straight red line to imitate a virtual laser pointer (see Figure \ref{fig:screenshot_interaction}). The first intersected node is then used as the selected node for other methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset (see Figure \ref{fig:screenshot_interaction}). In addition, the selected node and directly connected nodes are visually highlighted (see Figure \ref{fig:screenshot_interaction}). This allows the users to quickly see which node they currently have selected and provides context of the connected nodes.
 
 \begin{figure}[h]
     \centering
@@ -139,27 +140,27 @@ As other 6-DOF headsets usually provide the same or similar interaction possibil
 \subsection{Filtering Link Visibility}
 \label{chap:ps-filterLinks}
 
-\begin{figure}[h]
+\begin{figure}[p]
     \centering
-    \begin{subfigure}[b]{0.6\columnwidth}
+    \begin{subfigure}{0.6\columnwidth}
         \centering
         \includegraphics[width=\textwidth]{graphics/filterLinks/allLinks.jpg}
         \subcaption{All links represented in the data.}
         \label{fig:linkFilter-all}
     \end{subfigure}
-    \begin{subfigure}[b]{0.6\columnwidth}
+    \begin{subfigure}{0.6\columnwidth}
         \centering
         \includegraphics[width=\textwidth]{graphics/filterLinks/outside.jpg}
         \subcaption{Visible links when the user is outside every node.}
         \label{fig:linkFilter-outside}
     \end{subfigure}
-    \begin{subfigure}[b]{0.6\columnwidth}
+    \begin{subfigure}{0.6\columnwidth}
         \centering
         \includegraphics[width=\textwidth]{graphics/filterLinks/layer0.jpg}
         \subcaption{Visible links when the user inside node 0.0 or selected it by the laser pointer interaction.}
         \label{fig:linkFilter-layer1}
     \end{subfigure}
-    \begin{subfigure}[b]{0.6\columnwidth}
+    \begin{subfigure}{0.6\columnwidth}
         \centering
         \includegraphics[width=\textwidth]{graphics/filterLinks/layer1.jpg}
         \subcaption{Visible links when the user inside node 1.1 or selected it by the laser pointer interaction.}
@@ -172,25 +173,25 @@ To ensure the clarity of the visualization (see \hyperref[req:R6]{R6}) and displ
 The goal is to reduce visual clutter while providing as much information as possible. 
 As a quick recap: Links in our visualization can exist between the same hierarchical parent node but also to nodes with a different parent node as long as the hierarchical depth is the same, Figure \ref{fig:linkFilter-all} shows a small example of all possible link combinations for three hierarchical layers.
 Displaying all link at the same time would quickly lead to visual clutter where a meaningful exploration is not possible anymore. 
-Therefore, we came up with our own filtering logic which decides which links are displayed and which are not.\\ 
-The filter uses a specific node this can either a directed selected node from the user by the laser pointer interaction or indirectly selected through the position of the user. A directly selected node always overrules the indirectly selected.
+Therefore, we came up with our own filtering logic that decides which links are displayed and which are not.\\ 
+The filter uses a specific node this can either be a directed selected node from the user by the laser pointer interaction or an indirectly selected through the position of the user. A directly selected node always overrules the indirectly selected. Our filter logic uses the following rules:
 
-\begin{itemize}
+\begin{enumerate}
     \item If no node is selected and the user is not inside any node only the links from the top layer 0 are displayed (see Figure \ref{fig:linkFilter-outside}).
     \item All links with source or target of that selected node are displayed. 
     \item All links with source or target of direct child nodes from the selected nodes are displayed. Direct child here means the hierarchical child one layer below the selected node. 
     \item All other links are not visible.
-\end{itemize}
+\end{enumerate}
 
-As an example, Figure \ref{fig:linkFilter-layer1} shows a situation where node 0.0 is selected. Therefore, all links connecting direct nodes of 0.0 and links from 0.0 itself are displayed. However, links of deeper nested nodes links 2.1 are not displayed. 
-Another situation can be seen in Figure \ref{fig:linkFilter-layer2}, here only links from node 1.1 and 2.4 are visible but the links from node 1.2 and 0.0 are not visible anymore.\\
+As an example, Figure \ref{fig:linkFilter-layer1} shows a situation where node 0.0 is selected. Therefore, all links connecting direct nodes of 0.0 and links from 0.0 itself are displayed. However, links of deeper nested nodes like 2.1 are not displayed. 
+A different situation can be seen in Figure \ref{fig:linkFilter-layer2}, here only links from node 1.1 and 2.4 are visible but the links from node 1.2 and 0.0 are not visible anymore.\\
 In an earlier version we not only displayed the links of direct child nodes but instead links of all recursively child nodes, e.g. in Figure \ref{fig:linkFilter-layer1} the green links would also be visible. However, this quickly leads to visual clutter therefore we stuck to the direct child approach.
 
 In order to support an intuitively and flexible exploration workflow the user also has the ability to lock a currently applied filter.
 With the left menu button (see Figure \ref{fig:controllerMapping}) the state of the locked can be toggled. 
-If the lock is active, the indirect selecting of nodes by the position of the user is disabled. The lock is also automatically set if a node is directly selected by the laser pointer. 
+If the lock is active, the indirect selection of nodes by the position of the user is disabled. The lock is also automatically set active if a node is manually selected by the laser pointer. 
 This allows the user to freely navigate around the visualization without constantly having to deal with changing link visibility. 
-On freeing the lock the indirect select automatically kicks in again and select the current node the user is position in.
+On freeing the lock the indirect selection of nodes automatically kicks in again and select the current node the user is positioned in.
 
 \section{Navigation}
 \label{chap:solution-navigation}
@@ -198,8 +199,8 @@ In order to fulfill \hyperref[req:R3]{R3} we support a walkable room scale VR ex
 However, the graph will usually be larger than the users available space, to this end we also include other navigation methods.
 To allow a maximum of flexibility during the navigation, as required for \hyperref[req:R5]{R5}, we provide two navigation methods: animated teleporting for covering larger distances and free flying to perform small and precise position adjustments.
 
-The user should be able to move to other far away parts of the graph without loosing orientation or interrupt the exploration flow. A common example is to jump to a connected node of another parent node. 
-Therefore, we implemented an animated teleportation method. The user can select a node by the laser pointer and then press the right trigger (nr. 7) to initiate the teleportation. The target position is the closest edge barely inside the node. This allows the user to get an overview of all nodes and links in that selected node.   
+The user should be able to move to other far away parts of the graph without loosing orientation or get interrupted in the exploration flow. A common example is to jump to a connected node of another parent node. 
+Therefore, we implemented an animated teleportation method. The user can select a node by the laser pointer and then press the right trigger to initiate the teleportation. The target position is the closest edge barely inside the node. This allows the user to get an overview of all nodes and links in that selected node.   
 As with a simple teleportation over long distances, the user might lose the orientation, we perform a short animation to the target position. The speed of the animation is done with an ease-in and ease-out transition.
 Remember that as soon as the users enters another node, the visibility of links changes, provided there is no active lock.\\
 Instead of teleporting deeper into the hierarchical networks, the user can also teleport to the parent hierarchical layer. In particular to the edge barely outside the node the user is currently located in, this teleportation can be triggered by pressing the middle of the left trackpad.\\
@@ -210,7 +211,7 @@ To perform small adjustments in position, especially when the users free space i
 The forward direction is linked to the users gaze direction, so the final fly direction is the combination of gaze direction and trackpad touch position. 
 In addition, the fly speed is adjustable with a click on top or bottom of the trackpad.    
 Similar to other VR applications we also implemented rotation of the entire room scale space in the virtual scene. This allows the users to better position themselves in the real world. 
-Particular with cable bound headsets this is useful because multiple rotations in the real world require to step over the cable. In other VR applications the movement is usually done with the left controller and rotation with the right, analogue to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
+Particular with cable bound headsets this is useful because multiple rotations in the real world require the user to step over the cable. In other VR applications the movement is usually done with the left controller and rotation with the right, analogue to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
 
 \subsection{Challenge of spatial reference in VR}
 \label{chap:ps-spatialReference}
@@ -236,15 +237,9 @@ In \hyperref[req:R3]{R3} we stated to support small and large room sizes.  Howev
 \section{Exploration Flow}
 \label{chap:ps-explorationFlow}
 To provide an optimal exploration experience of the hierarchical network, we use the overview and detail concept of the visual information seeking mantra \ref{seeking mantra} as stated in \hyperref[req:R6]{R6}. 
-At the beginning the user is in the overview perspective. He/she is placed on a further position away from the center where a good look on the entire graph is possible, in addition rotation to the graph can be applied.
+At the beginning the user is in the overview perspective. The user is placed on a further position away from the center where a good look on the entire graph is possible, in addition rotation to the graph can be applied.
 When the user decides to dive deeper into the network, a node can be selected via the ray cast controller interaction. This triggers the transition into the detail perspective. 
 Here all navigation and interaction methods described in Section \ref{chap:solution-interaction} and \ref{chap:solution-navigation}
 are available. 
 A core concept for the exploration in the detail perspective is the use of the VR room-scale navigation experience. As the user is able to tweak the scale of the scene to their liking, walking around the graph is possible for different room sizes. The goal is to improve spatial impression of the graph which results in a better clarity and understanding of the data.
 
-%\section{Summary}
-
-%Our initial motivation was to build an immersive visualization for hierarchical networks, that enable users to explore even bigger networks than with classical 2D approaches.
-%With the defined goals in Section \ref{chap:ps-requirements} we described the system we wanted to create.
-%In the following sections the techniques which fulfill these requirements are described.\\
-%All these different methods we apply allows us in the end to provide a first visualization for hierarchical networks in VR.
