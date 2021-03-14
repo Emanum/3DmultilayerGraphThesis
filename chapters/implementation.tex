@@ -40,15 +40,13 @@ The primary VR headset we are targeting with our application is the original HTC
 
 \section{Application Overview}
 
-
-
-
 \label{sec:applOverview}
 \subsection{Data Structure}
 \label{subSec:dataStruct}
 To get a better understanding of the implementation, we begin with describing the data structure for storing the graph.
 Listing \ref{lst:internalJSON} shows a minimalistic example of the data structure that we use an input data source. The data is formatted as a JSON object with a flat list of nodes and link. The hierarchical information is encoded within the attributes childNodesIDs and parentNodeID as references. 
 In addition to the necessary attributes, each node and link object can have additional attributes depending on the specific dataset.
+\pagebreak
 
 \begin{lstlisting}[language=json,label={lst:internalJSON},caption=minimal JSON input data structure]
 {
@@ -117,8 +115,9 @@ This means that every object in A-Frame is an entity that can be extended and cu
 There are various components that can be reused and extended, the base component is represented by the <a-entity> element.\\
 Listing \ref{lst:virtualSceneGraph} shows a simplified version of the virtual scene graph the application uses. 
 It consists of entities for both Vive controllers, a passive and active camera and rig setup and the graph object itself.
-Most data and logic is encapsulated in the graphData object. We maintain here two lists of data: a list of nodes/links for the ray casting entities and a list of nodes/links for the actual rendered entities. 
+Most data and logic is encapsulated in the graphData object. We maintain here two types of data lists: a list of nodes/links for the ray casting entities and a list of nodes/links for the actual rendered entities. 
 The reason for this duplicated data is that we use  instanced objects for rendering (see Section \ref{sec:rendering}) and these can not be used for ray casting directly.
+\pagebreak
 
 \begin{lstlisting}[label={lst:virtualSceneGraph},caption=Simplified virtual A-Frame scene graph used by the application.]
 <body>
@@ -184,6 +183,9 @@ parentNodeIDs.forEach((parentNodeID, index) => {
     d3ForceLayout.force(parentNodeID+ "-link",linkForce(filteredNodesForLayer,...));
 });
 \end{lstlisting}
+\pagebreak
+
+
 \begin{lstlisting}[language=JavaScript,label={lst:sphericalConstraint},caption=Simplified algorithm for the spherical constraint. We apply adapted velocities whenever the child node is inside the parent. In addition we further determine if the childnode is already inside an closer radius or not.] 
 nodes.forEach(node => {
     // METHOD 3.75: Outer and Inner Radius + jiggle
@@ -258,6 +260,8 @@ const positionNodeBorderCorrectedWithCurrentCameraPos = positionNodeBorder.clone
 //4. initiate animated teleport
 flyToPosition(positionNodeBorderCorrectedWithCurrentCameraPos, flyingElement);
 \end{lstlisting}
+\pagebreak
+
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{graphics/flyToNodePositionCalc.jpg}
@@ -278,6 +282,8 @@ For calculating the target position when flying to the parent node, we apply a s
     \label{fig:vrFlyToParentNode} 
 \end{figure}
 
+\pagebreak
+
 \subsection{Scaling of the virtual scene}
 \label{sec:scaling}
 
@@ -287,6 +293,7 @@ When applying a scaling matrix, the center of the scene (0,0,0) stays in the sam
 Therefore, we translate the target position of the animated teleport into the center of the scene, then scale up/down and afterwards translate the scene back.
 In order to achieve a smooth user-friendly scaling, instead of scaling to the desired size once, we animate the scaling process. The duration of the animation has to be the exact time as the animated teleportation, otherwise the teleportation path will get distorted and result in a curve instead of a straight line.
 For manual scaling, instead of using the target position use the world position of the headset for translating before and after scaling. Both calculations can be seen in Listing \ref{lst:scaling}.
+\pagebreak
 
 \begin{lstlisting}[language=JavaScript,label={lst:scaling},caption=Simplified algorithm for calculating the scaling matrix]
 const resultScalingMatrix = new THREE.Matrix4();
@@ -326,6 +333,7 @@ for (var i = 0; i < graphData.nodes.length; i++) {
     }
 }
 \end{lstlisting}
+\pagebreak
 
 \begin{lstlisting}[language=JavaScript,label={lst:determineInnestNode},caption=Simplified algorithm to determine the inner most node.] 
 getCurrentInnestNode(){
