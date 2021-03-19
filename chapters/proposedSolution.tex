@@ -88,7 +88,7 @@ To represent the graph data, we choose spheres for nodes, tubes as links and con
 With solid textures, the overview ability of the visualization would be poor since our layout approach uses nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparently. Then the user is able to see the nested nodes inside their parent node (see Figure \ref{fig:ps_nestedLayout}). 
 However, links inside other nodes are not visible because displaying many links would increase visual clutter and reduce overview. To deal with the big amount of links, we apply filter conditions which are described in Section \ref{chap:ps-filterLinks}.
 \\
-When the user is inside a node, the transparent sphere of the node is not rendered anymore. Instead of a solid transparent sphere we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality experience allows the user to better see the boundary of the wireframe. To further improve the assignability of nodes to their layers, each node and link of the same layer shares a predefined color.\\
+When the user is inside a node, the transparent sphere of the node is not rendered anymore. Instead of a solid transparent sphere, we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality experience allows the user to better see the boundary of the wireframe. To further improve the assignability of nodes to their layers, each node and link of the same layer shares a predefined color.\\
 To support the exploration process, it is important to display names and details for nodes. Therefore, each node instance has a billboard text label which is placed on the border of the node and always points towards the camera.
 
 Our layout concepts uses a hierarchical nesting concept, which requires us to dynamically change the scale of all rendered entities depending on their assigned layer. To ensure an equal down-scaling these entities as well as correcting the needed node radius for the layout forces, we use a visualization wide scaling factor:
@@ -230,6 +230,7 @@ In the real world however, we constantly see objects from two different perspect
 This means that a simple trick of adjusting the movement speed is not working for our VR visualization.
 That problem makes itself noticeable for example as layer 4 nodes in VR are the size of a needle where layer 0 nodes are the size of an entire house.
 In addition to the perspective problem, changing the movement speed also does not work because movement in a 6-DOF VR headset is also always carried out by movement in the real world and obviously the physical movement speed can not be adjusted.
+\pagebreak
 
 One solution to that problem is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
 \begin{itemize}
