@@ -10,8 +10,9 @@ A specialized version of a graph is called tree\label{exp:tree}. It is defined a
 In addition, tree nodes also have a height and depth. The height is defined by the largest number of edges between the root node and a leaf node. The height of the root node is the height of the tree itself. The depth of the node is the number of edges along the path to the root node. Note that a tree is able to encode hierarchical relationships between nodes. In the thesis, we use the term 'hierarchical level' for depth and terminologies like 'leaf1 is a direct child of node1' or 'node1 is the parent (node) of leaf1' based on Figure \ref{fig:simple_tree}.
 
 In addition to the basic graph structures, which are often not sufficient for specific datasets, there are extended forms of graph models \cite{bertault_algorithm_1999}. 
-%higraph, clustered graph, compound graph
 For the context of this thesis, clustered graphs are especially interesting. A clustered graph is defined by a recursive structure where each node can be new graph for itself \cite{eades_multilevel_1997}. 
+Cluster information can be data inherent, which means that the cluster affiliation is encoded in the data itself. In addition, cluster information can be artificially created by hierarchical clustering algorithms. These clusters, then build hierarchical relationships in the form of tree structures. Therefore, all big graphs can be visualized by hierarchical clustered graphs \cite{vehlow_state_2015}. The combination of clustered and hierarchical graph data is also referred to as a compound graph.  
+
 %Another would be a compound graph. a set of different elements such as vertices or edges and therefore 
 %compound graph (master thesis), 
 
@@ -47,11 +48,20 @@ There are a variety of different approaches, but the general concept is always t
 These systems work by providing numerous repelling and attracting forces between nodes and links that update the position of the nodes. Usually these forces are related to Hooke's law. For example, an approach by Fruchterman et al. \cite{fruchterman_graph_1991} uses repulsive forces between all nodes and attraction forces for linked nodes.
 The defined forces are then processed with a given set of nodes and links for either a limited number of iterations, a fixed time, some sort of dynamic condition (for instance the momentum of the nodes fall below a certain threshold) or just infinitely.
 Large graphs, however, are a common problem as physical force models tend to have many local minima and therefore do not produce optimal results \cite{kobourov_spring_2012}.
-Instead of defining interactions between nodes and links, constraints try to model the resulting layout directly; for instance, by placing nodes of certain groups in predefined locations of the screen.   
+Instead of defining interactions between nodes and links, constraints try to model the resulting layout directly; for instance, by placing nodes of certain groups in predefined locations of the screen.
 
-The goal of multilayer visualizations \label{exp:multilayer} is to combine multiple node-link diagrams, so-called layers into one visualization, including the relations between them. A subset of proposed multilayer visualizations define the layers as an aspect of the dataset. The same node can be part of multiple aspects, multiple networks respectively. For example, a single person can be in a network of family-friends (layer/aspect 1) and at the same time in a network of social-media friends (layer/aspect 2). Keep in mind that each node is not necessarily part of every aspect, e.g., people do not have to be represented in the social-media network.
-Source and target layer of the links are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not \cite{ghoniem_state_2019}. Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
-Another subset of proposed multilayer visualizations does not treat the individual layers as different aspects of the data. Instead, layers are used to combine multiple networks with different nodes in a single graph. This often makes their visualization concepts flexible to use. 
+Another form of graphs are multilayer visualizations\label{exp:multilayer}. Their goal is to combine multiple node-link diagrams, so-called layers into one visualization, including the relations between them. 
+%A subset of proposed multilayer visualizations define the layers as an aspect of the dataset. The same node can be part of multiple aspects, multiple networks respectively.
+Source and target layer of the links are well-defined, they can either be considered as intra-layer when the source and target layer are the same or inter-layer when they are not \cite{ghoniem_state_2019}. 
+Since the nodes on multiple layers can represent the same entity, there are no strictly defined parent or child nodes in multilayer networks, therefore inter-layer links can be modeled between all layers.
+%Another subset of proposed multilayer visualizations does not treat the individual layers as different aspects of the data. Instead, layers are used to combine multiple networks with different nodes in a single graph. This often makes their visualization concepts flexible to use.
+When dealing with multiple graphs, there is a group structure that models the relations between nodes of different graphs.
+Vehlow et al. \cite{vehlow_state_2015} differentiate group structures, in flat and hierarchical, as well as disjoint and overlapping aspects.
+In overlapping datasets one node can be in multiple graphs at the same time. For example, a single person can be in a network of family-friends (layer/graph 1) and in a network of social-media friends (layer/graph 2).
+In disjoint datasets, nodes are only part of one graph. These makes the visualizations more flexible to use.
+\pagebreak
+
+In our work we are dealing with a hierarchical and disjoint dataset. The hierarchical information can come from various clustering methods or be data inherent.
 
 \section{VR Technology}
 \label{chap:bg-vrtech}
