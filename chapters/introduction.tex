@@ -1,6 +1,7 @@
 \chapter{Introduction}
 
 \section{Motivation}
+\label{sec:motivation}
 Revealing the structure of hierarchically organized data is a complex task where many approaches already exist. It is still an active research area as data scientists are facing ever greater challenges when analyzing large hierarchical datasets. One example is the Human Disease Network \cite{zhou_human_2014}, which is a hierarchical network of disorders and disease genes with approximately 3000 nodes on two different hierarchy layers. Figure \ref{fig:Human_Disease_Network} shows the representation of the data in a common two-dimensional layout. In this representation, the classes of disorders are coded by color. 
 Another dataset with a similar structure can be seen in Figure \ref{fig:original2DdiseaseNet}. Here, the clusters of different diseases are grouped by boxes. 
 Depiction of hierarchical network structure in 2D faces researches with many challenges. The biggest one is visual clutter and the so-called hairball effect, which reduces the legibility of the network information. Therefore, it is difficult to determine node-node relationships and hierarchical associations, as well as hierarchical relationships, which are crucial in analyzing hierarchical network data. In Figure \ref{fig:Human_Disease_Network}, we can see visual clutter on the green nodes. The graph in Figure \ref{fig:original2DdiseaseNet} solves this problem by hiding links between child nodes from different boxes which is also not optimal.

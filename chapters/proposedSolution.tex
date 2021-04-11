@@ -1,23 +1,22 @@
 \chapter{Proposed Solution}
 \label{chap:proposed-Solution}
-\section{Initial Problem}
 
-Our initial motivation for this thesis was to enable visualization of hierarchical multilayer datasets in a VR environment. 
-Data scientists often deal with these datasets and because of the complexity of the data they often rely on classical 2D visualization software.
-However, current 2D approaches quickly reach their limits and run into the problem of visual clutter, especially when visualizing large networks and deep hierarchies. For example the comorbidity network we saw in Figure \ref{fig:original2DdiseaseNet} hides links and first and foremost is limited to only one hierarchical layer. This is not a problem for this dataset in particular, but we wanted a solution to visualize n hierarchical networks.
-To improve the process of hierarchical network exploration, we wanted to use the capabilities of VR and 3D information visualization. 
+Our initial motivation for this thesis was to enable visualization of hierarchical and disjoint grouped datasets in VR. 
+Data scientists often deal with these datasets and because of the complexity of the data they often have to rely on classical 2D visualization software.
+However, current 2D approaches quickly reach their limits and run into the problem of visual clutter, especially when visualizing large networks and deep hierarchies. For example the comorbidity network shown in Figure \ref{fig:original2DdiseaseNet} hides links and is limited to only one hierarchical layer. Instead of limiting ourselves to one hierarchical layer, we wanted a solution to visualize any number of hierarchical layers.
+To improve the process of hierarchical network exploration, we wanted to use the capabilities of VR and 3D information visualization. In Section \ref{sec:motivation}, we summarized how these techniques can be beneficial for network visualizations.  
 
 \section{Requirements}
 \label{chap:ps-requirements}
 We defined multiple requirements based on the problems we described in the previous chapters:\\
 \begin{enumerate}
-    \item[R1]\label{req:R1} The visualization is able to visualize $n$ hierarchical network datasets. Each node can contain a network in itself. Links are possible within nodes of the same network but also to nodes of different networks with the same hierarchical depth.
+    \item[R1]\label{req:R1} The visualization is able to visualize a hierarchical and disjoint network with depth $n$. Each node can be a super-node or meta-node. Links are possible within nodes of the same parent super-node but also to nodes of different super-nodes with the same hierarchical depth.
     \item[R2]\label{req:R2} The visualization can display larger networks than classical 2D approaches, before reaching a critical point of visual clutter where a meaningful exploration is not possible anymore.
     \item[R3]\label{req:R3} The visualization supports a seated, standing and room scale experience for small and large room sizes.
     \item[R4]\label{req:R4} The visualization fully utilizes the tracking capabilities of the VR Headset to optimize the interaction experience for the user.
     \item[R5]\label{req:R5} The visualization allows a flexible navigation through the graph during the exploration process.
     \item[R6]\label{req:R6} The visualization ensures a clear overview of the entire data by applying appropriated techniques according to Shneiderman's visualization seeking mantra.
-    \item[R7]\label{req:R7} The visualization ensures that deep hierarchical networks can be explored intuitively and without further distractions.
+    \item[R7]\label{req:R7} The visualization ensures that deep hierarchical networks can be explored using familiar interaction techniques and reduces the problem of a multi scale scene.
     \item[R8]\label{req:R8} The visualization uses the HTC Vive as a target platform, but the concepts should be transferable to other 6-DOF Headsets. 
 \end{enumerate}
 
@@ -27,19 +26,19 @@ We defined multiple requirements based on the problems we described in the previ
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth, trim={0cm 0cm 0cm 3.5cm},clip]{graphics/filterLinks/allLinks.jpg}
-    \caption[A sketch of our layout in 2D.]{A sketch of our layout approach in 2D. Instead of 2D circles we use 3D spheres in the real application. The number before the dot represents the depth, respectively the layer of the node and the number after the dot a node id unique for each layer.} 
+    \caption[A sketch of our layout in 2D.]{A sketch of our layout approach in 2D. Instead of 2D circles, we use 3D spheres in the real application. The size of the nodes is determined by their depth and number of child nodes. The node labels describe their unique ID. This ID consists of two parts: the first number before the dot represents the depth, respectively the layer of the node; the second part is a unique number identifying the node within one layer.} 
     \label{fig:layoutSketch} 
 \end{figure}
-To achieve \hyperref[req:R1]{R1}, we created our own layout. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations, we use three-dimensional spheres. 
+To achieve \hyperref[req:R1]{R1}, we created a variation of circle packing layout approaches. The core concept is to combine the nested technique of tree maps with multilayer techniques. However instead of flat surfaces as seen in many multilayer network visualizations, we use three-dimensional spheres. 
 By using the third dimension, we can achieve a better distribution of nodes and links and therefore display larger networks than with classical 2D approaches, as required in \hyperref[req:R2]{R2}. 
 To dynamically build this layout for any given data as input, we developed a custom force based system.
-The main goal is to prevent overlapping of nodes while still visualizing the different clusters of hierarchical nodes by proximity. Figure \ref{fig:layoutSketch} shows a sketch of our envisioned layout. The entire data can be seen as a tree structure where each entity in the tree is a graph itself, nested in its parent node. Therefore, the number of nodes can grow exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
+The main goal is to prevent overlapping of nodes while still visualizing the different clusters of hierarchical nodes by proximity. Figure \ref{fig:layoutSketch} shows a sketch of our envisioned layout. The entire data can be seen as a tree structure where each entity in the tree is a graph itself, nested in its parent node. This means that each node can be a super-node or meta-node. Therefore, the number of nodes can grow exponentially with the number of hierarchical layers. Note that the root node is not displayed because it would just create an additional complexity in the visualization without adding any meaningful benefit.
 
 \subsection{Layout Forces and Constraints}
 \label{chap:ps-forces}
-The force system consists of multiple forces and constraints to automatically calculate the positions of all nodes. We want to achieve an evenly distributed graph while still fulfilling the requirement rules for hierarchical nesting. Firstly, we define a set of force and constraint templates:
+The force-based layout system consists of multiple forces and constraints to automatically calculate the positions of all nodes. We want to achieve an evenly distributed graph while still fulfilling the requirement rules for hierarchical nesting. Firstly, we define a set of force and constraint templates:
 \begin{itemize}
-    \item ManyBody-Force: This force is a repulsion force and causes nearby nodes to push each other off. The strength decreases with the distance of the nodes. This allows the distribution of nodes evenly among the available space.
+    \item ManyBody-Force: This force is a repulsion force and causes nearby nodes to be pushed away from each other. The strength decreases with the distance of the nodes. This allows the distribution of nodes evenly among the available space.
     \item Link-Force: It is the counterpart of the ManyBody-Force and pulls nodes connected via a link closer together. Together with the ManyBody-Force, it enables us to model a distributed graph while still clustering connected nodes and minimizing the chance for a link to cross a not involved node.
     \item Collision-Force: This force is basically a reinforced version of the ManyBody-Force it prevents nodes from overlapping in the case the ManyBody- and Link-Force push nodes into each other.
     \item Spherical-Constraint: The spherical-constraint is the core concept of our layout we use for nesting nodes. It allows us to “squish” multiple nodes into a sphere for any given point and radius. The center of the sphere can vary for each simulation step. The constraint works by constantly adding a slightly randomized velocity for each node towards the center of the sphere. If the node is outside the sphere, then the velocity is increased drastically.
@@ -47,49 +46,51 @@ The force system consists of multiple forces and constraints to automatically ca
 \end{itemize}
 
 It is important to understand that these templates are not applied equally to all nodes. Instead, we apply multiple instances of these forces with different parameters to various subsets of our graph. 
-This separation allows us to prevent interference between different groups of nodes for different parents.\\ 
-Firstly, we distinguish between the top hierarchical layer, from now on called layer $0$, and all other subsequent layers 1,2,3 and so on. Each node and link instance is assigned their respectively layer attribute. Layer $0$ is treated separately because these nodes have no direct assigned parent node. 
+This separation allows us to prevent interference between different groups of nodes for different parents.
+Firstly, we distinguish between the top hierarchical layer (from now on called layer $0$) and all other subsequent layers 1,2,3 and so on. Each node and link instance is assigned their respectively layer attribute. Layer $0$ is treated separately because these nodes have no directly assigned parent node. 
 For Layer $0$, the center-force with the coordinates $(x:0,y:0,z:0)$, ManyBody-Force, Collision-Force and lastly Link-Force are applied to all nodes and links with a layer $0$ attribute. 
-As for layer $1$ to layer $n$, we do not apply forces by layer but instead by parent node. For each parent we add a Collision-Force, ManyBody-Force and Link-Force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for the Spherical-Constraints.\\
-In conclusion, the total number of forces and constraints in our force system is: 
+As for layer $1$ to layer $n$, we do not apply forces by layer but instead by parent node. For each parent, we add a Collision-Force, ManyBody-Force and Link-Force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for the Spherical-Constraints.
+In conclusion, the total number of forces and constraints in our entire force system (including all layers) is: 
 \begin{equation}
-    |forces| + |constraints| \: = 4 \, + 4 * |parent\_nodes|
+    |forces| + |constraints| \: = 4 \, + 4 \cdot |parent\_nodes|
 \end{equation}
 
 \subsection{Stability of the force system}
 
-A big challenge in our force system was to equally balance out all added forces so that each one performs their specific task and does not influence the effect of other forces. To achieve that, we parameterized each force with a strength parameter.
-In addition, we also use the concept of an alpha target from D3-Force \cite{bostock_d3forcejs_nodate}. To put it briefly, it is an additional value which decreases throughout the simulation. This allows the simulation to “cool down” and stop as soon as it reaches that set alpha target value. We use the alpha target to control the number of simulation iterations. 
-Besides balancing out the different templates of forces, we also have to decrease the strength recursively for each layer as the nodes and their radius get smaller each layer iteration.\\
-To further improve the stability of the layout, we add a small amount of randomness to the applied velocities and strengths. This improves the node distribution and prevents scenarios where multiple nodes receive the same forces and therefore would overlap each other.\\
-During our optimization, we stumbled upon the problem that nodes tend to jump rapidly to a far position. This is happens because we squish the nodes into the sphere of the parent while still applying the ManyBody- and Collision-Forces. Therefore, in some boundary scenarios the only “free” position for this node is further away which results in the jumping behavior. However, it defeats the concept of successively fine-tuning the positions throughout the simulation steps. For example, nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem, we do not perform the positioning of all nodes throughout the entire simulation, instead we split up the amount of simulation steps and perform them for each layer successively (see Figure \ref{fig:SimulationSteps}). Beginning with positioning the layer 0 nodes afterwards, then layer 1 nodes and so on. Luckily, we also gain a performance benefit through that strategy. The reason for this is that if the number of nodes grows exponentially for each layer we only perform a subset of the simulation interactions on the increasing number of nodes. Therefore, the sum of position update operations reduces significantly.
+A big challenge for our customized force system was to equally balance all added forces so that each one performs their specific task and does not influence the effect of other forces. To achieve that, we parameterized each force with a strength parameter.
+In addition, we also use the concept of an $\alpha$ target from D3-Force \cite{bostock_d3forcejs_nodate}. To put it briefly, it is an additional value, which decreases throughout the simulation. This allows the simulation to “cool down” and stop as soon as it reaches the defined $\alpha$ target value. We use the $\alpha$ target to control the number of simulation iterations. 
+Besides balancing the different templates of forces, we also have to decrease the strength recursively for each layer as the nodes and their radius get smaller each layer iteration.
+To further improve the stability of the layout, we add a small amount of randomness to the applied velocities and strengths. This improves the node distribution and prevents scenarios where multiple nodes receive the same forces and therefore would overlap each other.
+During our optimization, we stumbled upon the problem that nodes tend to jump rapidly to a far position. This happens because we squish the nodes into the sphere of the parent while still applying the ManyBody- and Collision-Forces. Therefore, in some boundary scenarios, the only “free” position for this node is further away which results in the jumping behavior. However, it defeats the concept of successively fine-tuning the positions throughout the simulation steps. For example, nodes of layer 1-3 would be already positioned well but in the last simulation step the parent node in layer 0 would jump and therefore layer 1-3 nodes are positioned outside the parent layer 0 node again. To circumvent that problem, we do not perform the positioning of all nodes throughout the entire simulation. Instead we split up the amount of simulation steps and perform them for each layer successively (see Figure \ref{fig:SimulationSteps}): beginning with positioning the layer 0 nodes, then layer 1 nodes and so on.
+Luckily, we also gain a performance benefit through that strategy. 
+The reason for this is that, usually the number of nodes grows exponentially for each layer. That means, that a simulation steps for layer5 has to process more individual nodes and forces than a simulation step for layer1. By limiting the simulation steps for the larger growing layers we can reduce the total sum of position update operations.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{graphics/simulationStepsSplit.jpg}
-    \caption[Distribution of all simulation steps.]{Distribution of all simulation steps for a dataset with 4 hierarchical layers. Each layer receives the same amount of simulation steps, in this case 25 from 100.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \caption[Distribution of all simulation steps.]{Distribution of all simulation steps for a dataset with 4 hierarchical layers. Each layer receives the same amount of simulation steps, in this case 25 of 100.}
     \label{fig:SimulationSteps} 
   \end{figure}
-\section{Graph Representation}
+
+\section{Graph Visualization}
 \label{chap:ps-graphRepresentation}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=1\textwidth]{graphics/screenshotNesting.jpg}
-    \caption[Screenshot of the visualization.]{Overview perspective of the visualization. Each node is rendered semi transparent, this allows the user to detect the topology of the data.}
+    \caption[Screenshot of the visualization.]{Overview perspective of the visualization: Each node is rendered semi-transparently. This allows the user to detect the overall topology of the data.}
     \label{fig:ps_nestedLayout}
 \end{figure}
 \begin{figure}[!htb]
     \centering
     \includegraphics[width=1\textwidth]{graphics/screenshotNestingAndWireframe.jpg}
-    \caption[Screenshot of the visualization.]{Detail perspective inside of node 0.2. To be able to tell the border of the nodes, the node is rendered as a wireframe when looking from the inside out.}
+    \caption[Screenshot of the visualization.]{Detail perspective inside of node 0.2: To be able to tell the border of the nodes, the node is rendered as a wireframe when looking from the inside out.}
     \label{fig:ps_wireframe}
 \end{figure}
-The goal of the graph representation was to choose appropriate rendering methods which allow us to reduce visual clutter and improve clarity while still displaying as much data as possible.\\
-To represent the graph data, we choose spheres for nodes, tubes as links and cones as arrow heads indicating the link direction.
-With solid textures, the overview ability of the visualization would be poor since our layout approach uses nested layers and therefore the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparently. Then the user is able to see the nested nodes inside their parent node (see Figure \ref{fig:ps_nestedLayout}). 
-However, links inside other nodes are not visible because displaying many links would increase visual clutter and reduce overview. To deal with the big amount of links, we apply filter conditions which are described in Section \ref{chap:ps-filterLinks}.
-\\
-When the user is inside a node, the transparent sphere of the node is not rendered anymore. Instead of a solid transparent sphere, we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality experience allows the user to better see the boundary of the wireframe. To further improve the assignability of nodes to their layers, each node and link of the same layer shares a predefined color.\\
-To support the exploration process, it is important to display names and details for nodes. Therefore, each node instance has a billboard text label which is placed on the border of the node and always points towards the camera.
+The goal of the graph visualization was to choose appropriate visual encoding which allow us to reduce visual clutter and improve clarity while still displaying as much data as possible.
+To represent the graph, we choose spheres for nodes, tubes as links and cones as arrow heads indicating the link direction.
+With solid textures, the overview ability of the visualization would be poor since our layout approach uses nested layers. Therefore, the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparently. Then, the user is able to see the nested nodes inside their parent node (see Figure \ref{fig:ps_nestedLayout}). 
+However, links inside other nodes are not visible because displaying many links would increase visual clutter and reduce overview. To deal with the large amount of links, we apply filter conditions, which are described in Section \ref{chap:ps-filterLinks}.
+When the user is inside a node, the transparent sphere of the node is not rendered anymore. Instead of a solid transparent sphere, we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality experience allows the user to better see the boundary of the wireframe than visible in the Figure. To further improve the assignability of nodes to their layers, each node and link of the same layer shares a predefined color.
+For each node instance, a billboard text label is placed on the border of the node and always points towards the camera. For our artificially dataset it only displays the ID of the node, but for real dataset it could display node and cluster names.
 
 Our layout concepts uses a hierarchical nesting concept, which requires us to dynamically change the scale of all rendered entities depending on their assigned layer. To ensure an equal down-scaling these entities as well as correcting the needed node radius for the layout forces, we use a visualization wide scaling factor:
 \begin{equation}
@@ -219,7 +220,7 @@ Particularly with cable bound headsets this is useful because multiple rotations
 
 \subsection{Challenge of Spatial Reference in VR}
 \label{chap:ps-spatialReference}
-In \hyperref[req:R7]{R7}, we stated that the visualization should ensure that deep hierarchical networks can be explored without further distractions.
+In \hyperref[req:R7]{R7}, we stated that the visualization should reduce the problem of a multi scale scene.
 The challenge is that nodes and links are getting exponentially smaller with each hierarchy step.
 This introduces a new problem as after a few iterations the nodes and links in the virtual scene are too small to recognize.
 2D visualizations usually deal with that by adjusting the viewport of the visualization, e.g., zooming in and out. 
