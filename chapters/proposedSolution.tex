@@ -90,19 +90,19 @@ To represent the graph, we choose spheres for nodes, tubes as links and cones as
 With solid textures, the overview ability of the visualization would be poor since our layout approach uses nested layers. Therefore, the user could only see one layer of nodes at the same time. To circumvent that we render all nodes transparently. Then, the user is able to see the nested nodes inside their parent node (see Figure \ref{fig:ps_nestedLayout}). 
 However, links inside other nodes are not visible because displaying many links would increase visual clutter and reduce overview. To deal with the large amount of links, we apply filter conditions, which are described in Section \ref{chap:ps-filterLinks}.
 When the user is inside a node, the transparent sphere of the node is not rendered anymore. Instead of a solid transparent sphere, we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality experience allows the user to better see the boundary of the wireframe than visible in the Figure. To further improve the assignability of nodes to their layers, each node and link of the same layer shares a predefined color.
-For each node instance, a billboard text label is placed on the border of the node and always points towards the camera. For our artificially dataset it only displays the ID of the node, but for real dataset it could display node and cluster names.
+For each node instance, a billboard text label is placed on the border of the node and always points towards the camera. For our artificially dataset the ID of the node is displayed, for a real dataset it would display the appropriated node and cluster names.
 
-Our layout concepts uses a hierarchical nesting concept, which requires us to dynamically change the scale of all rendered entities depending on their assigned layer. To ensure an equal down-scaling these entities as well as correcting the needed node radius for the layout forces, we use a visualization wide scaling factor:
+Our adapted sphere packing layout algorithm requires us to render nodes and links smaller for each nested sphere. To achieve that, we added a dynamically scaling factor that is applied for each rendering entity (node, link, text-label). 
+In addition to the rendering algorithm, the force algorithms also uses that scaling factor to ensure a correct collision detection and sphere packing. 
+This globally scaling factor is described by the following formula: 
 \begin{equation}
-    scalingFactor = \frac{1}{(layer+1)^{(layer+1)} * constant}
+    s_{ d } = \frac{1}{(d+1)^{(d+1)} \cdot s}
 \end{equation}
-
-\pagebreak
-
-We also take the number of child nodes into account when calculating the node size: 
+Where $s_{ d }$ is the resulting scaling factor, $d$ is the depth of the current layer and $s$ is a global constant that allows us to balance the force algorithm according to the rendering objects. The resulting scaling factor is used, in combination with the number of child nodes, to calculate the size of the node: 
 \begin{equation}
-    nodeSize = baseSize + (numChildNodes * constant)
+    r_{ d,i } = (r \cdot s_{ d }) + (\left\lvert N_{ d,i } \right\rvert \cdot rs)
 \end{equation}
+Where $d$ is the depth, i the node index at depth $d$, r is a base radius, $s_{ d }$ is the previous scaling factor, $\left\lvert N_{ d,i } \right\rvert$ is the set of child nodes of the node $i$ at depth $d$, and $rs$ is a global constant to balance the size of the node radius to the according force radius.
 
 \section{Interaction}
 \label{chap:solution-interaction}
@@ -118,28 +118,28 @@ What both interactions have in common is that the user has to select a specific 
 This concludes that our visualization needs a general way to support the selection of nodes which then can be used by various other methods we apply during the exploration process. 
 In addition, we also stated in our requirements that we strive to use the tracking capabilities of VR to create intuitive interaction methods.
 Therefore, all user interactions can only be provided by the native VR supported hardware, in particular from 6-DOF tracked controllers. 
-To this end, we use the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller a ray is cast through the scene. 
+To this end, we use the common concept of ray cast selection for selecting nodes in the virtual scene. Along the length of the right controller, a ray is cast through the scene. 
 To better visualize the effect, we render a straight red line to imitate a virtual laser pointer (see Figure \ref{fig:screenshot_interaction}). 
-The first intersected node is then used as the selected node for other methods like filtering or teleportation. The id and name attribute of the selected node is displayed in a HUD element centered in the lower part of the screen inside the headset (see Figure \ref{fig:screenshot_interaction}). 
+The first intersected node is then used as the selected node for other methods like filtering or teleportation. The node label of the selected node is displayed in a Head-up-Display element centered in the lower part of the screen inside the headset (see Figure \ref{fig:screenshot_interaction}). 
 In addition, the selected node and directly connected nodes are visually highlighted (see Figure \ref{fig:screenshot_interaction}). This allows the users to quickly see, which node they currently have selected and provides the context of the connected nodes.
 
 \begin{figure}[h]
     \centering
     \includegraphics[width=1\textwidth]{graphics/screenShotFilteringNodes2.jpg}
-    \caption[Screenshot during the selection of a node.]{Screenshot during the selection of a node. The user can see the virtual laser pointer as a red line. 
-    In the lower part of the screen the name of the pointed node is written. (In this screenshot it seems centered because the field of view in the headset is different as in the screenshot.)    
-    In addition, the selected node as well as directly connected nodes are highlighted in a brighter shading. For improved navigation the layer where the user currently is located in is displayed as a text above the controller.} 
+    \caption[Screenshot during the selection of a node.]{Screenshot during the selection of a node: The user can see the virtual laser pointer as a red line. 
+    In the lower part of the screen, the node label (1.4) of the pointed node is written (in this screenshot it is centered in the middle of the screenshot, because the field of view in the headset is different as in the screenshot).
+    In addition, the selected node, as well as directly connected nodes, are highlighted in a brighter shading. For improved navigation, the layer where the user currently is located in is displayed as a text above the controller.} 
     \label{fig:screenshot_interaction} 
 \end{figure}
 
-Now that the users can select specific nodes in the scene, we also have to give them the opportunity to trigger certain actions. These actions include the teleportation navigation (see Section \ref{chap:solution-navigation}), and the link visibility filter (see Section \ref{chap:ps-filterLinks}). 
+Now that the users can select specific nodes in the scene, we also have to give them the opportunity to trigger certain actions. These actions include the teleportation navigation (see Section \ref{chap:solution-navigation}) and the link visibility filter (see Section \ref{chap:ps-filterLinks}). 
 Other actions do not require the selection of a node, i.e., manual rotation, free flying with an adjustable flying speed, and teleportation to an upper layer (see Section \ref{chap:solution-navigation}), as well as manual scaling (see Section \ref{chap:ps-spatialReference}).\\
-However, we have to assign each of these actions to a button on the controller (see Figure \ref{fig:controllerMapping}). In order to optimize the intuitive workflow, we extend the normal trackpad click by the position of clicking. 
+However, we have to assign each of these actions to a button on the controller (see Figure \ref{fig:controllerMapping}). In order to provide a smooth workflow, we extend the normal trackpad click by the position of clicking. 
 This allows us to have 5 virtual buttons on the trackpad: top, bottom, left, right and center. The advantage of this method is that these virtual buttons can be used fluently while also interacting with the touch sensitive trackpad at the same time by one finger. 
-Therefore, the users can control the free flying direction and speed with their left thumb, as well as triggering the teleportation to the upper hierarchical layer. The right controller acts as a virtual laser pointer, the two actions which need a node selection beforehand can be started by the menu button and trigger. 
+Therefore, the users can control the free flying direction and speed with their left thumb, as well as triggering the teleportation to the upper hierarchical layer. The right controller acts as a virtual laser pointer. The two actions, which need a node selection beforehand, can be started by the menu button and trigger. 
 On the right trackpad, the scaling and rotation can be controlled.
 
-We optimized our application for the HTC Vive, therefore all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
+We optimized our application for the HTC Vive. Therefore, all described button mappings refer to the HTC Vive controllers. However, we only use simple buttons, trackpads and industry standard tracking methods. 
 As other 6-DOF headsets usually provide the same or similar interaction possibilities, the interaction concept of our visualization can be applied to other headsets as well.
 
 \subsection{Filtering Link Visibility}
@@ -178,37 +178,37 @@ To ensure the clarity of the visualization (see \hyperref[req:R6]{R6}) and displ
 The goal is to reduce visual clutter while providing as much information as possible. 
 As a quick recap: Links in our visualization can exist between nodes within the same hierarchical parent node but also to nodes with a different parent node as long as the hierarchical depth is the same. Figure \ref{fig:linkFilter-all} shows a small example of all possible link combinations for three hierarchical layers.
 Displaying all links at the same time would quickly lead to visual clutter where a meaningful exploration is not possible anymore. 
-Therefore, we came up with our own filtering logic that decides which links are displayed and which are not.\\ 
+Therefore, we came up with our own filtering logic that decides which links are displayed and which are not. 
 The filter uses a specific node. This can either be a directly selected node from the user (by the laser pointer interaction) or an indirectly selected node through the position of the user. A directly selected node always overrules the indirectly selected one. Our filter logic uses the following rules:
 
 \begin{enumerate}
     \item If no node is selected and the user is not inside any node only the links from the top layer 0 are displayed (see Figure \ref{fig:linkFilter-outside}).
-    \item All directly connected links to the selected node are displayed. 
-    \item All links connected to direct child nodes from the selected node are displayed. Direct child here means the hierarchical child one layer below the selected node. 
+    \item All directly connected links to the selected node are displayed (currently our visualization only supports links between nodes with the same depth $d$).
+    \item All links connected to direct child nodes from the selected node are displayed. Direct child means the depth of the child node is $d+1$. 
     \item All other links are not visible.
 \end{enumerate}
 
-As an example, Figure \ref{fig:linkFilter-layer1} shows a situation where node 0.0 is selected. Therefore, all links connecting direct neighbor-nodes of 0.0 and links to the child-nodes of 0.0 itself are displayed. However, links of deeper nested nodes like 2.1 are not displayed. 
-A different situation can be seen in Figure \ref{fig:linkFilter-layer2}, here only links from node 1.1 and 2.4 are visible but the links from node 1.2 and 0.0 are not visible anymore.\\
-In an earlier version, we not only displayed the links of direct child nodes but instead links of all recursive child nodes, e.g., in Figure \ref{fig:linkFilter-layer1} the green links would also be visible. However, this quickly leads to visual clutter therefore we kept the direct child approach.
+As an example, Figure \ref{fig:linkFilter-layer1} shows a situation where node 0.0 is selected. Therefore, all links connecting direct neighbor-nodes of 0.0 and links to the child-nodes of 0.0 itself are displayed. However, links of deeper nested nodes, like 2.1, are not displayed. 
+A different situation can be seen in Figure \ref{fig:linkFilter-layer2}: here only links from node 1.1 and 2.4 are visible but the links from node 1.2 and 0.0 are not visible anymore.
+In an earlier version, we not only displayed the links of direct child nodes but instead links of all recursive child nodes. For example, in Figure \ref{fig:linkFilter-layer1}, the green links would also be visible. However, this quickly leads to visual clutter. Therefore, we kept the direct child approach.
 
 In order to support an intuitive and flexible exploration workflow, the user also has the ability to lock a currently applied filter.
-With the left menu button (see Figure \ref{fig:controllerMapping}) the state of the lock can be toggled. 
+With the left menu button (see Figure \ref{fig:controllerMapping}), the state of the lock can be toggled. 
 If the lock is active, the indirect selection of nodes by the position of the user is disabled. The lock is also automatically set active if a node is manually selected by the laser pointer. 
 This allows the user to freely navigate around the visualization without constantly having to deal with changing link visibility. 
 On freeing the lock, the indirect selection of nodes automatically kicks in again and selects the current node the user is positioned in.
 
 \section{Navigation}
 \label{chap:solution-navigation}
-In order to fulfill \hyperref[req:R3]{R3}, we support a walkable room scale VR experience setup to navigate the virtual scene. As we stated in Section \ref{chap:rw-vrnavigation}, walking provides the best immersive and intuitive navigation method.
-However, the graph will usually be larger than the user's available space. To this end we also include other navigation methods.
+In order to fulfill \hyperref[req:R3]{R3}, we support a walkable room scale VR experience setup to navigate the virtual scene. As we stated in Section \ref{chap:rw-vrnavigation}, walking probably provides the best immersive and intuitive navigation method.
+However, the graph will usually be larger than the user's available space. To this end, we also include other navigation methods.
 To allow maximum of flexibility during the navigation, as required for \hyperref[req:R5]{R5}, we provide two navigation methods: animated teleporting for covering larger distances and free flying to perform small and precise position adjustments.
 
-The user should be able to move to other far away parts of the graph without loosing orientation or being interrupted in the exploration flow. A common example is to jump to a connected node of another parent node. 
+The user should be able to move to other distant parts of the graph without loosing orientation or being interrupted in the exploration flow. A common example is to jump to a connected node of another parent node. 
 Therefore, we implemented an animated teleportation method. The user can select a node with the laser pointer and then press the right trigger to initiate the teleportation. The target position is the closest edge barely inside the node. This allows the user to get an overview of all nodes and links in that selected node.   
-As with a simple teleportation over long distances, the user might lose the orientation, therefore we perform a short animation to the target position. The speed of the animation is adapted with an ease-in and ease-out transition.
-Remember that as soon as the user enters another node, the visibility of links changes, provided there is no active lock.\\
-Instead of teleporting deeper into the hierarchical network, the user can also teleport to the parent hierarchical layer. In particular to the area barely outside the node the user is currently located in. This teleportation can be triggered by pressing the middle of the left trackpad.\\
+As with a simple teleportation over long distances, the user might lose the orientation. Therefore, we perform a short animation to the target position. The speed of the animation is adapted with an ease-in and ease-out transition.
+Remember that, as soon as the user enters another node, the visibility of links changes, provided there is no active lock.
+Instead of teleporting deeper into the hierarchical network, the user can also teleport to the parent hierarchical layer; in particular to the area barely outside the node the user is currently located in. This teleportation can be triggered by pressing the middle of the left trackpad.
 All teleportation methods can be freely combined even during the animation, therefore allowing the user to fluently move around the graph. 
 To further improve the overview, we display the current hierarchical layer as a text element floating over the right controller (see Figure \ref{fig:screenshot_interaction}). 
 
@@ -216,26 +216,25 @@ To perform small adjustments in position, especially when the user's free space 
 The forward direction is linked to the user's gaze direction, so the final fly direction is the combination of gaze direction and trackpad touch position. 
 In addition, the fly speed is adjustable with a click on top or bottom of the trackpad.    
 Similar to other VR applications, we also implemented rotation of the entire room scale space in the virtual scene. This allows the users to better position themselves in the real world. 
-Particularly with cable bound headsets this is useful because multiple rotations in the real world require the user to step over the cable. In other VR applications, movement is usually carried out with the left controller and rotation with the right, analogous to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
+This is particularly useful with cable bound headsets because multiple rotations in the real world require the user to step over the cable. In other VR applications, movement is usually carried out with the left controller and rotation with the right, analogous to Gamepad controls in most games. Therefore, we mapped the rotation to the right trackpad by clicking either on the left or right corner.
 
 \subsection{Challenge of Spatial Reference in VR}
 \label{chap:ps-spatialReference}
 In \hyperref[req:R7]{R7}, we stated that the visualization should reduce the problem of a multi scale scene.
 The challenge is that nodes and links are getting exponentially smaller with each hierarchy step.
-This introduces a new problem as after a few iterations the nodes and links in the virtual scene are too small to recognize.
+This introduces a new problem as after a few iterations, the nodes and links in the virtual scene are too small to recognize.
 2D visualizations usually deal with that by adjusting the viewport of the visualization, e.g., zooming in and out. 
-However, in the context of a 3D VR visualization, a simple zooming approach is not possible. 
-In a 3D non-VR visualization that problem can be mitigated by adjusting the movement speed. Therefore, distances seem similar in size for the inner nodes and navigation is also possible without overshooting the target position.\\ 
-In VR the situation is trickier due to the spatial impression through stereoscopic rendering. On a 2D projected image, like on a normal computer screen, distances in the scene can only be estimated through movement. From a static image, the human eye is not able to recognize the distance or size of an object without any additional size reference. 
-In the real world however, we constantly see objects from two different perspectives, as we have two eyes, this enables the human mind to estimate distances without the need of any movement. VR works the same way by rendering the scene from two different perspectives each for one eye.  
+However, in the context of a 3D VR visualization, a simple 2D zooming approach is not possible due to the additional dimension. 
+In a 3D non-VR visualization that problem can be mitigated by adjusting the movement speed. Therefore, distances seem similar in size for the inner nodes and navigation is also possible without overshooting the target position. 
+In VR the situation is trickier due to the spatial impression through stereoscopic rendering. On a 2D projected image, like on a normal monoscopic computer screen, distances in the scene can only be estimated through movement. From a static image, the human eye is not able to recognize the distance or size of an object without any additional size reference. 
+In the real world however, we constantly see objects with two eyes in a stereoscopic view, this enables the human mind to estimate distances without the need of any movement. VR works the same way by rendering the scene from two different perspectives each for one eye.  
 This means that a simple trick of adjusting the movement speed is not working for our VR visualization.
-That problem makes itself noticeable for example as layer 4 nodes in VR are the size of a needle where layer 0 nodes are the size of an entire house.
+That problem makes itself noticeable, for example, as layer 4 nodes in VR are the size of a needle where layer 0 nodes are the size of an entire house.
 In addition to the perspective problem, changing the movement speed also does not work because movement in a 6-DOF VR headset is also always carried out by movement in the real world and obviously the physical movement speed can not be adjusted.
-\pagebreak
 
 One solution to that problem is scaling the entire scene. Therefore, we implemented two techniques in our visualization:
 \begin{itemize}
-    \item Dynamically adjusting the fly speed while navigating in the graph. On entering a node the speed slows down, when leaving, it speeds up again. 
+    \item Dynamically adjusting the fly speed while navigating in the graph. On entering a node, the speed slows down. When leaving, it speeds up again. 
     \item Dynamically scaling the entire scene. When teleporting to a node in a deeper hierarchy layer, an upscaling transition is started. On teleporting to the parent layer, a downscaling transition is started. 
 \end{itemize} 
 
@@ -243,10 +242,9 @@ In addition, the scale can also be manually changed by the user at any time by p
 In \hyperref[req:R3]{R3}, we stated to support small and large room sizes.  However, the scale can not be optimized beforehand for a walking experience. The manual scaling gives the users the ability to adjust the scale to their available space and personal preference.
 \section{Exploration Flow}
 \label{chap:ps-explorationFlow}
-To provide an optimal exploration experience of the hierarchical network, we use the overview and detail concept of the visual information seeking mantra \ref{seeking mantra} as stated in \hyperref[req:R6]{R6}. 
+To provide an optimal exploration experience of the hierarchical network, we use the overview and detail concept of the visual information seeking mantra (see Section \ref{seeking mantra}) as stated in \hyperref[req:R6]{R6}. 
 At the beginning of an exploration session, the user is in the overview perspective. The user is placed on a further position away from the center where a good overview of the entire graph is possible. In addition, rotation to the graph can be applied.
 When the user decides to dive deeper into the network, a node can be selected via the ray cast controller interaction. This triggers the transition into the detail perspective. 
-Here all navigation and interaction methods described in Section \ref{chap:solution-interaction} and \ref{chap:solution-navigation}
+Here all navigation and interaction methods described in Sections \ref{chap:solution-interaction} and \ref{chap:solution-navigation}
 are available. 
-A core concept for the exploration in the detail perspective is the use of the VR room-scale navigation experience. As the user is able to tweak the scale of the scene to their liking, walking around the graph is possible for different room sizes. The goal is to improve the spatial impression of the graph which results in a better clarity and understanding of the data.
-
+A core concept for the exploration in the detail perspective is the use of the VR room-scale navigation experience. As the user is able to tweak the scale of the scene to their liking, walking around the graph is possible for different room sizes. The goal is to improve the spatial impression of the graph, which results in a better clarity and understanding of the data.
