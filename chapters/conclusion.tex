@@ -1,18 +1,16 @@
 \chapter{Conclusion and Future Work}
 \label{chap:conclusion}
 
-The aim of this thesis was to enable the visualization of hierarchical networks in virtual reality and fully utilize the benefits of 3D information visualization and VR. In addition, the improved spatial impression, intuitive interaction and navigation methods VR applications can provide are adapted for our use case. 
+The aim of this thesis was to enable the visualization of hierarchical networks in VR and fully utilize the benefits of 3D information visualization and VR. In addition, the improved spatial impression, intuitive interaction and navigation methods VR applications can provide are adapted for our use case. 
 This visualization should enable data scientists in the future to explore even larger hierarchical datasets and provide more insights than currently possible with conventional 2D representations.
-To accomplish this, we adapted the original VR node-link visualization from Sorger et al. \cite{sorger_immersive_2019}. 
-Our customized implementation includes an optimized force based layout with spherical constraints that enables a hierarchical nested node layout of n hierarchical layers.
-The visualization introduces transparent node rendering and optimized navigation methods as well as a technique to filter visible links. 
+To accomplish this, we adapted the original VR node-link visualization by Sorger et al. \cite{sorger_immersive_2019}. 
+Our customized implementation includes an optimized force-based layout with spherical constraints that enables a hierarchical nested node layout of n hierarchical layers.
+The visualization introduces transparent node rendering and optimized navigation methods, as well as a technique to filter visible links. 
 To solve the multi-scale scene problem, we automatically adjust the movement speed as well as the scene scale.
 In addition, to provide a fully flexible user experience, the movement speed and scale can be adjusted by the user at any time and all navigation methods can be combined flexibly.
 To evaluate our results, we conducted a performance test and gathered user feedback using an on site interview and an online form.
 
 To our knowledge, this thesis provides a first approach on visualizing hierarchical networks in VR. Therefore, future work could extend our concepts and improve the stability, performance and feature richness.
-With an added support for links between different hierarchical layers, applications could enable the visualization of multilayer datasets without a hierarchical relationship. Edge bundling could further improve the clarity of the visualization and allow displaying larger amounts of links at once. Different navigation and interaction techniques, like the ones we have seen in Section \ref{chap:rw-vrnavigation} and \ref{chap:rw-vrinteraction}, could be implemented to improve the user experience while exploring the graph.\
-\\
-As for the future our application in particular, upgrading to the newest A-Frame version would enable the use of the WebXR standard and therefore support a variety of different VR headsets and browsers. By introducing a dependency management software like npm the application's expendability would greatly be improved, therefore easily allow the implementation of new features in the future.
-\\
-Despite some current problems, we believe that the visualization can be a success and provide an opportunity for data scientists dealing with hierarchical network data. In addition, we believe that in the future the visualization community will see many other publications related to visualization in VR and that our visualization can provide important knowledge for other researchers.
+With an added support for links between different hierarchical layers, applications could enable the visualization of multilayer datasets without a hierarchical relationship. Edge bundling could further improve the clarity of the visualization and allow displaying larger amounts of links at once. Different navigation and interaction techniques, like the ones we have seen in Section \ref{chap:rw-vrnavigation} and \ref{chap:rw-vrinteraction}, could be implemented to improve the user experience while exploring the graph.
+As for the future our application in particular, upgrading to the newest A-Frame version would enable the use of the WebXR standard and therefore support a variety of different VR headsets and browsers. By introducing a dependency management software, like npm the application's expendability, would greatly be improved, therefore easily allow the implementation of new features in the future.
+In the first feedback we found out, that after about 15 minutes exploring the data in VR users start to get a clear overview of the data. Therefore, we believe that our proposed visualization provides a promising approach for data science applications. In addition, we believe that, in the future, the visualization community will see many other publications related to visualization in VR and that our visualization can provide important knowledge for other researchers.

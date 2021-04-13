@@ -7,25 +7,23 @@ Therefore, we decided to test our application in a performance evaluation in Sec
 \label{sec:performanceEvaluation}
 
 Real time 3D applications need to have a constant frame rate in order to achieve a smooth experience.
-For VR-based applications this is even more important as a low frame rate could lead to motion sickness. 
-In our performance test, we distinguish between the duration of the initial phase which lasts from the application start until the end of the force based layout algorithm, and the render performance during the exploration phase. 
+For VR-based applications this is even more important as a low frame rate could lead to cyber sickness. 
+In our performance test, we distinguish between the duration of the initial phase, which lasts from the application start until the end of the force based layout algorithm, and the render performance during the exploration phase. 
 
-In the performance evaluation we want to investigate the scalability of our application. 
-For an optimal VR experience, the frame rate should be constant and equal to the maximum supported refresh rate of the VR headset's displays. In the case of the HTC Vive this requires us to have a constant frame rate of 90 FPS.
+In the performance evaluation, we want to investigate the scalability of our application. 
+For an optimal VR experience, the frame rate should be constant and equal to the maximum supported refresh rate of the VR headset's displays. In the case of the HTC Vive, this requires us to have a constant frame rate of 90 FPS.
 Our own experiments showed that 20-30 FPS is the minimum for a smooth experience while exploring the virtual scene.
-\\
+
 We measured the FPS directly from the visualization by adding an FPS counter on the virtual controller model during the exploration. Our setup was a desktop PC with a Ryzen 7 3700X CPU and a Radeon RX 590 GPU. 
-We tested multiple datasets with different sizes, the results are shown in Table \ref{table:resultFPS}. 
+We tested multiple datasets with different sizes. The results are shown in Table \ref{table:resultFPS}. 
 In order to detect possible performance problems, we tested the scaling of the nodes and links individually.
 We found that the number of nodes scale worse than the number of links (see Figure \ref{fig:performanceNodes} and \ref{fig:performanceLinks}). 
 For an equally distributed graph, the number of hierarchical layers only indirectly influence the frame rate, as with an increased number of layers the number of nodes grows exponentially.
-We always apply a constant number of simulation steps, therefore at about 6 hierarchical layers the layout algorithm becomes unstable and can not guarantee a correct hierarchical nesting anymore.
-\\
+We always apply a constant number of simulation steps. Therefore, at about 6 hierarchical layers, the layout algorithm becomes unstable and can not guarantee a correct hierarchical nesting anymore.
 While the average frame rate is not drastically reduced by the amount of links, the frame rate seems to get more unstable with an increasing amount of links. 
-This was especially noticeable during the teleportation animation were the frame rate dropped on a large dataset up to 20 FPS. 
-We assume the automated scaling reduced the frame rate quite significantly. During the animation, the scale of nearly all objects in the scene is updated on every frame.
+This was especially noticeable during the teleportation animation were the frame rate dropped on a large dataset down to 20 FPS. 
+We assume the automated scaling reduced the frame rate quite significantly. During the animation, the scale of nearly all objects in the scene is updated every frame.
 Our data only shows a maximum of 90 FPS due to the headset's maximum refresh rate of 90 Hz.
-\\
 In conclusion, with the current state of the implementation, the visualization can support datasets up to 1500 nodes and 3000 links depending on the hardware available.
 In addition, we noticed that during the exploration, CPU and GPU utilization was not at maximum. An explanation for this could be that the application is mostly CPU bound and further limited by a single threaded JavaScript implementation.
 
@@ -68,61 +66,54 @@ In addition, we noticed that during the exploration, CPU and GPU utilization was
 \subsection{Possible Optimization}
 
 To increase the overall performance, the scalability for the number of nodes needs to be improved. We can separate the performance problems between GPU and CPU bottlenecks.
-\\
 To increase the GPU performance, we already limit the draw calls by rendering the nodes with instanced buffers.
 However, the number of rendered triangles is still very high. 
-One improvement could be to use simpler sphere models with a lower polygon count. Implementing a technique that prevents the rendering of the small nodes which can not be seen anyway could further increase GPU performance.
-\\
+One improvement could be to use simpler sphere models with a lower polygon count. Another to use impostor rendering. Implementing a technique that prevents the rendering of the small nodes which can not be seen anyway could further increase GPU performance.
 To increase CPU performance, we have to reduce the number of tasks during each iteration of the main render loop (see Figure \ref{fig:impl_programFlow}).
 A big performance issues might be the calculation of the intersected objects from ray casting by the virtual laser pointer. This could be improved by taking advantage of the hierarchical layout.
 Selection of child nodes from different parents is not possible. Therefore, these nodes could be excluded from the ray intersection checks. 
 Another improvement could be achieved by limiting the active time of the ray casting by binding the virtual laser pointer to a button that the user actively needs to hold while selecting objects. 
 That would enable an improved frame rate while the user is only looking around without using the virtual laser pointer.
-\\
 Besides performance improvements to the techniques themselves, improving the internal data structure would also increase the performance. Based on the prior implementation, we use a flat list similar to the JSON seen in Section \ref{lst:internalJSON}. With a tree data structure that directly represents the hierarchical relationships, our internal algorithms can be implemented more efficiently when accessing the node details, therefore reducing the workload on the main render loop and increasing the FPS.
 
 \section{Informal Feedback}
 \label{sec:informalFeedback}
 
-The focus of this thesis was to develop a new visualization technique, this included a hierarchical layout and VR optimized navigation and interaction techniques.
+The focus of this thesis was to develop a new visualization technique. This included a hierarchical layout and VR optimized navigation and interaction techniques.
 The application should deliver a smooth and user-friendly visualization.
-As the application runs in the browser, we set up a website \cite{thesisWebsite} with an introduction to the topic, instructions on how to start and interact with the visualization, and the option to try out the application with multiple datasets of various sizes. Afterwards, we invited users to participate in the evaluation and fill out an online form that we prepared beforehand. One person took place in the online evaluation. 
-\\
-Besides the online evaluation, we also had another participant that tried the visualization on site. During and after the exploration, we conducted an interview.
+As the application runs in the browser, we set up a website \cite{thesisWebsite} with an introduction to the topic, instructions on how to start and interact with the visualization, and the option to try out the application with multiple datasets of various sizes. Afterwards, we invited users to participate in the evaluation and fill out an online form that we prepared beforehand. One person took part in the online evaluation. 
+Besides the online evaluation, we also had another participant who tried the visualization on site. During and after the exploration, we conducted an interview.
 The results of the interview as well as the online forms are presented in the following subsections.
 
 \subsection{Evaluation Results}
 %\subsection{Overview and Clarity}
 %Filtering, visual clutter, hierarchical layout(intuitive?), ...
 
-All participants described their first impression as slightly overwhelming.
+Both participants described their first impression as slightly overwhelming.
 Especially in the beginning it was hard for them to get a good overview of the graph. The overview perspective was only used for a short duration.
 However, after a few minutes of exploring the visualization in the detail perspective, the structure of the graph became more clear.
 The hierarchical nesting helped them to understand the clustering of the nodes.
 At the initial scale of the scene, the room scale experience did not help much as the nodes where too large to wander around the graph. 
 After manually scaling down the scene, one participant described that the overview got a lot better as he now was able to navigate in the graph by moving around in the real world. 
 The improved spatial impression made it easier to detect the hierarchical nesting of the nodes.
-\\
-All participants described the visualization as aesthetically pleasant and were able to detect the nodes and links. As the links get smaller with increasing hierarchical layer depth, participants had problems to detect and hover over them with the laser pointer.
-In addition, sometimes there was a noticeable flickering of nodes and node labels.  
+Both participants described the visualization as aesthetically pleasant and were able to detect the nodes and links. As the links get smaller with increasing hierarchical layer depth, participants had problems to detect and hover over them with the laser pointer.
+In addition, sometimes there was a noticeable flickering, due to z-fighting, of nodes and node labels.  
 
-For navigation, we had mixed results. One participant mostly used the free flying technique another preferred real world movement with the combined animated teleport technique.
+For navigation, we had mixed results. One participant mostly used the free flying technique, the other preferred real world movement with the combined animated teleport technique.
 The participant of the interview commented that the free flying speed was too slow. In addition, he missed explicit buttons to move up and down without having to change his gaze direction.
-The animated teleport was intuitive and useful for all participants, while some noticed a bit of motion sickness during the transition and suggested speeding up the animation. Another suggestion was to use the left trigger for the animated teleport to the parent node.   
+The animated teleport was intuitive and useful for both participants, while one noticed a bit of cyber sickness during the transition and suggested speeding up the animation. Another suggestion was to use the left trigger for the animated teleport to the parent node.
 In general, there were no major problems for navigating around the graph. 
 
 Lastly, filtering of the visible nodes was rather confusing for the participants. It was not clear when and how the automated filtering works. On entering another node, there was a slight delay before the visibility of the nodes updated.
 One participant suggested adding a visual indicator for the current state of the automatic filtering.
-The manual filtering was easier to understand, selecting a node for filtering with the laser pointer was intuitive and there was also an immediate update visible.
+The manual filtering was easier to understand. Selecting a node for filtering with the laser pointer was considered intuitive and there was also an immediate update visible.
 
 \subsection{Usability Conclusion}
-The feedback we received from participants of the usability evaluation, we analyze the current shortcomings of our approach.
-\\
-As already mentioned, before on large graphs with more than 6 layers, the visualization can not ensure a correct hierarchical nesting, which leads to resulting problems for the navigation during the exploration. 
-By adapting the simulation parameters according to the number of hierarchical layers or including a check before stopping the layout calculation this could be improved and enable the visualization to represent more hierarchical layers.
-\\
+With the feedback we received from participants of the usability evaluation, we analyze the current shortcomings of our approach.
+As already mentioned before, on large graphs with more than six layers, the visualization can not ensure a correct hierarchical nesting, which leads to resulting problems for the navigation during the exploration. 
+By adapting the simulation parameters according to the number of hierarchical layers or including a check before stopping the layout calculation, this could be improved and enable the visualization to represent more hierarchical layers.
 During the evaluation, we found that the usage of the application has a learning curve. 
-While some techniques were confusing in the beginning, after about 15 minutes exploring and testing the experience the perceived intuitiveness of navigation, filtering and overview got a lot better.
+While some techniques were confusing in the beginning, after about 15 minutes exploring and testing the experience, the perceived intuitiveness of navigation, filtering and overview got a lot better.
 This could be improved by optimizing multiple parameters, like the free flying speed, node and link size and automatic scaling size. 
 In addition, a user guide would enable an easier start for exploring large hierarchical networks using our visualization.
 In a future version of the visualization, a customizable button mapping would allow the users to configure the application to their preferences.
