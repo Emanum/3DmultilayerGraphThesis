@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<diagram program="umlet" version="14.3.0">
+<diagram program="umlet" version="14.2">
   <zoom_level>10</zoom_level>
   <element>
     <id>UMLState</id>
@@ -72,11 +72,11 @@
     <coordinates>
       <x>650</x>
       <y>620</y>
-      <w>130</w>
-      <h>90</h>
+      <w>140</w>
+      <h>100</h>
     </coordinates>
     <panel_attributes>type=decision
-Layout Finished?</panel_attributes>
+</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -104,14 +104,14 @@ Layout Finished?</panel_attributes>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>770</x>
+      <x>780</x>
       <y>660</y>
-      <w>140</w>
+      <w>130</w>
       <h>80</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 no</panel_attributes>
-    <additional_attributes>110.0;60.0;110.0;10.0;10.0;10.0</additional_attributes>
+    <additional_attributes>100.0;60.0;100.0;10.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -172,13 +172,13 @@ no</panel_attributes>
     <id>Relation</id>
     <coordinates>
       <x>710</x>
-      <y>700</y>
+      <y>710</y>
       <w>50</w>
-      <h>170</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;-
 yes</panel_attributes>
-    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+    <additional_attributes>10.0;140.0;10.0;10.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
@@ -384,5 +384,17 @@ Exploration Phase - Render Loop
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
     <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Text</id>
+    <coordinates>
+      <x>680</x>
+      <y>650</y>
+      <w>100</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>force layout finished?
+style=wordwrap</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
