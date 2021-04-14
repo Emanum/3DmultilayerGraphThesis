@@ -271,40 +271,6 @@ For calculating the target position when flying to the parent node, we apply a s
     \label{fig:vrFlyToParentNode} 
 \end{figure}
 
-\pagebreak
-
-\subsection{Scaling of the Virtual Scene}
-\label{sec:scaling}
-
-In Section \ref{chap:ps-spatialReference}, we described why it is necessary to scale up the entire scene while navigating through the graph. 
-The challenge while scaling is that the user's relative position in comparison the to virtual scene must not change. Otherwise, the user will get distracted while exploring.
-When applying a scaling matrix, the center of the scene (0,0,0) stays in the same position. All other points are moved during the scaling process. 
-Therefore, we translate the target position of the animated teleport into the center of the scene, then scale up/down and afterwards translate the scene back.
-In order to achieve a smooth user-friendly scaling, instead of scaling to the desired size once, we animate the scaling process. The duration of the animation has to be the exact time as the animated teleportation. 
-Otherwise, the teleportation path will get distorted and result in a curve instead of a straight line.
-For manual scaling, instead of using the target position, we use the world position of the headset for translating before and after scaling. Both calculations can be seen in Listing \ref{lst:scaling}.
-\pagebreak
-
-\begin{lstlisting}[language=JavaScript,label={lst:scaling},caption=Simplified algorithm for calculating the scaling matrix]
-const resultScalingMatrix = new THREE.Matrix4();
-if(scalingPos === undefined){//manual scaling
-    resultScalingMatrix
-        .multiply(translateMatrixRig)//translate rig to center
-        .multiply(translateMatrixCam)//translate cam to center
-        .multiply(scaleMatrix)//scale from the center
-        .multiply(reverseTranslationMatrixCam)//reverse cam translation
-        .multiply(reverseTranslationMatrixRig);//reverse rig translation
-}else{//automated scaling while animated teleportation
-    resultScalingMatrix
-        .multiply(translationMatrix)//translate target position (of teleport) to center
-        .multiply(scaleMatrix)//scale from the center
-        .multiply(reverseTranslationMatrix);//reverse translation
-}
-return resultScalingMatrix;
-\end{lstlisting}
-
-\pagebreak
-
 \subsection{Filtering Visible Links}
 \label{sec:linkFiltering}
 
@@ -325,7 +291,6 @@ for (var i = 0; i < graphData.nodes.length; i++) {
     }
 }
 \end{lstlisting}
-
 
 \begin{lstlisting}[language=JavaScript,label={lst:determineInnestNode},caption=Simplified algorithm to determine the inner most node.] 
 getCurrentInnestNode(){

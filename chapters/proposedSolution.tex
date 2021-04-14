@@ -236,10 +236,31 @@ One solution to that problem is scaling the entire scene. Therefore, we implemen
 \begin{itemize}
     \item Dynamically adjusting the fly speed while navigating in the graph. On entering a node, the speed slows down. When leaving, it speeds up again. 
     \item Dynamically scaling the entire scene. When teleporting to a node in a deeper hierarchy layer, an upscaling transition is started. On teleporting to the parent layer, a downscaling transition is started. 
-\end{itemize} 
+\end{itemize}
+
+\label{sec:scaling}
+The challenge while scaling is that the user's relative position in comparison the to virtual scene must not change. Otherwise, the user will get distracted while exploring.
+When applying a scaling matrix, the center of the scene (0,0,0) stays in the same position. All other points are moved during the scaling process. 
+Therefore, we translate the target position of the animated teleport into the center of the scene, then scale up/down and afterwards translate the scene back.
+In order to achieve a smooth user-friendly scaling, instead of scaling to the desired size once, we animate the scaling process. The duration of the animation has to be the exact time as the animated teleportation. 
+Otherwise, the teleportation path will get distorted and result in a curve instead of a straight line.
+The automated scaling process is described by the formula:
+\begin{equation}
+    S_{ p } = T_{ p } \cdot S_{ i } \cdot T_{ p }^{ -1 }
+\end{equation}
+Where $S_{ p }$ is the scaling matrix for the target flying teleport position $p$, $T_{ p }$ is the translation matrix from the position to the center, $T_{ p }^{ -1 }$ the reverse translation matrix and $S$ a usual 3D scaling matrix for a given scaling size $i$.
 
 In addition, the scale can also be manually changed by the user at any time by pressing the upper or lower corner of the right trackpad. 
-In \hyperref[req:R3]{R3}, we stated to support small and large room sizes.  However, the scale can not be optimized beforehand for a walking experience. The manual scaling gives the users the ability to adjust the scale to their available space and personal preference.
+In \hyperref[req:R3]{R3}, we stated to support small and large room sizes.
+However, the scale can not be optimized beforehand for a walking experience. The manual scaling gives the users the ability to adjust the scale to their available space and personal preference.
+In the manual scaling process we have to distinguish between the rig and camera position. The reason for this is how camera movement in VR frameworks are handled (see Section \ref{sec:vrInteractions}).
+The manual scaling process is described by the formula:
+
+\begin{equation}
+    S_{ p } = T_{ p_{ rig } } \cdot T_{ p_{ camera } } \cdot S \cdot T_{ p_{ camera } }^{ -1 } \cdot T_{ p_{ rig } }^{ -1 }
+\end{equation}
+Where $S_{ p }$ is the scaling matrix for the current user's position $p$, $T_{ p_{ rig } }$ is the translation matrix from the relative rig position to the center, $T_{ p_{ camera } }$ is the translation matrix from the relative camera position to the center, $T_{ rig }^{ -1 }$ and $T_{ camera }^{ -1 }$ the reverse translation matrices and $S$ a usual 3D scaling matrix for a given scaling size $i$.
+
 \section{Exploration Flow}
 \label{chap:ps-explorationFlow}
 To provide an optimal exploration experience of the hierarchical network, we use the overview and detail concept of the visual information seeking mantra (see Section \ref{seeking mantra}) as stated in \hyperref[req:R6]{R6}. 
