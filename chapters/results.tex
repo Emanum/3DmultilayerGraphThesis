@@ -51,18 +51,19 @@ In addition, we noticed that during the exploration, CPU and GPU utilization was
 
 \begin{figure}[!hbt]
     \centering
-    \includegraphics[width=0.75\textwidth]{graphics/performanceAnalysisNodes2.png}
+    \includegraphics[width=0.73\textwidth]{graphics/performanceAnalysisNodes3.png}
     \caption[Performance chart of the scalability for the number of nodes.]{Performance chart of the scalability for the number of nodes. To better compare the results, only datasets with 0 links are shown in this graph. Increasing the number of nodes quickly leads to a performance issue.} 
     \label{fig:performanceNodes} 
 \end{figure}
 
-\begin{figure}[!hbt]
+\begin{figure}[!bt]
     \centering
-    \includegraphics[width=0.75\textwidth]{graphics/performanceAnalysisLinks2.png}
+    \includegraphics[width=0.73\textwidth]{graphics/performanceAnalysisLinks3.png}
     \caption[Performance chart of the scalability for the number of links.]{Performance chart of the scalability for the number of links. To better compare the results, only datasets with the same amount of 774 nodes are shown in this graph. In comparison to the nodes, links can be easier scaled up without impacting the performance too much.} 
     \label{fig:performanceLinks} 
 \end{figure}
 \pagebreak
+
 \subsection{Possible Optimization}
 
 To increase the overall performance, the scalability for the number of nodes needs to be improved. We can separate the performance problems between GPU and CPU bottlenecks.
