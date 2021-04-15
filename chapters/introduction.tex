@@ -4,7 +4,7 @@
 \label{sec:motivation}
 Revealing the structure of hierarchically organized data is a complex task where many approaches already exist. It is still an active research area as data scientists are facing ever greater challenges when analyzing large hierarchical datasets. One example is the Human Disease Network \cite{zhou_human_2014}, which is a hierarchical network of disorders and disease genes with approximately 3000 nodes on two different hierarchy layers. Figure \ref{fig:Human_Disease_Network} shows the representation of the data in a common two-dimensional layout. In this representation, the classes of disorders are coded by color. 
 Another dataset with a similar structure can be seen in Figure \ref{fig:original2DdiseaseNet}. Here, the clusters of different diseases are grouped by boxes. 
-Depiction of hierarchical network structure in 2D faces researches with many challenges. The biggest one is visual clutter and the so-called hairball effect, which reduces the legibility of the network information. Therefore, it is difficult to determine node-node relationships and hierarchical associations, as well as hierarchical relationships, which are crucial in analyzing hierarchical network data. In Figure \ref{fig:Human_Disease_Network}, we can see visual clutter on the green nodes. The graph in Figure \ref{fig:original2DdiseaseNet} solves this problem by hiding links between child nodes from different boxes which is also not optimal.
+Depiction of hierarchical network structure in 2D faces researches with many challenges. The biggest one is visual clutter and the so-called hairball effect (see Figure \ref{fig:2dHierarchicalClutter}), which reduces the legibility of the network information. Therefore, it is difficult to determine node-node relationships and hierarchical associations, as well as hierarchical relationships, which are crucial in analyzing hierarchical network data. In Figure \ref{fig:Human_Disease_Network}, we can see visual clutter on the green nodes. The graph in Figure \ref{fig:original2DdiseaseNet} solves this problem by hiding links between child nodes from different boxes which is also not optimal.
 
 \begin{figure}[h]
     \centering
@@ -17,10 +17,16 @@ Depiction of hierarchical network structure in 2D faces researches with many cha
     \begin{subfigure}[b]{0.5\columnwidth}
       \centering
       \includegraphics[width=\textwidth]{graphics/original2DdiseaseNet.jpg}
-      \subcaption{A Comorbidity network of diagnoses related to diabetes melitus \cite{sorger_immersive_2019}. }
+      \subcaption{A Comorbidity network of diagnoses related to diabetes melitus \cite{sorger_immersive_2019}. The boxes represent the first hierarchical layer and spheres the second layer.}
       \label{fig:original2DdiseaseNet}
     \end{subfigure}
-    \caption[Visualizations of hierarchical network datasets.]{Example visualizations of hierarchical network datasets in two dimensions. Both consist of two hierarchical layers.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \begin{subfigure}[b]{0.7\columnwidth}
+      \centering
+      \includegraphics[width=\textwidth]{graphics/classic2DGraph.png}
+      \subcaption{A part of a generated node-link graph with about 1000 nodes and 2000 links on 4 hierarchical layers. The color of the nodes represents their hierarchical parent node.}
+      \label{fig:2dHierarchicalClutter}
+    \end{subfigure}
+    \caption[Visualizations of hierarchical network datasets.]{Example visualizations of hierarchical network datasets in 2D. The hierarchical structure can be data inherent, or generated with clustering algorithms.}
     \label{fig:intro} 
   \end{figure}
 
@@ -59,7 +65,7 @@ For evaluation, we measured performance and technical limits of our solution in 
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=1\textwidth]{graphics/conceptScreenshot.jpg}
-    \caption[Screenshot of the comorbidity network dataset.]{Screenshot of the comorbidity network dataset from Figure \ref{fig:original2DdiseaseNet} in our hierarchical network visualization. In Figure \ref{fig:conceptSketch} only edges of node 0.3 and their childnodes are displayed.} % Remove the [...] argument if the original caption should be used in the figure list.
+    \includegraphics[width=1\textwidth, trim={8cm 0cm 5cm 0cm},clip]{graphics/conceptScreenshotMediumDataset.png}
+    \caption[Screenshot of a generated node-link graph with about 1000 nodes and 2000 links on 4 hierarchical layers.]{Screenshot of the generated node-link graph with about 1000 nodes and 2000 links on 4 hierarchical layers from Figure \ref{fig:2dHierarchicalClutter} in our hierarchical network visualization. In Figure \ref{fig:conceptSketch} only edges of node 0.2 and their direct childnodes are displayed.} 
     \label{fig:conceptSketch} 
 \end{figure}
