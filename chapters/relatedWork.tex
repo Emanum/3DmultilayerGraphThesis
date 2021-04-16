@@ -9,7 +9,7 @@ Dynamic network visualization describes a research field where none or only few 
 \subsection{Hierarchical Visualizations}
 
 As we mentioned in Section \ref{exp:tree}, hierarchical information is encoded in the form of tree visualizations.
-Schulz \cite{schulz_treevisnet_2011} presented a good overview of different tree visualization techniques. A rough separation can be made by the representation of edges witch is either explicit or implicit. 
+Schulz \cite{schulz_treevisnet_2011} presented a good overview of different tree visualization techniques. A rough separation can be made by the representation of edges which is either explicit or implicit. 
 
 \subsubsection{Explicit approaches}
 In explicit visualizations, links are directly drawn as shown in Figure \ref{fig:simple_tree}. This core technique is used in numerous application domains and scientific fields. Based on that concept, researchers have developed many extensions to this approach.
@@ -19,7 +19,7 @@ Munzer \cite{munzner_h3_1997} extends the radial axis by a third dimension and d
 Robertson et al. \cite{robertson_cone_1991} also make use of the 3D space for creating a so called cone-tree and cam-tree. These display the child nodes as a circle below or beside their parents.  
 
 \subsubsection{Implicit approaches - space filling}
-Space filling approaches use the concept of nesting, which we also use in our layout. In addition, these approaches can encode a value property of the node by the size of the node as we have already seen in Figure \ref{fig:hierarchicalCirclePlot}.
+Space filling approaches use the concept of nesting, which we also use in our layout. In addition, these approaches can encode a value property of the node by the size of the node (see Figure \ref{fig:hierarchicalCirclePlot}).
 Shneiderman \cite{shneiderman_tree_1992} presented this approach 1992 in the form of a tree map where he visualized the required disk space distribution of a file system. In addition to a common circle packing algorithm, Görtler et al. \cite{gortler_bubble_2018} developed a bubble tree map technique, which optimized the used space and allows encoding of additional properties via various shapes, draw strokes and colors. Sunburst charts are another common space filling technique to display node sizes in tree structures. 
 As for 3D representations, Wang et al. \cite{wang_visualization_2006} show a circular tree map extended to the z-axis using cylinders. Instead of cylinders, Balzer and Deussen \cite{balzer_hierarchy_2004} use nested hemispheres to visualize software structures.
 Other works addressed the performance of layout techniques. For example, Itoh et al. \cite{itoh_hierarchical_2004}, presented a performance optimized technique for generating a rectangle packing tree map.
@@ -53,7 +53,7 @@ Archambault et al. \cite{archambault_grouseflocks_2008} showed a visualization a
     \begin{subfigure}[b]{0.45\columnwidth}
         \centering
         \includegraphics[width=\textwidth]{graphics/clusteredGraphVis.jpg}
-        \subcaption{Visualization of a node-link dataset with multiple clusters from \cite{balzer_level--detail_2007}.}
+        \subcaption{Visualization of a node-link dataset with multiple clusters from Balzer and Deussen \cite{balzer_level--detail_2007}.}
         \label{fig:clusteredGraph}
     \end{subfigure}
     

@@ -3,7 +3,8 @@
 
 Our initial motivation for this thesis was to enable visualization of hierarchical and disjoint grouped datasets in VR. 
 Data scientists often deal with these datasets and because of the complexity of the data they often have to rely on classical 2D visualization software.
-However, current 2D approaches quickly reach their limits and run into the problem of visual clutter, especially when visualizing large networks and deep hierarchies. For example the comorbidity network shown in Figure \ref{fig:2dHierarchicalClutter} hides links and is limited to only one hierarchical layer. Instead of limiting ourselves to one hierarchical layer, we wanted a solution to visualize any number of hierarchical layers.
+However, current 2D approaches quickly reach their limits and run into the problem of visual clutter, especially when visualizing large networks and deep hierarchies. For example the network shown in Figure \ref{fig:2dHierarchicalClutter} reaches a critical point in visual clutter. The comorbidity network shown in Figure \ref{fig:original2DdiseaseNet} hides links and is limited to only one hierarchical layer.
+Instead of limiting ourselves to one hierarchical layer, we wanted a solution to visualize any number of hierarchical layers and minimize visual clutter.
 To improve the process of hierarchical network exploration, we wanted to use the capabilities of VR and 3D information visualization. In Section \ref{sec:motivation}, we summarized how these techniques can be beneficial for network visualizations.  
 
 \section{Requirements}
@@ -49,7 +50,7 @@ It is important to understand that these templates are not applied equally to al
 This separation allows us to prevent interference between different groups of nodes for different parents.
 Firstly, we distinguish between the top hierarchical layer (from now on called layer $0$) and all other subsequent layers 1,2,3 and so on. Each node and link instance is assigned their respectively layer attribute. Layer $0$ is treated separately because these nodes have no directly assigned parent node. 
 For Layer $0$, the center-force with the coordinates $(x:0,y:0,z:0)$, ManyBody-Force, Collision-Force and lastly Link-Force are applied to all nodes and links with a layer $0$ attribute. 
-As for layer $1$ to layer $n$, we do not apply forces by layer but instead by parent node. For each parent, we add a Collision-Force, ManyBody-Force and Link-Force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for the Spherical-Constraints.
+As for layer $1 - n$, we do not apply forces by layer but instead by parent node. For each parent, we add a Collision-Force, ManyBody-Force and Link-Force for all child nodes and links. In addition, the Spherical-Constraint is also added for all child nodes with the position of the parent node as a center. Note that the position of the parent node can change each simulation iteration, so we also update the center position for the Spherical-Constraints.
 In conclusion, the total number of forces and constraints in our entire force system (including all layers) is: 
 \begin{equation}
     |forces| + |constraints| \: = 4 \, + 4 \cdot |parent\_nodes|
@@ -92,7 +93,7 @@ However, links inside other nodes are not visible because displaying many links 
 When the user is inside a node, the transparent sphere of the node is not rendered anymore. Instead of a solid transparent sphere, we render a wireframe (see Figure \ref{fig:ps_wireframe}). The improved spatial impression given by the virtual reality experience allows the user to better see the boundary of the wireframe than visible in the Figure. To further improve the assignability of nodes to their layers, each node and link of the same layer shares a predefined color.
 For each node instance, a billboard text label is placed on the border of the node and always points towards the camera. For our artificially dataset the ID of the node is displayed, for a real dataset it would display the appropriated node and cluster names.
 
-Our adapted sphere packing layout algorithm requires us to render nodes and links smaller for each nested sphere. To achieve that, we added a dynamically scaling factor that is applied for each rendering entity (node, link, text-label). 
+Our adapted sphere packing layout algorithm requires us to render nodes and links smaller for each nested sphere. To achieve that, we added a dynamically scaling factor that is applied for each rendered entity (node, link, text-label). 
 In addition to the rendering algorithm, the force algorithms also uses that scaling factor to ensure a correct collision detection and sphere packing. 
 This globally scaling factor is described by the following formula: 
 \begin{equation}
