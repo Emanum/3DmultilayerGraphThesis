@@ -1,3 +1,15 @@
+# Immersive Exploration of Hierarchical Networks in VR
+
+**Thesis website: https://3dmultilayer.emanum.dev/**
+
+Our world is becoming more digital each year, new parts of our daily life become connected and the amount and complexity of the produced data increases steadily.
+The analysis of this data enables big opportunities for science and industry.
+A subset of this data is organized in the form of hierarchical networks or can be transformed by clustering algorithms into hierarchical layers. We see this in multiple application domains for example medical research where connections, group and cluster memberships of diseases are tracked; social science where relationships are mapped in company organization charts; in software engineering in the form of build-, dependency- and source code version management software with hierarchical connections between software modules, versions and layered software architecture.
+
+However, getting insight into this complex data with traditional two-dimensional visualization is getting more difficult as the visual clutter increases significantly with the exponentially growth of data we saw in recent years. Therefore, we need new methods and techniques to facilitate and expedite the analysis process.
+In this thesis, we investigate a new approach to visualize hierarchical network data by extending already existing concepts of two-dimensional hierarchical network visualizations with a third dimension and applying it to a virtual reality based visualization system. We believe that the capabilities of virtual reality devices, such as improved spatial impression and interaction possibilities by room-scale tracked headsets and controllers allow the visualization to fully utilize the benefits of three-dimensional information visualization. Therefore, it should be possible to analyze even bigger and more complex hierarchical networks than currently possible with conventional two-dimensional visualizations.
+
+# TU Wien Latex Template
                        vutinfth LaTeX2e document class
                            Academic thesis template
 
@@ -118,5 +130,5 @@ This work consists of the files vutinfth.dtx and vutinfth.ins
 and the derived file vutinfth.cls.
 This work also consists of the file intro.tex.
 
-The 'TU Wien' logo and 'Fakultät für !nformatik' logo are copyright of the TU
+The 'TU Wien' logo and 'FakultÃ¤t fÃ¼r Informatik' logo are copyright of the TU
 Wien.
