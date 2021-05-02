@@ -2,6 +2,10 @@
 
 **Thesis website: https://3dmultilayer.emanum.dev/**
 
+**Thesis download: https://3dmultilayer.emanum.dev/resources/eiweck-hnv-2021-thesis.pdf**
+
+**Publication: https://www.cg.tuwien.ac.at/research/publications/2021/eiweck-hnv-2021**
+
 Our world is becoming more digital each year, new parts of our daily life become connected and the amount and complexity of the produced data increases steadily.
 The analysis of this data enables big opportunities for science and industry.
 A subset of this data is organized in the form of hierarchical networks or can be transformed by clustering algorithms into hierarchical layers. We see this in multiple application domains for example medical research where connections, group and cluster memberships of diseases are tracked; social science where relationships are mapped in company organization charts; in software engineering in the form of build-, dependency- and source code version management software with hierarchical connections between software modules, versions and layered software architecture.
